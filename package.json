@@ -1,0 +1,25 @@
+{
+  "name": "gst-service",
+  "version": "1.0.0",
+  "description": "A SOA based service for GST application",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gokulkrishnan3113/gst-service.git"
+  },
+  "author": "gokul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gokulkrishnan3113/gst-service/issues"
+  },
+  "homepage": "https://github.com/Gokulkrishnan3113/gst-service#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "pg": "^8.16.0"
+  }
+}
