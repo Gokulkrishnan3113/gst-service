@@ -5,6 +5,11 @@ async function getAllVendors() {
     return result.rows;
 }
 
+async function findVendorByGstin(gstin) {
+    const result = await db.query('SELECT * FROM vendors WHERE gstin = $1', [gstin]);
+    return result.rows[0];
+}
+
 async function addVendor(vendor) {
     const { gstin, name, merchant_type, state } = vendor;
 
@@ -45,5 +50,6 @@ module.exports = {
     getAllVendors,
     addVendor,
     updateVendor,
-    dropVendor
+    dropVendor,
+    findVendorByGstin
 };
