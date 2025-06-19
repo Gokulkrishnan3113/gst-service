@@ -45,7 +45,7 @@ function getTimeframeRange(timeframe, state) {
             endDate = new Date(qYear, quarterStartMonth + 3, 0);
 
             const dueDateDay = southAndWestStates.includes(normalizedState) ? 22 : 24;
-            dueDate = new Date(year, month, dueDateDay);
+            dueDate = new Date(year, quarterStartMonth + 3, dueDateDay);
             break;
         }
 
