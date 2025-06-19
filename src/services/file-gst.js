@@ -58,7 +58,7 @@ async function fileGstService(payload) {
     }
     const turnover = 3_00_00_000
     const isOptedin = true;
-    const res = calculateGSTSummary(filteredData, merchant_type, isLate, dueDate, timeframe, turnover, isOptedin);
+    const res = calculateGSTSummary(filteredData, merchant_type, dueDate, timeframe, turnover, isOptedin);
     return {
         status: 200,
         message: 'GST filing successful.',

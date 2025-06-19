@@ -1,4 +1,4 @@
-function calculateGSTSummary(filteredInvoices, merchantType, isLate, dueDate, timeframe, turnover, itcOptedIn) {
+function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe, turnover, itcOptedIn) {
     let totalAmount = 0;
     let totalTax = 0;
     let inputTaxCredit = 0;
