@@ -4,6 +4,7 @@ const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
 const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
 const invoice = require('../data/invoice.json');
 const { filterInvoices } = require('../utils/invoice-filter');
+const { calculateGSTSummary } = require('../utils/gstcal-helper');
 
 async function fileGstService(payload) {
     const { gstin, timeframe, merchant_type, name, state } = payload;
@@ -55,11 +56,13 @@ async function fileGstService(payload) {
 
         await updateLastInvoiceId(gstin, lastInvoiceIdToUpdate);
     }
-
-
+    const turnover = 3_00_00_000
+    const isOptedin = true;
+    const res = calculateGSTSummary(filteredData, merchant_type, isLate, dueDate, timeframe, turnover, isOptedin);
     return {
         status: 200,
-        message: 'GST filing data retrieved successfully. next step: business logic',
+        message: 'GST filing successful.',
+        data: res
     };
 
 }
