@@ -46,10 +46,31 @@ async function dropVendor(gstin) {
     );
     return result.rows[0];
 }
+
+async function getLastInvoiceId(gstin) {
+    const result = await db.query(
+        `SELECT last_invoice_id FROM invoice_tracker WHERE gstin = $1`,
+        [gstin]
+    );
+    return result.rows[0]?.last_invoice_id || null;
+}
+
+async function updateLastInvoiceId(gstin, lastId) {
+    await db.query(
+        `INSERT INTO invoice_tracker (gstin, last_invoice_id)
+        VALUES ($1, $2)
+        ON CONFLICT (gstin)
+        DO UPDATE SET last_invoice_id = EXCLUDED.last_invoice_id, updated_at = NOW()`,
+        [gstin, lastId]
+    );
+}
+
 module.exports = {
     getAllVendors,
     addVendor,
     updateVendor,
     dropVendor,
-    findVendorByGstin
+    findVendorByGstin,
+    getLastInvoiceId,
+    updateLastInvoiceId
 };

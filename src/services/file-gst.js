@@ -1,7 +1,9 @@
-const { findVendorByGstin, addVendor } = require('../db/queries');
+const { findVendorByGstin, addVendor, getLastInvoiceId, updateLastInvoiceId } = require('../db/queries');
 const { getTimeframeRange } = require('../utils/timeframe-helper')
-const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'halfyearly', 'annual'];
+const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
 const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
+const invoice = require('../data/invoice.json');
+const { filterInvoices } = require('../utils/invoice-filter');
 
 async function fileGstService(payload) {
     const { gstin, timeframe, merchant_type, name, state } = payload;
@@ -24,11 +26,6 @@ async function fileGstService(payload) {
         };
     }
 
-    // return {
-    //     status: 200,
-    //     message: 'Step 1 passed. Ready for Step 2: Check vendor in DB.',
-    // };
-    // ✅ Step 2: Check vendor, create if not found
     let vendor = await findVendorByGstin(gstin);
     if (!vendor) {
         vendor = await addVendor({ gstin, name, merchant_type, state });
@@ -39,10 +36,30 @@ async function fileGstService(payload) {
 
     const { startDate, endDate, dueDate, isLate } = getTimeframeRange(timeframe, state);
     console.log({ startDate, endDate, dueDate, isLate });
+    const last_invoice_id = await getLastInvoiceId(gstin);
+    console.log(`Last invoice ID for ${gstin}: ${last_invoice_id}`);
+    const filteredData = filterInvoices(invoice, startDate, endDate, gstin, last_invoice_id);
+    if (filteredData.length === 0) {
+        return {
+            status: 404,
+            error: 'No invoices found for the specified date range and GSTIN.',
+        };
+
+    }
+    console.log(filteredData.length);
+
+    if (filteredData.length > 0) {
+        const lastInvoice = filteredData[filteredData.length - 1]; // last one after sorting
+        const lastInvoiceIdToUpdate = lastInvoice.invoice_id;
+        console.log(`Last invoice ID to update: ${lastInvoiceIdToUpdate}`);
+
+        await updateLastInvoiceId(gstin, lastInvoiceIdToUpdate);
+    }
+
 
     return {
         status: 200,
-        message: 'Step 2 passed (vendor exists or was created). Ready for Step 3: Determine date range.',
+        message: 'GST filing data retrieved successfully. next step: business logic',
     };
 
 }

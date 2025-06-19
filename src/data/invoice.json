@@ -1,0 +1,572 @@
+[
+    {
+        "invoice_id": "INV001",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-01-25",
+        "amount": 10727,
+        "tax": {
+            "cgst": 965,
+            "sgst": 966,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV002",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-04-20",
+        "amount": 8471,
+        "tax": {
+            "cgst": 762,
+            "sgst": 763,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV003",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-02-08",
+        "amount": 8235,
+        "tax": {
+            "cgst": 741,
+            "sgst": 741,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV004",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-03-27",
+        "amount": 6247,
+        "tax": {
+            "cgst": 562,
+            "sgst": 562,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV005",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-03-26",
+        "amount": 10512,
+        "tax": {
+            "cgst": 946,
+            "sgst": 946,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV006",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-03-06",
+        "amount": 6787,
+        "tax": {
+            "cgst": 611,
+            "sgst": 611,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV007",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-02-16",
+        "amount": 7874,
+        "tax": {
+            "cgst": 708,
+            "sgst": 709,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV008",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-01-19",
+        "amount": 6135,
+        "tax": {
+            "cgst": 552,
+            "sgst": 552,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV009",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-01-28",
+        "amount": 6565,
+        "tax": {
+            "cgst": 591,
+            "sgst": 591,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV010",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-02-21",
+        "amount": 6332,
+        "tax": {
+            "cgst": 570,
+            "sgst": 570,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV011",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-02-05",
+        "amount": 6892,
+        "tax": {
+            "cgst": 620,
+            "sgst": 621,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV012",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-03-27",
+        "amount": 7540,
+        "tax": {
+            "cgst": 678,
+            "sgst": 679,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV013",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-02-22",
+        "amount": 8360,
+        "tax": {
+            "cgst": 752,
+            "sgst": 753,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV014",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-05-11",
+        "amount": 11970,
+        "tax": {
+            "cgst": 1077,
+            "sgst": 1078,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV015",
+        "gstin": "29ABCDE1234F2Z5",
+        "date": "2025-05-03",
+        "amount": 10301,
+        "tax": {
+            "cgst": 927,
+            "sgst": 927,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV016",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-04-06",
+        "amount": 9862,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 1775
+        },
+        "state": "Maharashtra",
+        "buying_price": 8768
+    },
+    {
+        "invoice_id": "INV017",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-03-01",
+        "amount": 6868,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 1236
+        },
+        "state": "Maharashtra",
+        "buying_price": 5959
+    },
+    {
+        "invoice_id": "INV018",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-05-08",
+        "amount": 8869,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 1596
+        },
+        "state": "Maharashtra",
+        "buying_price": 7545
+    },
+    {
+        "invoice_id": "INV019",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-05-16",
+        "amount": 9082,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 1635
+        },
+        "state": "Maharashtra",
+        "buying_price": 7711
+    },
+    {
+        "invoice_id": "INV020",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-01-09",
+        "amount": 10619,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 1911
+        },
+        "state": "Maharashtra",
+        "buying_price": 9023
+    },
+    {
+        "invoice_id": "INV021",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-01-16",
+        "amount": 11609,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 2090
+        },
+        "state": "Maharashtra",
+        "buying_price": 9873
+    },
+    {
+        "invoice_id": "INV022",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-05-10",
+        "amount": 9060,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 1631
+        },
+        "state": "Maharashtra",
+        "buying_price": 7801
+    },
+    {
+        "invoice_id": "INV023",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-04-18",
+        "amount": 9346,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 1682
+        },
+        "state": "Maharashtra",
+        "buying_price": 7809
+    },
+    {
+        "invoice_id": "INV024",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-03-15",
+        "amount": 9497,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 1709
+        },
+        "state": "Maharashtra",
+        "buying_price": 8101
+    },
+    {
+        "invoice_id": "INV025",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-04-15",
+        "amount": 11188,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 2014
+        },
+        "state": "Maharashtra",
+        "buying_price": 9052
+    },
+    {
+        "invoice_id": "INV026",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-02-09",
+        "amount": 11606,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 2089
+        },
+        "state": "Maharashtra",
+        "buying_price": 9692
+    },
+    {
+        "invoice_id": "INV027",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-03-08",
+        "amount": 6734,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 1212
+        },
+        "state": "Maharashtra",
+        "buying_price": 5951
+    },
+    {
+        "invoice_id": "INV028",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-01-16",
+        "amount": 9738,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 1753
+        },
+        "state": "Maharashtra",
+        "buying_price": 7881
+    },
+    {
+        "invoice_id": "INV029",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-04-19",
+        "amount": 6274,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 1129
+        },
+        "state": "Maharashtra",
+        "buying_price": 5475
+    },
+    {
+        "invoice_id": "INV030",
+        "gstin": "07PQRS5678T9U1Z",
+        "date": "2025-02-14",
+        "amount": 9223,
+        "tax": {
+            "cgst": 0,
+            "sgst": 0,
+            "igst": 1660
+        },
+        "state": "Maharashtra",
+        "buying_price": 7818
+    },
+    {
+        "invoice_id": "INV031",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-01-07",
+        "amount": 7194,
+        "tax": {
+            "cgst": 647,
+            "sgst": 648,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 5968
+    },
+    {
+        "invoice_id": "INV032",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-02-25",
+        "amount": 11934,
+        "tax": {
+            "cgst": 1074,
+            "sgst": 1074,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 9837
+    },
+    {
+        "invoice_id": "INV033",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-01-30",
+        "amount": 9606,
+        "tax": {
+            "cgst": 864,
+            "sgst": 865,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 8586
+    },
+    {
+        "invoice_id": "INV034",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-05-26",
+        "amount": 8436,
+        "tax": {
+            "cgst": 759,
+            "sgst": 759,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 7277
+    },
+    {
+        "invoice_id": "INV035",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-02-27",
+        "amount": 6754,
+        "tax": {
+            "cgst": 608,
+            "sgst": 608,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 5640
+    },
+    {
+        "invoice_id": "INV036",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-03-19",
+        "amount": 7700,
+        "tax": {
+            "cgst": 693,
+            "sgst": 693,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 6341
+    },
+    {
+        "invoice_id": "INV037",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-01-05",
+        "amount": 7507,
+        "tax": {
+            "cgst": 675,
+            "sgst": 676,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 6437
+    },
+    {
+        "invoice_id": "INV038",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-04-29",
+        "amount": 10966,
+        "tax": {
+            "cgst": 987,
+            "sgst": 987,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 9552
+    },
+    {
+        "invoice_id": "INV039",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-05-04",
+        "amount": 8272,
+        "tax": {
+            "cgst": 744,
+            "sgst": 745,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 7408
+    },
+    {
+        "invoice_id": "INV040",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-01-28",
+        "amount": 7307,
+        "tax": {
+            "cgst": 657,
+            "sgst": 658,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 6328
+    },
+    {
+        "invoice_id": "INV041",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-03-15",
+        "amount": 6959,
+        "tax": {
+            "cgst": 626,
+            "sgst": 627,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 5634
+    },
+    {
+        "invoice_id": "INV042",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-02-01",
+        "amount": 11402,
+        "tax": {
+            "cgst": 1026,
+            "sgst": 1026,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 10237
+    },
+    {
+        "invoice_id": "INV043",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-01-26",
+        "amount": 6764,
+        "tax": {
+            "cgst": 609,
+            "sgst": 609,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 5968
+    },
+    {
+        "invoice_id": "INV044",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-02-08",
+        "amount": 8820,
+        "tax": {
+            "cgst": 794,
+            "sgst": 794,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 7205
+    },
+    {
+        "invoice_id": "INV045",
+        "gstin": "33LMNOP9876W4X2",
+        "date": "2025-03-22",
+        "amount": 8371,
+        "tax": {
+            "cgst": 753,
+            "sgst": 754,
+            "igst": 0
+        },
+        "state": "Tamil Nadu",
+        "buying_price": 6954
+    }
+]
