@@ -14,7 +14,7 @@ function formatDate(date) {
 
 function getTimeframeRange(timeframe, state) {
     const today = new Date();
-    // const today = new Date('2025-06-22');
+    // const today = new Date('2025-02-22');
 
     const filingDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     const year = filingDate.getFullYear();
@@ -50,7 +50,7 @@ function getTimeframeRange(timeframe, state) {
         }
 
         case 'annual': {
-            const fyStartYear = month < 3 ? year - 1 : year;
+            const fyStartYear = month < 3 ? year - 2 : year - 1;
 
             startDate = new Date(fyStartYear, 3, 1);
             endDate = new Date(fyStartYear + 1, 3, 0);
