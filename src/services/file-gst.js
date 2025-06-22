@@ -1,10 +1,16 @@
-const { findVendorByGstin, addVendor, getLastInvoiceId, updateLastInvoiceId } = require('../db/queries');
+const { findVendorByGstin, addVendor, getLastInvoiceId, updateLastInvoiceId, addGstFiling, getFilingsByGstin } = require('../db/queries');
 const { getTimeframeRange } = require('../utils/timeframe-helper')
 const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
 const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
 const invoice = require('../data/invoice.json');
 const { filterInvoices } = require('../utils/invoice-filter');
 const { calculateGSTSummary } = require('../utils/gstcal-helper');
+
+function formatDate(d) {
+    const date = new Date(d);
+    date.setDate(date.getDate() + 1);
+    return date.toISOString().split('T')[0];
+}
 
 async function fileGstService(payload) {
     const { gstin, timeframe, merchant_type, name, state } = payload;
@@ -37,8 +43,31 @@ async function fileGstService(payload) {
 
     const { startDate, endDate, dueDate, isLate } = getTimeframeRange(timeframe, state);
     console.log({ startDate, endDate, dueDate, isLate });
-    const last_invoice_id = await getLastInvoiceId(gstin);
-    console.log(`Last invoice ID for ${gstin}: ${last_invoice_id}`);
+    const resultfromdb = await getFilingsByGstin(gstin);
+
+    const existingFiling = resultfromdb.find(filing =>
+        formatDate(filing.filing_start_date) === startDate &&
+        formatDate(filing.filing_end_date) === endDate
+    );
+
+    if (existingFiling) {
+        const formattedFiling = {
+            ...existingFiling,
+            filing_start_date: formatDate(existingFiling.filing_start_date),
+            filing_end_date: formatDate(existingFiling.filing_end_date),
+            due_date: formatDate(existingFiling.due_date),
+        };
+
+        return {
+            status: 409, // Conflict
+            message: 'Filing already exists for this timeframe.',
+            data: formattedFiling
+        };
+    }
+
+    // const last_invoice_id = await getLastInvoiceId(gstin);
+    // console.log(`Last invoice ID for ${gstin}: ${last_invoice_id}`);
+    last_invoice_id = null;
     const filteredData = filterInvoices(invoice, startDate, endDate, gstin, last_invoice_id);
     if (filteredData.length === 0) {
         return {
@@ -47,24 +76,50 @@ async function fileGstService(payload) {
         };
 
     }
-    console.log(filteredData.length);
+    // console.log(filteredData.length);
 
-    if (filteredData.length > 0) {
-        const lastInvoice = filteredData[filteredData.length - 1]; // last one after sorting
-        const lastInvoiceIdToUpdate = lastInvoice.invoice_id;
-        console.log(`Last invoice ID to update: ${lastInvoiceIdToUpdate}`);
+    // if (filteredData.length > 0) {
+    //     const lastInvoice = filteredData[filteredData.length - 1]; // last one after sorting
+    //     const lastInvoiceIdToUpdate = lastInvoice.invoice_id;
+    //     console.log(`Last invoice ID to update: ${lastInvoiceIdToUpdate}`);
 
-        await updateLastInvoiceId(gstin, lastInvoiceIdToUpdate);
-    }
+    //     await updateLastInvoiceId(gstin, lastInvoiceIdToUpdate);
+    // }
     const turnover = 3_00_00_000
     const isOptedin = true;
     const res = calculateGSTSummary(filteredData, merchant_type, dueDate, timeframe, turnover, isOptedin);
+
+    // console.log('GST Summary:', res);
+
+    const gstFiling = await addGstFiling({
+        gstin,
+        timeframe,
+        startDate,
+        endDate,
+        dueDate,
+        isLate,
+        totalAmount: Number(res.totalAmount.toFixed(2)),
+        totalTax: Number(res.totalTax.toFixed(2)),
+        invoiceCount: filteredData.length,
+        inputTaxCredit: Number(res.inputTaxCredit.toFixed(2)),
+        taxPayable: Number((res.totalTax - res.inputTaxCredit).toFixed(2)),
+        penalty: Number(res.penalty.toFixed(2)),
+        totalPayableAmount: Number((res.totalTax - res.inputTaxCredit + res.penalty).toFixed(2))
+    });
+
+
     return {
         status: 200,
         message: 'GST filing successful.',
-        data: res
+        data: {
+            ...gstFiling,
+            filing_start_date: formatDate(gstFiling.filing_start_date),
+            filing_end_date: formatDate(gstFiling.filing_end_date),
+            due_date: formatDate(gstFiling.due_date),
+            filed_at: gstFiling.filed_at
+        }
     };
 
 }
 
-module.exports = { fileGstService };
+module.exports = { fileGstService, formatDate };
