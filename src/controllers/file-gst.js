@@ -1,5 +1,6 @@
-const { fileGstService } = require('../services/file-gst');
-
+const { fileGstService, formatDate } = require('../services/file-gst');
+const { getAllFilings, getFilingsByGstin } = require('../db/queries');
+const { formatFilingDates } = require('../utils/timeformat-helper');
 async function fileGstHandler(req, res) {
     try {
         const result = await fileGstService(req.body);
@@ -14,4 +15,33 @@ async function fileGstHandler(req, res) {
     }
 }
 
-module.exports = { fileGstHandler };
+async function getAllFilingsHandler(req, res) {
+    try {
+        const filings = await getAllFilings();
+        const formattedFilings = formatFilingDates(filings);
+        if (!filings || filings.length === 0) {
+            return res.status(404).json({ success: false, error: 'No filings found' });
+        }
+        res.status(200).json({ success: true, data: formattedFilings });
+    } catch (error) {
+        console.error('Error fetching filings:', error);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+}
+
+async function getFilingsByIdHandler(req, res) {
+    const { gstin } = req.params;
+    try {
+        const filings = await getFilingsByGstin(gstin);
+        if (filings.length === 0) {
+            return res.status(404).json({ success: false, error: 'No filings found for this GSTIN' });
+        }
+        const formattedFilings = formatFilingDates(filings);
+        res.status(200).json({ success: true, data: formattedFilings });
+    } catch (error) {
+        console.error('Error fetching filings by GSTIN:', error);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+}
+
+module.exports = { fileGstHandler, getAllFilingsHandler, getFilingsByIdHandler };

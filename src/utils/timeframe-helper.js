@@ -70,4 +70,4 @@ function getTimeframeRange(timeframe, state) {
     };
 }
 
-module.exports = { getTimeframeRange };
+module.exports = { getTimeframeRange, formatDate };
