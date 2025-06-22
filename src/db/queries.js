@@ -65,6 +65,71 @@ async function updateLastInvoiceId(gstin, lastId) {
     );
 }
 
+async function getAllFilings() {
+    const result = await db.query(
+        `SELECT gstin, timeframe, filing_start_date, 
+        filing_end_date, total_amount,total_tax, invoice_count, 
+        filed_at, status, input_tax_credit, tax_payable, penalty, 
+        total_payable_amount, due_date, is_late FROM gst_filings ORDER BY filed_at DESC`);
+    return result.rows;
+}
+
+async function getFilingsByGstin(gstin) {
+    const result = await db.query(
+        `SELECT gstin, timeframe, filing_start_date, 
+        filing_end_date, total_amount, total_tax, invoice_count, 
+        filed_at, status, input_tax_credit, tax_payable, penalty, 
+        total_payable_amount, due_date, is_late FROM gst_filings
+        WHERE gstin = $1 ORDER BY filed_at DESC`,
+        [gstin]
+    );
+    return result.rows;
+}
+
+async function addGstFiling({
+    gstin,
+    timeframe,
+    startDate,
+    endDate,
+    dueDate,
+    isLate,
+    totalAmount,
+    totalTax,
+    invoiceCount,
+    inputTaxCredit,
+    taxPayable,
+    penalty,
+    totalPayableAmount
+}) {
+    const result = await db.query(
+        `INSERT INTO gst_filings (
+        gstin, timeframe, filing_start_date, filing_end_date,
+        due_date, is_late, total_amount, total_tax, invoice_count,
+        input_tax_credit, tax_payable, penalty,
+        total_payable_amount
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11,$12,$13)
+    RETURNING *`,
+        [
+            gstin,
+            timeframe,
+            new Date(startDate),
+            new Date(endDate),
+            new Date(dueDate),
+            isLate,
+            totalAmount,
+            totalTax,
+            invoiceCount,
+            inputTaxCredit,
+            taxPayable,
+            penalty,
+            totalPayableAmount
+        ]
+    );
+
+    return result.rows[0];
+}
+
 module.exports = {
     getAllVendors,
     addVendor,
@@ -72,5 +137,8 @@ module.exports = {
     dropVendor,
     findVendorByGstin,
     getLastInvoiceId,
-    updateLastInvoiceId
+    updateLastInvoiceId,
+    addGstFiling,
+    getAllFilings,
+    getFilingsByGstin
 };
