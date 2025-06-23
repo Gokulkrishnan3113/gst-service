@@ -5,7 +5,8 @@ const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
 const invoice = require('../data/invoice.json');
 const { filterInvoices } = require('../utils/invoice-filter');
 const { calculateGSTSummary } = require('../utils/gstcal-helper');
-
+const { detectFilingConflicts } = require('../utils/conflict-helper');
+const { formatFilingDates } = require('../utils/timeformat-helper');
 function formatDate(d) {
     const date = new Date(d);
     date.setDate(date.getDate() + 1);
@@ -51,17 +52,22 @@ async function fileGstService(payload) {
     );
 
     if (existingFiling) {
-        const formattedFiling = {
-            ...existingFiling,
-            filing_start_date: formatDate(existingFiling.filing_start_date),
-            filing_end_date: formatDate(existingFiling.filing_end_date),
-            due_date: formatDate(existingFiling.due_date),
-        };
-
+        const formattedFiling = formatFilingDates(existingFiling);
         return {
             status: 409, // Conflict
             message: 'Filing already exists for this timeframe.',
             data: formattedFiling
+        };
+    }
+
+    const conflict = detectFilingConflicts(timeframe, startDate, endDate, resultfromdb);
+
+    if (conflict) {
+        const formattedConflict = formatFilingDates(conflict);
+        return {
+            status: 409,
+            message: `Filing conflict: A ${conflict.timeframe} filing already exists overlapping this period.`,
+            data: formattedConflict
         };
     }
 
