@@ -1,6 +1,6 @@
 const { fileGstService, formatDate } = require('../services/file-gst');
 const { getAllFilings, getFilingsByGstin } = require('../db/queries');
-const { formatFilingDates } = require('../utils/timeformat-helper');
+const { formatMultipleFilingDates } = require('../utils/timeformat-helper');
 async function fileGstHandler(req, res) {
     try {
         const result = await fileGstService(req.body);
@@ -18,7 +18,7 @@ async function fileGstHandler(req, res) {
 async function getAllFilingsHandler(req, res) {
     try {
         const filings = await getAllFilings();
-        const formattedFilings = formatFilingDates(filings);
+        const formattedFilings = formatMultipleFilingDates(filings);
         if (!filings || filings.length === 0) {
             return res.status(404).json({ success: false, error: 'No filings found' });
         }
@@ -36,7 +36,7 @@ async function getFilingsByIdHandler(req, res) {
         if (filings.length === 0) {
             return res.status(404).json({ success: false, error: 'No filings found for this GSTIN' });
         }
-        const formattedFilings = formatFilingDates(filings);
+        const formattedFilings = formatMultipleFilingDates(filings);
         res.status(200).json({ success: true, data: formattedFilings });
     } catch (error) {
         console.error('Error fetching filings by GSTIN:', error);
