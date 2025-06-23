@@ -1,5 +1,5 @@
 const db = require('./index');
-
+const { formatDate } = require('../utils/timeframe-helper');
 async function getAllVendors() {
     const result = await db.query('SELECT * FROM vendors ORDER BY created_at DESC');
     return result.rows;
@@ -130,6 +130,159 @@ async function addGstFiling({
     return result.rows[0];
 }
 
+async function addInvoices(gstFilingId, invoices) {
+    for (const inv of invoices) {
+        await db.query(
+            `INSERT INTO invoices (
+                gst_filing_id, invoice_id, date, amount,
+                buying_price, cgst, sgst, igst, state
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+            [
+                gstFilingId,
+                inv.invoice_id,
+                new Date(inv.date),
+                inv.amount,
+                inv.buying_price,
+                inv.tax?.cgst || 0,
+                inv.tax?.sgst || 0,
+                inv.tax?.igst || 0,
+                inv.state
+            ]
+        );
+    }
+}
+
+// src/db/queries.js
+
+async function getAllFilingsWithInvoices() {
+    const result = await db.query(`
+        SELECT 
+            f.*, 
+            i.id AS invoice_id,
+            i.invoice_id AS invoice_code,
+            i.date AS invoice_date,
+            i.amount,
+            i.buying_price,
+            i.cgst,
+            i.sgst,
+            i.igst,
+            i.state
+        FROM gst_filings f
+        LEFT JOIN invoices i ON f.id = i.gst_filing_id
+        ORDER BY f.filed_at DESC, i.date
+    `);
+
+    const filingsMap = new Map();
+
+    for (const row of result.rows) {
+        const filingId = row.id;
+
+        if (!filingsMap.has(filingId)) {
+            filingsMap.set(filingId, {
+                id: row.id,
+                gstin: row.gstin,
+                timeframe: row.timeframe,
+                filing_start_date: formatDate(row.filing_start_date),
+                filing_end_date: formatDate(row.filing_end_date),
+                due_date: formatDate(row.due_date),
+                filed_at: row.filed_at,
+                is_late: row.is_late,
+                status: row.status,
+                total_amount: row.total_amount,
+                total_tax: row.total_tax,
+                invoice_count: row.invoice_count,
+                input_tax_credit: row.input_tax_credit,
+                tax_payable: row.tax_payable,
+                penalty: row.penalty,
+                total_payable_amount: row.total_payable_amount,
+                invoices: []
+            });
+        }
+
+        if (row.invoice_code) {
+            filingsMap.get(filingId).invoices.push({
+                id: row.invoice_id,
+                invoice_id: row.invoice_code,
+                date: formatDate(row.invoice_date),
+                amount: row.amount,
+                buying_price: row.buying_price,
+                cgst: row.cgst,
+                sgst: row.sgst,
+                igst: row.igst,
+                state: row.state
+            });
+        }
+    }
+
+    return Array.from(filingsMap.values());
+}
+
+
+async function getAllFilingsWithInvoicesByGstin(gstin) {
+    const result = await db.query(`
+        SELECT 
+            f.*, 
+            i.id AS invoice_id,
+            i.invoice_id AS invoice_code,
+            i.date AS invoice_date,
+            i.amount,
+            i.buying_price,
+            i.cgst,
+            i.sgst,
+            i.igst,
+            i.state
+        FROM gst_filings f
+        LEFT JOIN invoices i ON f.id = i.gst_filing_id
+        WHERE f.gstin = $1
+        ORDER BY f.filed_at DESC, i.date
+    `, [gstin]);
+
+    const filingsMap = new Map();
+
+    for (const row of result.rows) {
+        const filingId = row.id;
+
+        if (!filingsMap.has(filingId)) {
+            filingsMap.set(filingId, {
+                id: row.id,
+                gstin: row.gstin,
+                timeframe: row.timeframe,
+                filing_start_date: formatDate(row.filing_start_date),
+                filing_end_date: formatDate(row.filing_end_date),
+                due_date: formatDate(row.due_date),
+                filed_at: row.filed_at,
+                is_late: row.is_late,
+                status: row.status,
+                total_amount: row.total_amount,
+                total_tax: row.total_tax,
+                invoice_count: row.invoice_count,
+                input_tax_credit: row.input_tax_credit,
+                tax_payable: row.tax_payable,
+                penalty: row.penalty,
+                total_payable_amount: row.total_payable_amount,
+                invoices: []
+            });
+        }
+
+        if (row.invoice_code) {
+            filingsMap.get(filingId).invoices.push({
+                id: row.invoice_id,
+                invoice_id: row.invoice_code,
+                date: formatDate(row.invoice_date),
+                amount: row.amount,
+                buying_price: row.buying_price,
+                cgst: row.cgst,
+                sgst: row.sgst,
+                igst: row.igst,
+                state: row.state
+            });
+        }
+    }
+
+    return Array.from(filingsMap.values());
+}
+
+
 module.exports = {
     getAllVendors,
     addVendor,
@@ -140,5 +293,8 @@ module.exports = {
     updateLastInvoiceId,
     addGstFiling,
     getAllFilings,
-    getFilingsByGstin
+    getFilingsByGstin,
+    addInvoices,
+    getAllFilingsWithInvoices,
+    getAllFilingsWithInvoicesByGstin
 };

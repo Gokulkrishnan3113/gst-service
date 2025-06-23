@@ -1,4 +1,4 @@
-const { findVendorByGstin, addVendor, getLastInvoiceId, updateLastInvoiceId, addGstFiling, getFilingsByGstin } = require('../db/queries');
+const { findVendorByGstin, addVendor, getLastInvoiceId, updateLastInvoiceId, addGstFiling, getFilingsByGstin, addInvoices } = require('../db/queries');
 const { getTimeframeRange } = require('../utils/timeframe-helper')
 const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
 const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
@@ -95,8 +95,6 @@ async function fileGstService(payload) {
     const isOptedin = true;
     const res = calculateGSTSummary(filteredData, merchant_type, dueDate, timeframe, turnover, isOptedin);
 
-    // console.log('GST Summary:', res);
-
     const gstFiling = await addGstFiling({
         gstin,
         timeframe,
@@ -113,6 +111,7 @@ async function fileGstService(payload) {
         totalPayableAmount: Number((res.totalTax - res.inputTaxCredit + res.penalty).toFixed(2))
     });
 
+    await addInvoices(gstFiling.id, filteredData);
 
     return {
         status: 200,
