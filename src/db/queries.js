@@ -158,7 +158,6 @@ async function getAllFilingsWithInvoices() {
     const result = await db.query(`
         SELECT 
             f.*, 
-            i.id AS invoice_id,
             i.invoice_id AS invoice_code,
             i.date AS invoice_date,
             i.amount,
@@ -179,7 +178,6 @@ async function getAllFilingsWithInvoices() {
 
         if (!filingsMap.has(filingId)) {
             filingsMap.set(filingId, {
-                id: row.id,
                 gstin: row.gstin,
                 timeframe: row.timeframe,
                 filing_start_date: formatDate(row.filing_start_date),
@@ -201,7 +199,6 @@ async function getAllFilingsWithInvoices() {
 
         if (row.invoice_code) {
             filingsMap.get(filingId).invoices.push({
-                id: row.invoice_id,
                 invoice_id: row.invoice_code,
                 date: formatDate(row.invoice_date),
                 amount: row.amount,
@@ -222,7 +219,6 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
     const result = await db.query(`
         SELECT 
             f.*, 
-            i.id AS invoice_id,
             i.invoice_id AS invoice_code,
             i.date AS invoice_date,
             i.amount,
@@ -244,7 +240,6 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
 
         if (!filingsMap.has(filingId)) {
             filingsMap.set(filingId, {
-                id: row.id,
                 gstin: row.gstin,
                 timeframe: row.timeframe,
                 filing_start_date: formatDate(row.filing_start_date),
@@ -266,7 +261,6 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
 
         if (row.invoice_code) {
             filingsMap.get(filingId).invoices.push({
-                id: row.invoice_id,
                 invoice_id: row.invoice_code,
                 date: formatDate(row.invoice_date),
                 amount: row.amount,
