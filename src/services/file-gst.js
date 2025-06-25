@@ -14,8 +14,7 @@ function formatDate(d) {
 }
 
 async function fileGstService(payload) {
-    const { gstin, timeframe, merchant_type, name, state } = payload;
-
+    const { gstin, timeframe, merchant_type, name, state, turnover, is_itc_optedin } = payload;
     if (!gstin || gstin.length !== 15) {
         return { status: 400, error: 'Invalid GSTIN. Must be 15 characters.' };
     }
@@ -33,10 +32,30 @@ async function fileGstService(payload) {
             error: `Invalid merchant type. Must be one of: ${VALID_MERCHANT_TYPES.join(', ')}`,
         };
     }
+    if (!state) {
+        return {
+            status: 400,
+            error: `Missing field - state`,
+        };
+    }
+
+    if (!turnover) {
+        return {
+            status: 400,
+            error: `Missing field - turnover`,
+        };
+    }
+    if (is_itc_optedin === undefined) {
+        return {
+            status: 400,
+            error: `Missing field - is_itc_optedin`,
+        };
+    }
+
 
     let vendor = await findVendorByGstin(gstin);
     if (!vendor) {
-        vendor = await addVendor({ gstin, name, merchant_type, state });
+        vendor = await addVendor({ gstin, name, merchant_type, state, turnover, is_itc_optedin });
         if (!vendor) {
             return { status: 500, error: 'Vendor could not be created' };
         }
@@ -91,9 +110,7 @@ async function fileGstService(payload) {
 
     //     await updateLastInvoiceId(gstin, lastInvoiceIdToUpdate);
     // }
-    const turnover = 3_00_00_000
-    const isOptedin = true;
-    const res = calculateGSTSummary(filteredData, merchant_type, dueDate, timeframe, turnover, isOptedin);
+    const res = calculateGSTSummary(filteredData, merchant_type, dueDate, timeframe, turnover, is_itc_optedin);
 
     const gstFiling = await addGstFiling({
         gstin,

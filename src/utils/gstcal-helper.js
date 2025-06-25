@@ -1,4 +1,4 @@
-function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe, turnover, itcOptedIn) {
+function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe, turnover, is_itc_optedin) {
     let totalAmount = 0;
     let totalTax = 0;
     let inputTaxCredit = 0;
@@ -29,9 +29,9 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
             let eligibleForITC = false;
 
             if (timeframe === 'monthly') {
-                eligibleForITC = (turnover > 5_00_00_000 || itcOptedIn === true) && beforeDeadline;
+                eligibleForITC = (turnover > 5_00_00_000 || is_itc_optedin === true) && beforeDeadline;
             } else if (timeframe === 'quarterly') {
-                eligibleForITC = (turnover <= 5_00_00_000 && itcOptedIn === true) && beforeDeadline;
+                eligibleForITC = (turnover <= 5_00_00_000 && is_itc_optedin === true) && beforeDeadline;
             }
 
             if (eligibleForITC) {

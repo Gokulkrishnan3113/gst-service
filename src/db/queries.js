@@ -11,14 +11,14 @@ async function findVendorByGstin(gstin) {
 }
 
 async function addVendor(vendor) {
-    const { gstin, name, merchant_type, state } = vendor;
+    const { gstin, name, merchant_type, state, turnover, is_itc_optedin } = vendor;
 
     const result = await db.query(
-        `INSERT INTO vendors (gstin, name, merchant_type, state)
-         VALUES ($1, $2, $3, $4)
+        `INSERT INTO vendors (gstin, name, merchant_type, state,turnover, is_itc_optedin)
+         VALUES ($1, $2, $3, $4, $5, $6)
          ON CONFLICT (gstin) DO NOTHING
          RETURNING *`,
-        [gstin, name, merchant_type, state]
+        [gstin, name, merchant_type, state, turnover, is_itc_optedin]
     );
 
     // If gstin existed already, result.rows[0] will be undefined
