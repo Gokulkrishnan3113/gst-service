@@ -135,18 +135,20 @@ async function addInvoices(gstFilingId, invoices) {
         await db.query(
             `INSERT INTO invoices (
                 gst_filing_id, invoice_id, date, amount,
-                buying_price, cgst, sgst, igst, state
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+                buying_price, cgst, sgst, igst, state,net_amount,itc
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11)`,
             [
                 gstFilingId,
                 inv.invoice_id,
                 new Date(inv.date),
-                inv.amount,
-                inv.buying_price,
+                inv.amount - inv.tax?.cgst - inv.tax?.sgst - inv.tax?.igst,
+                inv.buying_price || 0,
                 inv.tax?.cgst || 0,
                 inv.tax?.sgst || 0,
                 inv.tax?.igst || 0,
-                inv.state
+                inv.state,
+                inv.amount,
+                inv.itc || 0
             ]
         );
     }
@@ -165,7 +167,9 @@ async function getAllFilingsWithInvoices() {
             i.cgst,
             i.sgst,
             i.igst,
-            i.state
+            i.state,
+            i.net_amount,
+            i.itc
         FROM gst_filings f
         LEFT JOIN invoices i ON f.id = i.gst_filing_id
         ORDER BY f.filed_at DESC, i.date
@@ -206,9 +210,14 @@ async function getAllFilingsWithInvoices() {
                 cgst: row.cgst,
                 sgst: row.sgst,
                 igst: row.igst,
-                state: row.state
+                state: row.state,
+                net_amount: row.net_amount,
+                itc: row.itc
             });
         }
+    }
+    for (const filing of filingsMap.values()) {
+        filing.invoices.sort((a, b) => a.invoice_id.localeCompare(b.invoice_id));
     }
 
     return Array.from(filingsMap.values());
@@ -226,7 +235,9 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
             i.cgst,
             i.sgst,
             i.igst,
-            i.state
+            i.state,
+            i.net_amount,
+            i.itc
         FROM gst_filings f
         LEFT JOIN invoices i ON f.id = i.gst_filing_id
         WHERE f.gstin = $1
@@ -268,9 +279,14 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
                 cgst: row.cgst,
                 sgst: row.sgst,
                 igst: row.igst,
-                state: row.state
+                state: row.state,
+                net_amount: row.net_amount,
+                itc: row.itc
             });
         }
+    }
+    for (const filing of filingsMap.values()) {
+        filing.invoices.sort((a, b) => a.invoice_id.localeCompare(b.invoice_id));
     }
 
     return Array.from(filingsMap.values());

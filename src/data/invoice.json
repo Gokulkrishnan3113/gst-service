@@ -568,5 +568,17 @@
         },
         "state": "Tamil Nadu",
         "buying_price": 6954
+    },
+    {
+        "invoice_id": "INV046",
+        "gstin": "DCABCDE9994F2Z5",
+        "date": "2025-03-25",
+        "amount": 10727,
+        "tax": {
+            "cgst": 965,
+            "sgst": 966,
+            "igst": 0
+        },
+        "state": "Karnataka"
     }
 ]
