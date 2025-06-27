@@ -160,6 +160,7 @@ async function getAllFilingsWithInvoices() {
     const result = await db.query(`
         SELECT 
             f.*, 
+            v.name AS vendor_name,
             i.invoice_id AS invoice_code,
             i.date AS invoice_date,
             i.amount,
@@ -172,6 +173,7 @@ async function getAllFilingsWithInvoices() {
             i.itc
         FROM gst_filings f
         LEFT JOIN invoices i ON f.id = i.gst_filing_id
+        LEFT JOIN vendors v ON f.gstin = v.gstin
         ORDER BY f.filed_at DESC, i.date
     `);
 
@@ -183,6 +185,7 @@ async function getAllFilingsWithInvoices() {
         if (!filingsMap.has(filingId)) {
             filingsMap.set(filingId, {
                 gstin: row.gstin,
+                vendor_name: row.vendor_name || null,
                 timeframe: row.timeframe,
                 filing_start_date: formatDate(row.filing_start_date),
                 filing_end_date: formatDate(row.filing_end_date),
