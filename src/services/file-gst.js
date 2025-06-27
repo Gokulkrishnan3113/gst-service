@@ -9,7 +9,7 @@ const { detectFilingConflicts } = require('../utils/conflict-helper');
 const { formatFilingDates } = require('../utils/timeformat-helper');
 function formatDate(d) {
     const date = new Date(d);
-    date.setDate(date.getDate() + 1);
+    date.setDate(date.getDate());
     return date.toISOString().split('T')[0];
 }
 
@@ -64,7 +64,7 @@ async function fileGstService(payload) {
     const { startDate, endDate, dueDate, isLate } = getTimeframeRange(timeframe, state);
     console.log({ startDate, endDate, dueDate, isLate });
     const resultfromdb = await getFilingsByGstin(gstin);
-
+    console.log(`Existing filings for ${gstin}:`, resultfromdb);
     const existingFiling = resultfromdb.find(filing =>
         formatDate(filing.filing_start_date) === startDate &&
         formatDate(filing.filing_end_date) === endDate
