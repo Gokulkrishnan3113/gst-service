@@ -2,7 +2,7 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
     let totalAmount = 0;
     let totalTax = 0;
     let inputTaxCredit;
-
+    let totalinputTaxCredit = 0;
     const filingDate = new Date();
 
     for (const invoice of filteredInvoices) {
@@ -45,6 +45,7 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
             }
         }
         invoice.itc = parseFloat(inputTaxCredit.toFixed(2));
+        totalinputTaxCredit += invoice.itc;
     }
 
     const delayInDays = Math.max(0, Math.floor(
@@ -69,8 +70,8 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
         totalAmount: parseFloat(totalAmount.toFixed(2)),
         totalTax: parseFloat(totalTax.toFixed(2)),
         invoiceCount: filteredInvoices.length,
-        inputTaxCredit: parseFloat(inputTaxCredit.toFixed(2)),
-        taxPayable: parseFloat((totalTax - inputTaxCredit).toFixed(2)),
+        inputTaxCredit: parseFloat(totalinputTaxCredit.toFixed(2)),
+        taxPayable: parseFloat((totalTax - totalinputTaxCredit).toFixed(2)),
         penalty: parseFloat(penalty.toFixed(2)),
     };
 }
