@@ -2,7 +2,8 @@ const { findVendorByGstin, addVendor, getLastInvoiceId, updateLastInvoiceId, add
 const { getTimeframeRange } = require('../utils/timeframe-helper')
 const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
 const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
-const invoice = require('../data/invoice.json');
+// const invoice = require('../data/invoice.json');
+const invoice = require('../data/invoicewithproduct.json');
 const { filterInvoices } = require('../utils/invoice-filter');
 const { calculateGSTSummary } = require('../utils/gstcal-helper');
 const { detectFilingConflicts } = require('../utils/conflict-helper');
