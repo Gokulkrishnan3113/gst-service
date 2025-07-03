@@ -143,7 +143,7 @@ async function addInvoices(gstFilingId, invoices) {
                 inv.invoice_id,
                 new Date(inv.date),
                 inv.amount - inv.tax?.cgst - inv.tax?.sgst - inv.tax?.igst,
-                inv.buying_price || 0,
+                inv.buyingPrice || 0,
                 inv.tax?.cgst || 0,
                 inv.tax?.sgst || 0,
                 inv.tax?.igst || 0,

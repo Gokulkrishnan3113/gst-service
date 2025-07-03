@@ -3,10 +3,12 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
     let totalTax = 0;
     let inputTaxCredit;
     let totalinputTaxCredit = 0;
+    let buyingPrice = 0;
     const filingDate = new Date();
 
     for (const invoice of filteredInvoices) {
         inputTaxCredit = 0;
+        buyingPrice = 0;
         const { amount, date, tax = {}, products = [] } = invoice;
         const invoiceDate = new Date(date);
 
@@ -32,19 +34,22 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
             }
         }
 
-        if (eligibleForITC) {
-
-            for (const product of products) {
-                const { buying_price = 0, tax = {}, price_after_discount = 0 } = product;
+        for (const product of products) {
+            const { buying_price = 0, tax = {}, price_after_discount = 0 } = product;
+            if (eligibleForITC) {
                 const prodTax = (tax.cgst || 0) + (tax.sgst || 0) + (tax.igst || 0);
                 const effectiveGstRate = price_after_discount > 0 ? prodTax / price_after_discount : 0;
                 const productITC = buying_price * effectiveGstRate;
                 inputTaxCredit += productITC;
-
+                buyingPrice += buying_price;
                 product.itc = parseFloat(productITC.toFixed(2));
+            }
+            else {
+                buyingPrice += buying_price;
             }
         }
         invoice.itc = parseFloat(inputTaxCredit.toFixed(2));
+        invoice.buyingPrice = parseFloat(buyingPrice.toFixed(2));
         totalinputTaxCredit += invoice.itc;
     }
 
