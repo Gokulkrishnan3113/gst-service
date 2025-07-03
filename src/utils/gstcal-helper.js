@@ -41,11 +41,11 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
                 const effectiveGstRate = price_after_discount > 0 ? prodTax / price_after_discount : 0;
                 const productITC = buying_price * effectiveGstRate;
                 inputTaxCredit += productITC;
-                buyingPrice += buying_price;
+                buyingPrice += buying_price * product.quantity;
                 product.itc = parseFloat(productITC.toFixed(2));
             }
             else {
-                buyingPrice += buying_price;
+                buyingPrice += buying_price * product.quantity;
             }
         }
         invoice.itc = parseFloat(inputTaxCredit.toFixed(2));
