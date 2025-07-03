@@ -391,11 +391,9 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
                     quantity: row.quantity,
                     discount_percent: row.discount_percent || 0,
                     price_after_discount: row.price_after_discount,
-                    tax: {
-                        cgst: row.cgst,
-                        sgst: row.sgst,
-                        igst: row.igst
-                    },
+                    cgst: row.cgst,
+                    sgst: row.sgst,
+                    igst: row.igst,
                     buying_price: row.product_buying_price || 0
                 });
             }
