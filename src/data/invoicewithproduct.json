@@ -1659,7 +1659,7 @@
     "invoice_id": "INV031",
     "gstin": "33LMNOP9876W4X2",
     "date": "2025-01-07",
-    "amount": 100623,
+    "amount": 106348,
     "tax": {
       "cgst": 7674,
       "sgst": 7674,
@@ -1675,8 +1675,8 @@
         "category": "Furniture",
         "unit_price": 7000,
         "quantity": 3,
-        "discount_percent": 10,
-        "price_after_discount": 18900,
+        "discount_percent": 0,
+        "price_after_discount": 21000,
         "tax": {
           "cgst": 1701,
           "sgst": 1701,
@@ -1690,8 +1690,8 @@
         "category": "Electronics",
         "unit_price": 1500,
         "quantity": 5,
-        "discount_percent": 5,
-        "price_after_discount": 7125,
+        "discount_percent": 0,
+        "price_after_discount": 7500,
         "tax": {
           "cgst": 641,
           "sgst": 641,
@@ -1705,8 +1705,8 @@
         "category": "Stationery",
         "unit_price": 500,
         "quantity": 5,
-        "discount_percent": 10,
-        "price_after_discount": 2250,
+        "discount_percent": 0,
+        "price_after_discount": 2500,
         "tax": {
           "cgst": 202,
           "sgst": 202,
@@ -1720,8 +1720,8 @@
         "category": "Electronics",
         "unit_price": 20000,
         "quantity": 3,
-        "discount_percent": 5,
-        "price_after_discount": 57000,
+        "discount_percent": 0,
+        "price_after_discount": 60000,
         "tax": {
           "cgst": 5130,
           "sgst": 5130,

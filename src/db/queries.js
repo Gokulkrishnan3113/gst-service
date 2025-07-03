@@ -322,9 +322,9 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
             p.quantity,
             p.discount_percent,
             p.price_after_discount,
-            p.cgst,
-            p.sgst,
-            p.igst,
+            p.cgst AS p_cgst,
+            p.sgst AS p_sgst,
+            p.igst AS p_igst,
             p.buying_price AS product_buying_price
         FROM gst_filings f
         LEFT JOIN vendors v ON f.gstin = v.gstin
@@ -391,9 +391,9 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
                     quantity: row.quantity,
                     discount_percent: row.discount_percent || 0,
                     price_after_discount: row.price_after_discount,
-                    cgst: row.cgst,
-                    sgst: row.sgst,
-                    igst: row.igst,
+                    cgst: row.p_cgst,
+                    sgst: row.p_sgst,
+                    igst: row.p_igst,
                     buying_price: row.product_buying_price || 0
                 });
             }
