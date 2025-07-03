@@ -174,12 +174,12 @@ async function addProductsForInvoice(invoiceId, products) {
                 product.category,
                 product.unit_price,
                 product.quantity,
-                product.discount_percent,
+                product.discount_percent || 0,
                 product.price_after_discount,
                 product.tax?.cgst || 0,
                 product.tax?.sgst || 0,
                 product.tax?.igst || 0,
-                product.buying_price
+                product.buying_price || 0
             ]
         );
     }
@@ -282,7 +282,7 @@ async function getAllFilingsWithInvoices() {
                     cgst: row.p_cgst,
                     sgst: row.p_sgst,
                     igst: row.p_igst,
-                    buying_price: row.p_buying_price
+                    buying_price: row.p_buying_price || 0
                 });
             }
         }
@@ -389,14 +389,14 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
                     category: row.category,
                     unit_price: row.unit_price,
                     quantity: row.quantity,
-                    discount_percent: row.discount_percent,
+                    discount_percent: row.discount_percent || 0,
                     price_after_discount: row.price_after_discount,
                     tax: {
-                        cgst: row.tax_cgst,
-                        sgst: row.tax_sgst,
-                        igst: row.tax_igst
+                        cgst: row.cgst,
+                        sgst: row.sgst,
+                        igst: row.igst
                     },
-                    buying_price: row.product_buying_price
+                    buying_price: row.product_buying_price || 0
                 });
             }
         }
