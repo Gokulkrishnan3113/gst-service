@@ -2,7 +2,7 @@
     {
         "invoice_id": "INV001",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-01-25",
+        "date": "2024-01-15",
         "amount": 10727,
         "tax": {
             "cgst": 965,
@@ -14,7 +14,7 @@
     {
         "invoice_id": "INV002",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-04-20",
+        "date": "2024-01-28",
         "amount": 8471,
         "tax": {
             "cgst": 762,
@@ -26,7 +26,7 @@
     {
         "invoice_id": "INV003",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-02-08",
+        "date": "2024-02-10",
         "amount": 8235,
         "tax": {
             "cgst": 741,
@@ -38,7 +38,7 @@
     {
         "invoice_id": "INV004",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-03-27",
+        "date": "2024-02-23",
         "amount": 6247,
         "tax": {
             "cgst": 562,
@@ -50,7 +50,7 @@
     {
         "invoice_id": "INV005",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-03-26",
+        "date": "2024-03-08",
         "amount": 10512,
         "tax": {
             "cgst": 946,
@@ -62,7 +62,7 @@
     {
         "invoice_id": "INV006",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-03-06",
+        "date": "2024-03-21",
         "amount": 6787,
         "tax": {
             "cgst": 611,
@@ -74,7 +74,7 @@
     {
         "invoice_id": "INV007",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-02-16",
+        "date": "2024-04-03",
         "amount": 7874,
         "tax": {
             "cgst": 708,
@@ -86,7 +86,7 @@
     {
         "invoice_id": "INV008",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-01-19",
+        "date": "2024-04-16",
         "amount": 6135,
         "tax": {
             "cgst": 552,
@@ -98,7 +98,7 @@
     {
         "invoice_id": "INV009",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-01-28",
+        "date": "2024-04-29",
         "amount": 6565,
         "tax": {
             "cgst": 591,
@@ -110,7 +110,7 @@
     {
         "invoice_id": "INV010",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-02-21",
+        "date": "2024-05-12",
         "amount": 6332,
         "tax": {
             "cgst": 570,
@@ -122,7 +122,7 @@
     {
         "invoice_id": "INV011",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-02-05",
+        "date": "2024-05-25",
         "amount": 6892,
         "tax": {
             "cgst": 620,
@@ -134,7 +134,7 @@
     {
         "invoice_id": "INV012",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-03-27",
+        "date": "2024-06-07",
         "amount": 7540,
         "tax": {
             "cgst": 678,
@@ -146,7 +146,7 @@
     {
         "invoice_id": "INV013",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-02-22",
+        "date": "2024-06-20",
         "amount": 8360,
         "tax": {
             "cgst": 752,
@@ -158,7 +158,7 @@
     {
         "invoice_id": "INV014",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-05-11",
+        "date": "2024-07-03",
         "amount": 11970,
         "tax": {
             "cgst": 1077,
@@ -170,7 +170,7 @@
     {
         "invoice_id": "INV015",
         "gstin": "29ABCDE1234F2Z5",
-        "date": "2025-05-03",
+        "date": "2024-07-16",
         "amount": 10301,
         "tax": {
             "cgst": 927,
@@ -182,7 +182,7 @@
     {
         "invoice_id": "INV016",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-04-06",
+        "date": "2024-07-29",
         "amount": 9862,
         "tax": {
             "cgst": 0,
@@ -195,7 +195,7 @@
     {
         "invoice_id": "INV017",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-03-01",
+        "date": "2024-08-11",
         "amount": 6868,
         "tax": {
             "cgst": 0,
@@ -208,7 +208,7 @@
     {
         "invoice_id": "INV018",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-05-08",
+        "date": "2024-08-24",
         "amount": 8869,
         "tax": {
             "cgst": 0,
@@ -221,7 +221,7 @@
     {
         "invoice_id": "INV019",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-05-16",
+        "date": "2024-09-06",
         "amount": 9082,
         "tax": {
             "cgst": 0,
@@ -234,7 +234,7 @@
     {
         "invoice_id": "INV020",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-01-09",
+        "date": "2024-09-19",
         "amount": 10619,
         "tax": {
             "cgst": 0,
@@ -247,7 +247,7 @@
     {
         "invoice_id": "INV021",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-01-16",
+        "date": "2024-10-02",
         "amount": 11609,
         "tax": {
             "cgst": 0,
@@ -260,7 +260,7 @@
     {
         "invoice_id": "INV022",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-05-10",
+        "date": "2024-10-15",
         "amount": 9060,
         "tax": {
             "cgst": 0,
@@ -273,7 +273,7 @@
     {
         "invoice_id": "INV023",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-04-18",
+        "date": "2024-10-28",
         "amount": 9346,
         "tax": {
             "cgst": 0,
@@ -286,7 +286,7 @@
     {
         "invoice_id": "INV024",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-03-15",
+        "date": "2024-11-10",
         "amount": 9497,
         "tax": {
             "cgst": 0,
@@ -299,7 +299,7 @@
     {
         "invoice_id": "INV025",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-04-15",
+        "date": "2024-11-23",
         "amount": 11188,
         "tax": {
             "cgst": 0,
@@ -312,7 +312,7 @@
     {
         "invoice_id": "INV026",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-02-09",
+        "date": "2024-12-06",
         "amount": 11606,
         "tax": {
             "cgst": 0,
@@ -325,7 +325,7 @@
     {
         "invoice_id": "INV027",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-03-08",
+        "date": "2024-12-19",
         "amount": 6734,
         "tax": {
             "cgst": 0,
@@ -338,7 +338,7 @@
     {
         "invoice_id": "INV028",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-01-16",
+        "date": "2025-01-01",
         "amount": 9738,
         "tax": {
             "cgst": 0,
@@ -351,7 +351,7 @@
     {
         "invoice_id": "INV029",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-04-19",
+        "date": "2025-01-14",
         "amount": 6274,
         "tax": {
             "cgst": 0,
@@ -364,7 +364,7 @@
     {
         "invoice_id": "INV030",
         "gstin": "07PQRS5678T9U1Z",
-        "date": "2025-02-14",
+        "date": "2025-01-27",
         "amount": 9223,
         "tax": {
             "cgst": 0,
@@ -377,7 +377,7 @@
     {
         "invoice_id": "INV031",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-01-07",
+        "date": "2025-02-09",
         "amount": 7194,
         "tax": {
             "cgst": 647,
@@ -390,7 +390,7 @@
     {
         "invoice_id": "INV032",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-02-25",
+        "date": "2025-02-22",
         "amount": 11934,
         "tax": {
             "cgst": 1074,
@@ -403,7 +403,7 @@
     {
         "invoice_id": "INV033",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-01-30",
+        "date": "2025-03-07",
         "amount": 9606,
         "tax": {
             "cgst": 864,
@@ -416,7 +416,7 @@
     {
         "invoice_id": "INV034",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-05-26",
+        "date": "2025-03-20",
         "amount": 8436,
         "tax": {
             "cgst": 759,
@@ -429,7 +429,7 @@
     {
         "invoice_id": "INV035",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-02-27",
+        "date": "2025-04-02",
         "amount": 6754,
         "tax": {
             "cgst": 608,
@@ -442,7 +442,7 @@
     {
         "invoice_id": "INV036",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-03-19",
+        "date": "2025-04-15",
         "amount": 7700,
         "tax": {
             "cgst": 693,
@@ -455,7 +455,7 @@
     {
         "invoice_id": "INV037",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-01-05",
+        "date": "2025-04-28",
         "amount": 7507,
         "tax": {
             "cgst": 675,
@@ -468,7 +468,7 @@
     {
         "invoice_id": "INV038",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-04-29",
+        "date": "2025-05-11",
         "amount": 10966,
         "tax": {
             "cgst": 987,
@@ -481,7 +481,7 @@
     {
         "invoice_id": "INV039",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-05-04",
+        "date": "2025-05-24",
         "amount": 8272,
         "tax": {
             "cgst": 744,
@@ -494,7 +494,7 @@
     {
         "invoice_id": "INV040",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-01-28",
+        "date": "2025-06-06",
         "amount": 7307,
         "tax": {
             "cgst": 657,
@@ -507,7 +507,7 @@
     {
         "invoice_id": "INV041",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-03-15",
+        "date": "2025-06-19",
         "amount": 6959,
         "tax": {
             "cgst": 626,
@@ -520,7 +520,7 @@
     {
         "invoice_id": "INV042",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-02-01",
+        "date": "2025-07-02",
         "amount": 11402,
         "tax": {
             "cgst": 1026,
@@ -533,7 +533,7 @@
     {
         "invoice_id": "INV043",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-01-26",
+        "date": "2025-07-15",
         "amount": 6764,
         "tax": {
             "cgst": 609,
@@ -546,7 +546,7 @@
     {
         "invoice_id": "INV044",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-02-08",
+        "date": "2025-07-28",
         "amount": 8820,
         "tax": {
             "cgst": 794,
@@ -559,7 +559,7 @@
     {
         "invoice_id": "INV045",
         "gstin": "33LMNOP9876W4X2",
-        "date": "2025-03-22",
+        "date": "2025-08-10",
         "amount": 8371,
         "tax": {
             "cgst": 753,
@@ -572,11 +572,59 @@
     {
         "invoice_id": "INV046",
         "gstin": "DCABCDE9994F2Z5",
-        "date": "2025-03-25",
+        "date": "2025-08-23",
         "amount": 10727,
         "tax": {
             "cgst": 965,
             "sgst": 966,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV047",
+        "gstin": "DCABCDE9994F2Z5",
+        "date": "2025-04-05",
+        "amount": 8471,
+        "tax": {
+            "cgst": 762,
+            "sgst": 763,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV048",
+        "gstin": "DCABCDE9994F2Z5",
+        "date": "2025-04-18",
+        "amount": 8235,
+        "tax": {
+            "cgst": 741,
+            "sgst": 741,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV049",
+        "gstin": "DCABCDE9994F2Z5",
+        "date": "2025-05-01",
+        "amount": 6247,
+        "tax": {
+            "cgst": 562,
+            "sgst": 562,
+            "igst": 0
+        },
+        "state": "Karnataka"
+    },
+    {
+        "invoice_id": "INV050",
+        "gstin": "DCABCDE9994F2Z5",
+        "date": "2025-05-14",
+        "amount": 10512,
+        "tax": {
+            "cgst": 946,
+            "sgst": 946,
             "igst": 0
         },
         "state": "Karnataka"
