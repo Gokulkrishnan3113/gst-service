@@ -3,11 +3,12 @@ const { getTimeframeRange } = require('../utils/timeframe-helper')
 const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
 const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
 // const invoice = require('../data/invoice.json');
-const invoice = require('../data/invoicewithproduct.json');
+const invoice = require('../data/invoicewithproduct2.json');
 const { filterInvoices } = require('../utils/invoice-filter');
 const { calculateGSTSummary } = require('../utils/gstcal-helper');
 const { detectFilingConflicts } = require('../utils/conflict-helper');
 const { formatFilingDates } = require('../utils/timeformat-helper');
+const { checkMissingInvoices } = require('../utils/missinginvoice-helper');
 function formatDate(d) {
     const date = new Date(d);
     date.setDate(date.getDate());
@@ -101,6 +102,11 @@ async function fileGstService(payload) {
             error: 'No invoices found for the specified date range and GSTIN.',
         };
 
+    }
+
+    const missingCheck = checkMissingInvoices(filteredData);
+    if (missingCheck) {
+        return missingCheck;
     }
     // console.log(filteredData.length);
 
