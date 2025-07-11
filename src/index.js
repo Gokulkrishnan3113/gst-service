@@ -7,6 +7,11 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+    next();
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
