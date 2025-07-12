@@ -211,6 +211,52 @@ async function updateInvoice(gstin, invoiceId, fields) {
     return true;
 }
 
+async function insertCreditNoteForInvoice(invoice, gstin) {
+    const creditNoteReasonMap = {
+        REFUNDED: 'REFUND',
+        CANCELLED: 'CANCELLED_INVOICE',
+        RETURNED: 'RETURN'
+    };
+
+    const reason = creditNoteReasonMap[invoice.status] || 'OTHER';
+
+    const cgst = Math.abs(invoice.cgst || 0);
+    const sgst = Math.abs(invoice.sgst || 0);
+    const igst = Math.abs(invoice.igst || 0);
+    const totalTax = cgst + sgst + igst;
+
+    await db.query(
+        `INSERT INTO credit_notes (
+            gstin,
+            invoice_ref_id,
+            invoice_id,
+            invoice_date,
+            credit_note_date,
+            reason,
+            amount,
+            cgst,
+            sgst,
+            igst,
+            net_amount
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+        [
+            gstin,
+            invoice.id,
+            invoice.invoice_id,
+            invoice.date,
+            new Date(),
+            reason,
+            invoice.amount - totalTax,
+            cgst,
+            sgst,
+            igst,
+            invoice.amount
+        ]
+    );
+}
+
+
 
 async function addProductsForInvoice(invoiceId, products) {
     for (const product of products) {
