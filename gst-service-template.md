@@ -227,6 +227,11 @@
         "amount_paid": "equals amount"
       },
       {
+        "status": "NOTPAID",
+        "payment_status": "NOTPAID",
+        "amount_paid": "0"
+      },
+      {
         "status": "PARTIALLY_PAID",
         "payment_status": "PARTIAL",
         "amount_paid": "30-90% of amount"
