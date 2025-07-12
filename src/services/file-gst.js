@@ -92,10 +92,7 @@ async function fileGstService(payload) {
         };
     }
 
-    // const last_invoice_id = await getLastInvoiceId(gstin);
-    // console.log(`Last invoice ID for ${gstin}: ${last_invoice_id}`);
-    last_invoice_id = null;
-    const filteredData = filterInvoices(invoice, startDate, endDate, gstin, last_invoice_id);
+    const filteredData = filterInvoices(invoice, startDate, endDate, gstin);
     if (filteredData.length === 0) {
         return {
             status: 404,
