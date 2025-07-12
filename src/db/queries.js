@@ -162,6 +162,28 @@ async function addInvoices(gstFilingId, invoices) {
     }
 }
 
+async function updateInvoice(gstin, invoiceId, fields) {
+    const keys = Object.keys(fields);
+    const values = Object.values(fields);
+
+    if (keys.length === 0) return null;
+
+    const setClause = keys.map((key, idx) => `${key} = $${idx + 3}`).join(', ');
+
+    const query = `
+        UPDATE invoices
+        SET ${setClause}
+        WHERE invoice_id = $2
+            AND gst_filing_id = (
+                SELECT id FROM gst_filings WHERE gstin = $1
+            )
+    `;
+
+    const result = await db.query(query, [gstin, invoiceId, ...values]);
+    return result.rowCount > 0;
+}
+
+
 async function addProductsForInvoice(invoiceId, products) {
     for (const product of products) {
         await db.query(
@@ -442,5 +464,6 @@ module.exports = {
     addInvoices,
     getAllFilingsWithInvoices,
     getAllFilingsWithInvoicesByGstin,
-    addProductsForInvoice
+    addProductsForInvoice,
+    updateInvoice
 };
