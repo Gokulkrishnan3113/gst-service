@@ -58,7 +58,7 @@
           "sgst": 574,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1401,
         "buying_price": 2125
       }
@@ -126,7 +126,7 @@
           "sgst": 57,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1320,
         "raw_materials_cost": 125
       },
@@ -194,7 +194,7 @@
           "sgst": 191,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1401,
         "buying_price": 2125
       },
@@ -211,7 +211,7 @@
           "sgst": 128,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 976,
         "buying_price": 1275
       }
@@ -352,7 +352,7 @@
           "sgst": 3600,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1700,
         "buying_price": 17000
       },
@@ -420,7 +420,7 @@
           "sgst": 9000,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1700,
         "raw_materials_cost": 10000
       }
@@ -473,7 +473,7 @@
           "sgst": 6120,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1700,
         "buying_price": 17000
       },
@@ -490,7 +490,7 @@
           "sgst": 57,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1320,
         "buying_price": 212
       }
@@ -526,7 +526,7 @@
           "sgst": 382,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1401,
         "buying_price": 2125
       },
@@ -543,7 +543,7 @@
           "sgst": 810,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1401,
         "buying_price": 2125
       },
@@ -576,7 +576,7 @@
           "sgst": 243,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 976,
         "buying_price": 1275
       }
@@ -647,7 +647,7 @@
           "sgst": 608,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1401,
         "raw_materials_cost": 1250
       },
@@ -765,7 +765,7 @@
           "sgst": 0,
           "igst": 6120
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1700,
         "buying_price": 17000
       },
@@ -852,7 +852,7 @@
           "sgst": 0,
           "igst": 122
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1320,
         "buying_price": 212
       }
@@ -889,7 +889,7 @@
           "sgst": 0,
           "igst": 583
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 769,
         "buying_price": 1530
       },
@@ -906,7 +906,7 @@
           "sgst": 0,
           "igst": 162
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1320,
         "buying_price": 212
       },
@@ -939,7 +939,7 @@
           "sgst": 0,
           "igst": 1620
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 769,
         "buying_price": 1530
       }
@@ -1135,7 +1135,7 @@
           "sgst": 0,
           "igst": 729
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 976,
         "buying_price": 1275
       },
@@ -1325,7 +1325,7 @@
           "sgst": 0,
           "igst": 15300
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1700,
         "raw_materials_cost": 10000
       }
@@ -1430,7 +1430,7 @@
           "sgst": 0,
           "igst": 1148
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1401,
         "raw_materials_cost": 1250
       }
@@ -1467,7 +1467,7 @@
           "sgst": 0,
           "igst": 875
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 769,
         "buying_price": 1530
       },
@@ -1640,7 +1640,7 @@
           "sgst": 76,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1320,
         "raw_materials_cost": 125
       },
@@ -1657,7 +1657,7 @@
           "sgst": 292,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 769,
         "raw_materials_cost": 900
       },
@@ -1674,7 +1674,7 @@
           "sgst": 5130,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1700,
         "raw_materials_cost": 10000
       }
@@ -1743,7 +1743,7 @@
           "sgst": 551,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 769,
         "buying_price": 1530
       }
@@ -2069,7 +2069,7 @@
           "sgst": 308,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 769,
         "buying_price": 1530
       },
@@ -2122,7 +2122,7 @@
           "sgst": 729,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 769,
         "buying_price": 1530
       },
@@ -2192,7 +2192,7 @@
           "sgst": 112,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1320,
         "buying_price": 212
       },
@@ -2225,7 +2225,7 @@
           "sgst": 810,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1401,
         "buying_price": 2125
       }
@@ -2362,7 +2362,7 @@
           "sgst": 574,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1401,
         "raw_materials_cost": 1250
       },
@@ -2520,7 +2520,7 @@
           "sgst": 540,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 976,
         "raw_materials_cost": 750
       },
@@ -2573,7 +2573,7 @@
           "sgst": 385,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 976,
         "buying_price": 1275
       },
@@ -2676,7 +2676,7 @@
           "sgst": 540,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 976,
         "buying_price": 1275
       }
@@ -2728,7 +2728,7 @@
           "sgst": 4590,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1700,
         "buying_price": 17000
       },
@@ -2745,7 +2745,7 @@
           "sgst": 1620,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1700,
         "buying_price": 17000
       },
@@ -2762,7 +2762,7 @@
           "sgst": 20,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1320,
         "buying_price": 212
       }
@@ -2798,7 +2798,7 @@
           "sgst": 324,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 769,
         "buying_price": 1530
       },
@@ -2848,7 +2848,7 @@
           "sgst": 57,
           "igst": 0
         },
-        "supplier_payment_status": "UNPAID",
+        "supplier_payment_status": "NOTPAID",
         "remaining_supplier_amount": 1320,
         "buying_price": 212
       }
