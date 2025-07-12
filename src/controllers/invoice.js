@@ -1,4 +1,4 @@
-const { updateInvoice } = require('../db/queries');
+const { updateInvoice,getInvoiceByGstin } = require('../db/queries');
 
 async function updateInvoiceByIdHandler(req, res) {
     const { gstin, invoice_id } = req.params;
@@ -27,8 +27,22 @@ async function updateInvoiceByIdHandler(req, res) {
     }
 }
 
+async function getInvoiceByGstinHandler(req, res) {
+    const { gstin } = req.params;
+    try {
+        const invoices = await getInvoiceByGstin(gstin);
+        if (!invoices || invoices.length === 0) {
+            return res.status(404).json({ success: false, message: 'No invoices found for this GSTIN' });
+        }
+        res.status(200).json({ success: true, data: invoices });
+    } catch (err) {
+        console.error('Error fetching invoices:', err);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+}
 
 
 module.exports = {
-    updateInvoiceByIdHandler
+    updateInvoiceByIdHandler,
+    getInvoiceByGstinHandler
 };

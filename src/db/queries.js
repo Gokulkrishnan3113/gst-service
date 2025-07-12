@@ -162,6 +162,17 @@ async function addInvoices(gstFilingId, invoices) {
     }
 }
 
+async function getInvoiceByGstin(gstin){
+    const result = await db.query(
+        `SELECT * FROM invoices 
+        where gst_filing_id = (
+            SELECT id FROM gst_filings WHERE gstin = $1
+        )`,
+        [gstin]
+    );
+    return result.rows;
+}
+
 async function updateInvoice(gstin, invoiceId, fields) {
     const result = await db.query(
         `SELECT id, invoice_id FROM invoices
