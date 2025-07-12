@@ -163,24 +163,41 @@ async function addInvoices(gstFilingId, invoices) {
 }
 
 async function updateInvoice(gstin, invoiceId, fields) {
-    const keys = Object.keys(fields);
-    const values = Object.values(fields);
+    const result = await db.query(
+        `SELECT id, invoice_id FROM invoices
+         WHERE invoice_id = $1
+           AND gst_filing_id = (
+               SELECT id FROM gst_filings WHERE gstin = $2
+           )`,
+        [invoiceId, gstin]
+    );
 
-    if (keys.length === 0) return null;
+    if (result.rowCount === 0) return false;
 
-    const setClause = keys.map((key, idx) => `${key} = $${idx + 3}`).join(', ');
+    const invoice = result.rows[0];
 
-    const query = `
-        UPDATE invoices
-        SET ${setClause}
-        WHERE invoice_id = $2
-            AND gst_filing_id = (
-                SELECT id FROM gst_filings WHERE gstin = $1
-            )
-    `;
+    await db.query(
+        `UPDATE invoices
+         SET is_to_be_filed_again = true
+         WHERE id = $1`,
+        [invoice.id]
+    );
 
-    const result = await db.query(query, [gstin, invoiceId, ...values]);
-    return result.rowCount > 0;
+    const { status, payment_status } = fields;
+
+    await db.query(
+        `INSERT INTO invoice_to_be_filed_again (invoice_ref_id, invoice_id, status, payment_status)
+        VALUES ($1, $2, $3, $4)
+        ON CONFLICT (invoice_ref_id)
+        DO UPDATE SET
+            status = EXCLUDED.status,
+            payment_status = EXCLUDED.payment_status`,
+        [invoice.id, invoice.invoice_id, status, payment_status]
+    );
+
+
+
+    return true;
 }
 
 
