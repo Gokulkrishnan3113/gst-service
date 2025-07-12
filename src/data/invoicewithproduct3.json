@@ -1,0 +1,2943 @@
+[
+  {
+    "invoice_id": "INV001",
+    "gstin": "29ABCDE1234F2Z5",
+    "date": "2024-01-15",
+    "amount": 12250,
+    "tax": {
+      "cgst": 935,
+      "sgst": 935,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "wholesellers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "ELEC006",
+        "product_name": "Wireless Mouse",
+        "category": "Electronics",
+        "unit_price": 900,
+        "quantity": 1,
+        "discount_percent": 5,
+        "price_after_discount": 855,
+        "tax": {
+          "cgst": 77,
+          "sgst": 77,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 765
+      },
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 1,
+        "discount_percent": 10,
+        "price_after_discount": 3150,
+        "tax": {
+          "cgst": 284,
+          "sgst": 284,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      },
+      {
+        "sku": "KITCH008",
+        "product_name": "Frying Pan Set",
+        "category": "Kitchenware",
+        "unit_price": 2500,
+        "quantity": 3,
+        "discount_percent": 15,
+        "price_after_discount": 6375,
+        "tax": {
+          "cgst": 574,
+          "sgst": 574,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1401,
+        "buying_price": 2125
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 6503
+  },
+  {
+    "invoice_id": "INV003",
+    "gstin": "29ABCDE1234F2Z5",
+    "date": "2024-02-10",
+    "amount": 24528,
+    "tax": {
+      "cgst": 1870,
+      "sgst": 1870,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "manufacturers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "FURN007",
+        "product_name": "Desk Lamp",
+        "category": "Furniture",
+        "unit_price": 1500,
+        "quantity": 5,
+        "discount_percent": 0,
+        "price_after_discount": 7500,
+        "tax": {
+          "cgst": 675,
+          "sgst": 675,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 750
+      },
+      {
+        "sku": "ACC013",
+        "product_name": "Wrist Watch - Analog",
+        "category": "Accessories",
+        "unit_price": 3000,
+        "quantity": 2,
+        "discount_percent": 0,
+        "price_after_discount": 6000,
+        "tax": {
+          "cgst": 540,
+          "sgst": 540,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 1500
+      },
+      {
+        "sku": "STAT015",
+        "product_name": "Whiteboard Marker Set",
+        "category": "Stationery",
+        "unit_price": 250,
+        "quantity": 3,
+        "discount_percent": 15,
+        "price_after_discount": 638,
+        "tax": {
+          "cgst": 57,
+          "sgst": 57,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1320,
+        "raw_materials_cost": 125
+      },
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 2,
+        "discount_percent": 5,
+        "price_after_discount": 6650,
+        "tax": {
+          "cgst": 598,
+          "sgst": 598,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 1750
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 20395
+  },
+  {
+    "invoice_id": "INV004",
+    "gstin": "29ABCDE1234F2Z5",
+    "date": "2024-02-23",
+    "amount": 6206,
+    "tax": {
+      "cgst": 473,
+      "sgst": 473,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "wholesellers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "APP010",
+        "product_name": "T-Shirt - Cotton",
+        "category": "Apparel",
+        "unit_price": 600,
+        "quantity": 3,
+        "discount_percent": 5,
+        "price_after_discount": 1710,
+        "tax": {
+          "cgst": 154,
+          "sgst": 154,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 510
+      },
+      {
+        "sku": "KITCH008",
+        "product_name": "Frying Pan Set",
+        "category": "Kitchenware",
+        "unit_price": 2500,
+        "quantity": 1,
+        "discount_percent": 15,
+        "price_after_discount": 2125,
+        "tax": {
+          "cgst": 191,
+          "sgst": 191,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1401,
+        "buying_price": 2125
+      },
+      {
+        "sku": "ELEC012",
+        "product_name": "Power Bank 10000mAh",
+        "category": "Electronics",
+        "unit_price": 1500,
+        "quantity": 1,
+        "discount_percent": 5,
+        "price_after_discount": 1425,
+        "tax": {
+          "cgst": 128,
+          "sgst": 128,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 976,
+        "buying_price": 1275
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV005",
+    "gstin": "29ABCDE1234F2Z5",
+    "date": "2024-03-08",
+    "amount": 35106,
+    "tax": {
+      "cgst": 2678,
+      "sgst": 2678,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "retailers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "FURN002",
+        "product_name": "Office Chair",
+        "category": "Furniture",
+        "unit_price": 7000,
+        "quantity": 5,
+        "discount_percent": 15,
+        "price_after_discount": 29750,
+        "tax": {
+          "cgst": 2678,
+          "sgst": 2678,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 5950
+      }
+    ],
+    "status": "PAID",
+    "payment_status": "COMPLETED",
+    "amount_paid": 35106
+  },
+  {
+    "invoice_id": "INV006",
+    "gstin": "29ABCDE1234F2Z5",
+    "date": "2024-03-21",
+    "amount": 8260,
+    "tax": {
+      "cgst": 630,
+      "sgst": 630,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "manufacturers",
+    "buyer_type": "retailer",
+    "products": [
+      {
+        "sku": "FURN002",
+        "product_name": "Office Chair",
+        "category": "Furniture",
+        "unit_price": 7000,
+        "quantity": 1,
+        "discount_percent": 0,
+        "price_after_discount": 7000,
+        "tax": {
+          "cgst": 630,
+          "sgst": 630,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 3500
+      }
+    ],
+    "status": "RETURNED",
+    "payment_status": "ON_HOLD",
+    "amount_paid": 8260
+  },
+  {
+    "invoice_id": "INV007",
+    "gstin": "29ABCDE1234F2Z5",
+    "date": "2024-04-03",
+    "amount": 2018,
+    "tax": {
+      "cgst": 154,
+      "sgst": 154,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "retailers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "APP010",
+        "product_name": "T-Shirt - Cotton",
+        "category": "Apparel",
+        "unit_price": 600,
+        "quantity": 3,
+        "discount_percent": 5,
+        "price_after_discount": 1710,
+        "tax": {
+          "cgst": 154,
+          "sgst": 154,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 510
+      }
+    ],
+    "status": "REFUNDED",
+    "payment_status": "REFUNDED",
+    "amount_paid": 2018
+  },
+  {
+    "invoice_id": "INV008",
+    "gstin": "29ABCDE1234F2Z5",
+    "date": "2024-04-16",
+    "amount": 55046,
+    "tax": {
+      "cgst": 4198,
+      "sgst": 4198,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "wholesellers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "ELEC005",
+        "product_name": "Smartphone",
+        "category": "Electronics",
+        "unit_price": 20000,
+        "quantity": 2,
+        "discount_percent": 0,
+        "price_after_discount": 40000,
+        "tax": {
+          "cgst": 3600,
+          "sgst": 3600,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1700,
+        "buying_price": 17000
+      },
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 2,
+        "discount_percent": 5,
+        "price_after_discount": 6650,
+        "tax": {
+          "cgst": 598,
+          "sgst": 598,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 25985
+  },
+  {
+    "invoice_id": "INV011",
+    "gstin": "29ABCDE1234F2Z5",
+    "date": "2024-05-25",
+    "amount": 129771,
+    "tax": {
+      "cgst": 9898,
+      "sgst": 9898,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "manufacturers",
+    "buyer_type": "retailer",
+    "products": [
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 3,
+        "discount_percent": 5,
+        "price_after_discount": 9975,
+        "tax": {
+          "cgst": 898,
+          "sgst": 898,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 1750
+      },
+      {
+        "sku": "ELEC005",
+        "product_name": "Smartphone",
+        "category": "Electronics",
+        "unit_price": 20000,
+        "quantity": 5,
+        "discount_percent": 0,
+        "price_after_discount": 100000,
+        "tax": {
+          "cgst": 9000,
+          "sgst": 9000,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1700,
+        "raw_materials_cost": 10000
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 86451
+  },
+  {
+    "invoice_id": "INV012",
+    "gstin": "29ABCDE1234F2Z5",
+    "date": "2024-06-07",
+    "amount": 83352,
+    "tax": {
+      "cgst": 6357,
+      "sgst": 6357,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "retailers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "STAT004",
+        "product_name": "Notebook Pack (5)",
+        "category": "Stationery",
+        "unit_price": 500,
+        "quantity": 4,
+        "discount_percent": 0,
+        "price_after_discount": 2000,
+        "tax": {
+          "cgst": 180,
+          "sgst": 180,
+          "igst": 0
+        },
+        "supplier_payment_status": "PARTIALLY_PAID",
+        "remaining_supplier_amount": 1164,
+        "buying_price": 425
+      },
+      {
+        "sku": "ELEC005",
+        "product_name": "Smartphone",
+        "category": "Electronics",
+        "unit_price": 20000,
+        "quantity": 4,
+        "discount_percent": 15,
+        "price_after_discount": 68000,
+        "tax": {
+          "cgst": 6120,
+          "sgst": 6120,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1700,
+        "buying_price": 17000
+      },
+      {
+        "sku": "STAT015",
+        "product_name": "Whiteboard Marker Set",
+        "category": "Stationery",
+        "unit_price": 250,
+        "quantity": 3,
+        "discount_percent": 15,
+        "price_after_discount": 638,
+        "tax": {
+          "cgst": 57,
+          "sgst": 57,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1320,
+        "buying_price": 212
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 70803
+  },
+  {
+    "invoice_id": "INV013",
+    "gstin": "29ABCDE1234F2Z5",
+    "date": "2024-06-20",
+    "amount": 27080,
+    "tax": {
+      "cgst": 2065,
+      "sgst": 2065,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "retailers",
+    "buyer_type": "retailer",
+    "products": [
+      {
+        "sku": "KITCH008",
+        "product_name": "Frying Pan Set",
+        "category": "Kitchenware",
+        "unit_price": 2500,
+        "quantity": 2,
+        "discount_percent": 15,
+        "price_after_discount": 4250,
+        "tax": {
+          "cgst": 382,
+          "sgst": 382,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1401,
+        "buying_price": 2125
+      },
+      {
+        "sku": "KITCH008",
+        "product_name": "Frying Pan Set",
+        "category": "Kitchenware",
+        "unit_price": 2500,
+        "quantity": 4,
+        "discount_percent": 10,
+        "price_after_discount": 9000,
+        "tax": {
+          "cgst": 810,
+          "sgst": 810,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1401,
+        "buying_price": 2125
+      },
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 2,
+        "discount_percent": 0,
+        "price_after_discount": 7000,
+        "tax": {
+          "cgst": 630,
+          "sgst": 630,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      },
+      {
+        "sku": "ELEC012",
+        "product_name": "Power Bank 10000mAh",
+        "category": "Electronics",
+        "unit_price": 1500,
+        "quantity": 2,
+        "discount_percent": 10,
+        "price_after_discount": 2700,
+        "tax": {
+          "cgst": 243,
+          "sgst": 243,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 976,
+        "buying_price": 1275
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV014",
+    "gstin": "29ABCDE1234F2Z5",
+    "date": "2024-07-03",
+    "amount": 8260,
+    "tax": {
+      "cgst": 630,
+      "sgst": 630,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "manufacturers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 2,
+        "discount_percent": 0,
+        "price_after_discount": 7000,
+        "tax": {
+          "cgst": 630,
+          "sgst": 630,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 1750
+      }
+    ],
+    "status": "REFUNDED",
+    "payment_status": "REFUNDED",
+    "amount_paid": 8260
+  },
+  {
+    "invoice_id": "INV015",
+    "gstin": "29ABCDE1234F2Z5",
+    "date": "2024-07-16",
+    "amount": 71450,
+    "tax": {
+      "cgst": 5450,
+      "sgst": 5450,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "manufacturers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "KITCH008",
+        "product_name": "Frying Pan Set",
+        "category": "Kitchenware",
+        "unit_price": 2500,
+        "quantity": 3,
+        "discount_percent": 10,
+        "price_after_discount": 6750,
+        "tax": {
+          "cgst": 608,
+          "sgst": 608,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1401,
+        "raw_materials_cost": 1250
+      },
+      {
+        "sku": "KITCH009",
+        "product_name": "Water Bottle - Steel",
+        "category": "Kitchenware",
+        "unit_price": 850,
+        "quantity": 4,
+        "discount_percent": 0,
+        "price_after_discount": 3400,
+        "tax": {
+          "cgst": 306,
+          "sgst": 306,
+          "igst": 0
+        },
+        "supplier_payment_status": "PARTIALLY_PAID",
+        "remaining_supplier_amount": 817,
+        "raw_materials_cost": 425
+      },
+      {
+        "sku": "ELEC001",
+        "product_name": "Laptop",
+        "category": "Electronics",
+        "unit_price": 45000,
+        "quantity": 1,
+        "discount_percent": 5,
+        "price_after_discount": 42750,
+        "tax": {
+          "cgst": 3848,
+          "sgst": 3848,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 22500
+      },
+      {
+        "sku": "ACC013",
+        "product_name": "Wrist Watch - Analog",
+        "category": "Accessories",
+        "unit_price": 3000,
+        "quantity": 3,
+        "discount_percent": 15,
+        "price_after_discount": 7650,
+        "tax": {
+          "cgst": 688,
+          "sgst": 688,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 1500
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV016",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2024-07-29",
+    "amount": 87498,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 13348
+    },
+    "state": "Maharashtra",
+    "buying_price": 8768,
+    "vendor_type": "retailers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 1,
+        "discount_percent": 15,
+        "price_after_discount": 2975,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 536
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      },
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 1,
+        "discount_percent": 15,
+        "price_after_discount": 2975,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 536
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      },
+      {
+        "sku": "ELEC005",
+        "product_name": "Smartphone",
+        "category": "Electronics",
+        "unit_price": 20000,
+        "quantity": 2,
+        "discount_percent": 15,
+        "price_after_discount": 34000,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 6120
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1700,
+        "buying_price": 17000
+      },
+      {
+        "sku": "ELEC003",
+        "product_name": "Monitor 24-inch",
+        "category": "Electronics",
+        "unit_price": 12000,
+        "quantity": 3,
+        "discount_percent": 5,
+        "price_after_discount": 34200,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 6156
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 10200
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV017",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2024-08-11",
+    "amount": 6768,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 1033
+    },
+    "state": "Maharashtra",
+    "buying_price": 5959,
+    "vendor_type": "retailers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "KITCH009",
+        "product_name": "Water Bottle - Steel",
+        "category": "Kitchenware",
+        "unit_price": 850,
+        "quantity": 4,
+        "discount_percent": 10,
+        "price_after_discount": 3060,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 551
+        },
+        "supplier_payment_status": "PARTIALLY_PAID",
+        "remaining_supplier_amount": 817,
+        "buying_price": 722
+      },
+      {
+        "sku": "STAT004",
+        "product_name": "Notebook Pack (5)",
+        "category": "Stationery",
+        "unit_price": 500,
+        "quantity": 4,
+        "discount_percent": 0,
+        "price_after_discount": 2000,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 360
+        },
+        "supplier_payment_status": "PARTIALLY_PAID",
+        "remaining_supplier_amount": 1164,
+        "buying_price": 425
+      },
+      {
+        "sku": "STAT015",
+        "product_name": "Whiteboard Marker Set",
+        "category": "Stationery",
+        "unit_price": 250,
+        "quantity": 3,
+        "discount_percent": 10,
+        "price_after_discount": 675,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 122
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1320,
+        "buying_price": 212
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV018",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2024-08-24",
+    "amount": 20018,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 3053
+    },
+    "state": "Maharashtra",
+    "buying_price": 7545,
+    "vendor_type": "wholesellers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "ACC011",
+        "product_name": "Backpack",
+        "category": "Accessories",
+        "unit_price": 1800,
+        "quantity": 2,
+        "discount_percent": 10,
+        "price_after_discount": 3240,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 583
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 769,
+        "buying_price": 1530
+      },
+      {
+        "sku": "STAT015",
+        "product_name": "Whiteboard Marker Set",
+        "category": "Stationery",
+        "unit_price": 250,
+        "quantity": 4,
+        "discount_percent": 10,
+        "price_after_discount": 900,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 162
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1320,
+        "buying_price": 212
+      },
+      {
+        "sku": "ELEC006",
+        "product_name": "Wireless Mouse",
+        "category": "Electronics",
+        "unit_price": 900,
+        "quantity": 5,
+        "discount_percent": 15,
+        "price_after_discount": 3825,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 688
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 765
+      },
+      {
+        "sku": "ACC011",
+        "product_name": "Backpack",
+        "category": "Accessories",
+        "unit_price": 1800,
+        "quantity": 5,
+        "discount_percent": 0,
+        "price_after_discount": 9000,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 1620
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 769,
+        "buying_price": 1530
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV019",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2024-09-06",
+    "amount": 1062,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 162
+    },
+    "state": "Maharashtra",
+    "buying_price": 7711,
+    "vendor_type": "manufacturers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "STAT004",
+        "product_name": "Notebook Pack (5)",
+        "category": "Stationery",
+        "unit_price": 500,
+        "quantity": 2,
+        "discount_percent": 10,
+        "price_after_discount": 900,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 162
+        },
+        "supplier_payment_status": "PARTIALLY_PAID",
+        "remaining_supplier_amount": 1164,
+        "raw_materials_cost": 250
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "REFUNDED",
+    "amount_paid": 1062
+  },
+  {
+    "invoice_id": "INV020",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2024-09-19",
+    "amount": 95580,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 14580
+    },
+    "state": "Maharashtra",
+    "buying_price": 9023,
+    "vendor_type": "retailers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "ELEC001",
+        "product_name": "Laptop",
+        "category": "Electronics",
+        "unit_price": 45000,
+        "quantity": 2,
+        "discount_percent": 10,
+        "price_after_discount": 81000,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 14580
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 38250
+      }
+    ],
+    "status": "PAID",
+    "payment_status": "COMPLETED",
+    "amount_paid": 95580
+  },
+  {
+    "invoice_id": "INV021",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2024-10-02",
+    "amount": 118413,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 18063
+    },
+    "state": "Maharashtra",
+    "buying_price": 9873,
+    "vendor_type": "manufacturers",
+    "buyer_type": "retailer",
+    "products": [
+      {
+        "sku": "ELEC003",
+        "product_name": "Monitor 24-inch",
+        "category": "Electronics",
+        "unit_price": 12000,
+        "quantity": 5,
+        "discount_percent": 15,
+        "price_after_discount": 51000,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 9180
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 6000
+      },
+      {
+        "sku": "STAT004",
+        "product_name": "Notebook Pack (5)",
+        "category": "Stationery",
+        "unit_price": 500,
+        "quantity": 3,
+        "discount_percent": 10,
+        "price_after_discount": 1350,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 243
+        },
+        "supplier_payment_status": "PARTIALLY_PAID",
+        "remaining_supplier_amount": 1164,
+        "raw_materials_cost": 250
+      },
+      {
+        "sku": "ELEC003",
+        "product_name": "Monitor 24-inch",
+        "category": "Electronics",
+        "unit_price": 12000,
+        "quantity": 4,
+        "discount_percent": 0,
+        "price_after_discount": 48000,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 8640
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 6000
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "REFUNDED",
+    "amount_paid": 118413
+  },
+  {
+    "invoice_id": "INV022",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2024-10-15",
+    "amount": 8077,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 1232
+    },
+    "state": "Maharashtra",
+    "buying_price": 7801,
+    "vendor_type": "retailers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "KITCH009",
+        "product_name": "Water Bottle - Steel",
+        "category": "Kitchenware",
+        "unit_price": 850,
+        "quantity": 2,
+        "discount_percent": 15,
+        "price_after_discount": 1445,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 260
+        },
+        "supplier_payment_status": "PARTIALLY_PAID",
+        "remaining_supplier_amount": 817,
+        "buying_price": 722
+      },
+      {
+        "sku": "ELEC012",
+        "product_name": "Power Bank 10000mAh",
+        "category": "Electronics",
+        "unit_price": 1500,
+        "quantity": 3,
+        "discount_percent": 10,
+        "price_after_discount": 4050,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 729
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 976,
+        "buying_price": 1275
+      },
+      {
+        "sku": "FURN007",
+        "product_name": "Desk Lamp",
+        "category": "Furniture",
+        "unit_price": 1500,
+        "quantity": 1,
+        "discount_percent": 10,
+        "price_after_discount": 1350,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 243
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 1275
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 5473
+  },
+  {
+    "invoice_id": "INV023",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2024-10-28",
+    "amount": 12390,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 1890
+    },
+    "state": "Maharashtra",
+    "buying_price": 7809,
+    "vendor_type": "wholesellers",
+    "buyer_type": "retailer",
+    "products": [
+      {
+        "sku": "FURN007",
+        "product_name": "Desk Lamp",
+        "category": "Furniture",
+        "unit_price": 1500,
+        "quantity": 2,
+        "discount_percent": 5,
+        "price_after_discount": 2850,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 513
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 1275
+      },
+      {
+        "sku": "ACC013",
+        "product_name": "Wrist Watch - Analog",
+        "category": "Accessories",
+        "unit_price": 3000,
+        "quantity": 3,
+        "discount_percent": 15,
+        "price_after_discount": 7650,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 1377
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2550
+      }
+    ],
+    "status": "PAID",
+    "payment_status": "COMPLETED",
+    "amount_paid": 12390
+  },
+  {
+    "invoice_id": "INV024",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2024-11-10",
+    "amount": 77880,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 11880
+    },
+    "state": "Maharashtra",
+    "buying_price": 8101,
+    "vendor_type": "wholesellers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "ELEC001",
+        "product_name": "Laptop",
+        "category": "Electronics",
+        "unit_price": 45000,
+        "quantity": 1,
+        "discount_percent": 0,
+        "price_after_discount": 45000,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 8100
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 38250
+      },
+      {
+        "sku": "FURN002",
+        "product_name": "Office Chair",
+        "category": "Furniture",
+        "unit_price": 7000,
+        "quantity": 3,
+        "discount_percent": 0,
+        "price_after_discount": 21000,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 3780
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 5950
+      }
+    ],
+    "status": "RETURNED",
+    "payment_status": "ON_HOLD",
+    "amount_paid": 77880
+  },
+  {
+    "invoice_id": "INV025",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2024-11-23",
+    "amount": 108224,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 16509
+    },
+    "state": "Maharashtra",
+    "buying_price": 9052,
+    "vendor_type": "manufacturers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "KITCH009",
+        "product_name": "Water Bottle - Steel",
+        "category": "Kitchenware",
+        "unit_price": 850,
+        "quantity": 2,
+        "discount_percent": 5,
+        "price_after_discount": 1615,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 291
+        },
+        "supplier_payment_status": "PARTIALLY_PAID",
+        "remaining_supplier_amount": 817,
+        "raw_materials_cost": 425
+      },
+      {
+        "sku": "ACC013",
+        "product_name": "Wrist Watch - Analog",
+        "category": "Accessories",
+        "unit_price": 3000,
+        "quantity": 2,
+        "discount_percent": 15,
+        "price_after_discount": 5100,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 918
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 1500
+      },
+      {
+        "sku": "ELEC005",
+        "product_name": "Smartphone",
+        "category": "Electronics",
+        "unit_price": 20000,
+        "quantity": 5,
+        "discount_percent": 15,
+        "price_after_discount": 85000,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 15300
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1700,
+        "raw_materials_cost": 10000
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 81173
+  },
+  {
+    "invoice_id": "INV026",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2024-12-06",
+    "amount": 106908,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 16308
+    },
+    "state": "Maharashtra",
+    "buying_price": 9692,
+    "vendor_type": "retailers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "ELEC001",
+        "product_name": "Laptop",
+        "category": "Electronics",
+        "unit_price": 45000,
+        "quantity": 2,
+        "discount_percent": 0,
+        "price_after_discount": 90000,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 16200
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 38250
+      },
+      {
+        "sku": "APP010",
+        "product_name": "T-Shirt - Cotton",
+        "category": "Apparel",
+        "unit_price": 600,
+        "quantity": 1,
+        "discount_percent": 0,
+        "price_after_discount": 600,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 108
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 510
+      }
+    ],
+    "status": "REFUNDED",
+    "payment_status": "REFUNDED",
+    "amount_paid": 106908
+  },
+  {
+    "invoice_id": "INV027",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2024-12-19",
+    "amount": 15783,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 2408
+    },
+    "state": "Maharashtra",
+    "buying_price": 5951,
+    "vendor_type": "manufacturers",
+    "buyer_type": "retailer",
+    "products": [
+      {
+        "sku": "FURN002",
+        "product_name": "Office Chair",
+        "category": "Furniture",
+        "unit_price": 7000,
+        "quantity": 1,
+        "discount_percent": 0,
+        "price_after_discount": 7000,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 1260
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 3500
+      },
+      {
+        "sku": "KITCH008",
+        "product_name": "Frying Pan Set",
+        "category": "Kitchenware",
+        "unit_price": 2500,
+        "quantity": 3,
+        "discount_percent": 15,
+        "price_after_discount": 6375,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 1148
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1401,
+        "raw_materials_cost": 1250
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 12012
+  },
+  {
+    "invoice_id": "INV028",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2025-01-01",
+    "amount": 28792,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 4392
+    },
+    "state": "Maharashtra",
+    "buying_price": 7881,
+    "vendor_type": "retailers",
+    "buyer_type": "retailer",
+    "products": [
+      {
+        "sku": "ACC011",
+        "product_name": "Backpack",
+        "category": "Accessories",
+        "unit_price": 1800,
+        "quantity": 3,
+        "discount_percent": 10,
+        "price_after_discount": 4860,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 875
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 769,
+        "buying_price": 1530
+      },
+      {
+        "sku": "APP010",
+        "product_name": "T-Shirt - Cotton",
+        "category": "Apparel",
+        "unit_price": 600,
+        "quantity": 4,
+        "discount_percent": 15,
+        "price_after_discount": 2040,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 367
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 510
+      },
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 5,
+        "discount_percent": 0,
+        "price_after_discount": 17500,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 3150
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 25425
+  },
+  {
+    "invoice_id": "INV029",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2025-01-14",
+    "amount": 12773,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 1948
+    },
+    "state": "Maharashtra",
+    "buying_price": 5475,
+    "vendor_type": "wholesellers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 2,
+        "discount_percent": 0,
+        "price_after_discount": 7000,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 1260
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      },
+      {
+        "sku": "ELEC006",
+        "product_name": "Wireless Mouse",
+        "category": "Electronics",
+        "unit_price": 900,
+        "quantity": 5,
+        "discount_percent": 15,
+        "price_after_discount": 3825,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 688
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 765
+      }
+    ],
+    "status": "PAID",
+    "payment_status": "COMPLETED",
+    "amount_paid": 12773
+  },
+  {
+    "invoice_id": "INV030",
+    "gstin": "07PQRS5678T9U1Z",
+    "date": "2025-01-27",
+    "amount": 5381,
+    "tax": {
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 821
+    },
+    "state": "Maharashtra",
+    "buying_price": 7818,
+    "vendor_type": "wholesellers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "FURN007",
+        "product_name": "Desk Lamp",
+        "category": "Furniture",
+        "unit_price": 1500,
+        "quantity": 3,
+        "discount_percent": 10,
+        "price_after_discount": 4050,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 729
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 1275
+      },
+      {
+        "sku": "APP010",
+        "product_name": "T-Shirt - Cotton",
+        "category": "Apparel",
+        "unit_price": 600,
+        "quantity": 1,
+        "discount_percent": 15,
+        "price_after_discount": 510,
+        "tax": {
+          "cgst": 0,
+          "sgst": 0,
+          "igst": 92
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 510
+      }
+    ],
+    "status": "REFUNDED",
+    "payment_status": "REFUNDED",
+    "amount_paid": 5381
+  },
+  {
+    "invoice_id": "INV031",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-02-09",
+    "amount": 72086,
+    "tax": {
+      "cgst": 5498,
+      "sgst": 5498,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 5968,
+    "vendor_type": "manufacturers",
+    "buyer_type": "retailer",
+    "products": [
+      {
+        "sku": "STAT015",
+        "product_name": "Whiteboard Marker Set",
+        "category": "Stationery",
+        "unit_price": 250,
+        "quantity": 4,
+        "discount_percent": 15,
+        "price_after_discount": 850,
+        "tax": {
+          "cgst": 76,
+          "sgst": 76,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1320,
+        "raw_materials_cost": 125
+      },
+      {
+        "sku": "ACC011",
+        "product_name": "Backpack",
+        "category": "Accessories",
+        "unit_price": 1800,
+        "quantity": 2,
+        "discount_percent": 10,
+        "price_after_discount": 3240,
+        "tax": {
+          "cgst": 292,
+          "sgst": 292,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 769,
+        "raw_materials_cost": 900
+      },
+      {
+        "sku": "ELEC005",
+        "product_name": "Smartphone",
+        "category": "Electronics",
+        "unit_price": 20000,
+        "quantity": 3,
+        "discount_percent": 5,
+        "price_after_discount": 57000,
+        "tax": {
+          "cgst": 5130,
+          "sgst": 5130,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1700,
+        "raw_materials_cost": 10000
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV032",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-02-22",
+    "amount": 10143,
+    "tax": {
+      "cgst": 774,
+      "sgst": 774,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 9837,
+    "vendor_type": "retailers",
+    "buyer_type": "retailer",
+    "products": [
+      {
+        "sku": "APP010",
+        "product_name": "T-Shirt - Cotton",
+        "category": "Apparel",
+        "unit_price": 600,
+        "quantity": 2,
+        "discount_percent": 0,
+        "price_after_discount": 1200,
+        "tax": {
+          "cgst": 108,
+          "sgst": 108,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 510
+      },
+      {
+        "sku": "FURN007",
+        "product_name": "Desk Lamp",
+        "category": "Furniture",
+        "unit_price": 1500,
+        "quantity": 1,
+        "discount_percent": 15,
+        "price_after_discount": 1275,
+        "tax": {
+          "cgst": 115,
+          "sgst": 115,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 1275
+      },
+      {
+        "sku": "ACC011",
+        "product_name": "Backpack",
+        "category": "Accessories",
+        "unit_price": 1800,
+        "quantity": 4,
+        "discount_percent": 15,
+        "price_after_discount": 6120,
+        "tax": {
+          "cgst": 551,
+          "sgst": 551,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 769,
+        "buying_price": 1530
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 4642
+  },
+  {
+    "invoice_id": "INV033",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-03-07",
+    "amount": 139495,
+    "tax": {
+      "cgst": 10640,
+      "sgst": 10640,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 8586,
+    "vendor_type": "wholesellers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "APP010",
+        "product_name": "T-Shirt - Cotton",
+        "category": "Apparel",
+        "unit_price": 600,
+        "quantity": 2,
+        "discount_percent": 10,
+        "price_after_discount": 1080,
+        "tax": {
+          "cgst": 97,
+          "sgst": 97,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 510
+      },
+      {
+        "sku": "ELEC001",
+        "product_name": "Laptop",
+        "category": "Electronics",
+        "unit_price": 45000,
+        "quantity": 3,
+        "discount_percent": 15,
+        "price_after_discount": 114750,
+        "tax": {
+          "cgst": 10328,
+          "sgst": 10328,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 38250
+      },
+      {
+        "sku": "ELEC006",
+        "product_name": "Wireless Mouse",
+        "category": "Electronics",
+        "unit_price": 900,
+        "quantity": 1,
+        "discount_percent": 15,
+        "price_after_discount": 765,
+        "tax": {
+          "cgst": 69,
+          "sgst": 69,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 765
+      },
+      {
+        "sku": "ELEC006",
+        "product_name": "Wireless Mouse",
+        "category": "Electronics",
+        "unit_price": 900,
+        "quantity": 2,
+        "discount_percent": 10,
+        "price_after_discount": 1620,
+        "tax": {
+          "cgst": 146,
+          "sgst": 146,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 765
+      }
+    ],
+    "status": "REFUNDED",
+    "payment_status": "REFUNDED",
+    "amount_paid": 139495
+  },
+  {
+    "invoice_id": "INV034",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-03-20",
+    "amount": 164254,
+    "tax": {
+      "cgst": 12527,
+      "sgst": 12527,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 7277,
+    "vendor_type": "retailers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 3,
+        "discount_percent": 10,
+        "price_after_discount": 9450,
+        "tax": {
+          "cgst": 850,
+          "sgst": 850,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      },
+      {
+        "sku": "ELEC001",
+        "product_name": "Laptop",
+        "category": "Electronics",
+        "unit_price": 45000,
+        "quantity": 3,
+        "discount_percent": 5,
+        "price_after_discount": 128250,
+        "tax": {
+          "cgst": 11542,
+          "sgst": 11542,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 38250
+      },
+      {
+        "sku": "STAT004",
+        "product_name": "Notebook Pack (5)",
+        "category": "Stationery",
+        "unit_price": 500,
+        "quantity": 3,
+        "discount_percent": 0,
+        "price_after_discount": 1500,
+        "tax": {
+          "cgst": 135,
+          "sgst": 135,
+          "igst": 0
+        },
+        "supplier_payment_status": "PARTIALLY_PAID",
+        "remaining_supplier_amount": 1164,
+        "buying_price": 425
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 101303
+  },
+  {
+    "invoice_id": "INV035",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-04-02",
+    "amount": 39234,
+    "tax": {
+      "cgst": 2992,
+      "sgst": 2992,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 5640,
+    "vendor_type": "wholesellers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "FURN002",
+        "product_name": "Office Chair",
+        "category": "Furniture",
+        "unit_price": 7000,
+        "quantity": 5,
+        "discount_percent": 5,
+        "price_after_discount": 33250,
+        "tax": {
+          "cgst": 2992,
+          "sgst": 2992,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 5950
+      }
+    ],
+    "status": "REFUNDED",
+    "payment_status": "REFUNDED",
+    "amount_paid": 39234
+  },
+  {
+    "invoice_id": "INV036",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-04-15",
+    "amount": 24125,
+    "tax": {
+      "cgst": 1840,
+      "sgst": 1840,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 6341,
+    "vendor_type": "retailers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 1,
+        "discount_percent": 5,
+        "price_after_discount": 3325,
+        "tax": {
+          "cgst": 299,
+          "sgst": 299,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      },
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 1,
+        "discount_percent": 0,
+        "price_after_discount": 3500,
+        "tax": {
+          "cgst": 315,
+          "sgst": 315,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      },
+      {
+        "sku": "APP010",
+        "product_name": "T-Shirt - Cotton",
+        "category": "Apparel",
+        "unit_price": 600,
+        "quantity": 2,
+        "discount_percent": 15,
+        "price_after_discount": 1020,
+        "tax": {
+          "cgst": 92,
+          "sgst": 92,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 510
+      },
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 4,
+        "discount_percent": 10,
+        "price_after_discount": 12600,
+        "tax": {
+          "cgst": 1134,
+          "sgst": 1134,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      }
+    ],
+    "status": "REFUNDED",
+    "payment_status": "REFUNDED",
+    "amount_paid": 24125
+  },
+  {
+    "invoice_id": "INV037",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-04-28",
+    "amount": 26042,
+    "tax": {
+      "cgst": 1986,
+      "sgst": 1986,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 6437,
+    "vendor_type": "retailers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "ACC013",
+        "product_name": "Wrist Watch - Analog",
+        "category": "Accessories",
+        "unit_price": 3000,
+        "quantity": 4,
+        "discount_percent": 0,
+        "price_after_discount": 12000,
+        "tax": {
+          "cgst": 1080,
+          "sgst": 1080,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2550
+      },
+      {
+        "sku": "ACC011",
+        "product_name": "Backpack",
+        "category": "Accessories",
+        "unit_price": 1800,
+        "quantity": 2,
+        "discount_percent": 5,
+        "price_after_discount": 3420,
+        "tax": {
+          "cgst": 308,
+          "sgst": 308,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 769,
+        "buying_price": 1530
+      },
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 2,
+        "discount_percent": 5,
+        "price_after_discount": 6650,
+        "tax": {
+          "cgst": 598,
+          "sgst": 598,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV038",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-05-11",
+    "amount": 22598,
+    "tax": {
+      "cgst": 1724,
+      "sgst": 1724,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 9552,
+    "vendor_type": "retailers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "ACC011",
+        "product_name": "Backpack",
+        "category": "Accessories",
+        "unit_price": 1800,
+        "quantity": 5,
+        "discount_percent": 10,
+        "price_after_discount": 8100,
+        "tax": {
+          "cgst": 729,
+          "sgst": 729,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 769,
+        "buying_price": 1530
+      },
+      {
+        "sku": "ACC013",
+        "product_name": "Wrist Watch - Analog",
+        "category": "Accessories",
+        "unit_price": 3000,
+        "quantity": 3,
+        "discount_percent": 5,
+        "price_after_discount": 8550,
+        "tax": {
+          "cgst": 770,
+          "sgst": 770,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2550
+      },
+      {
+        "sku": "STAT004",
+        "product_name": "Notebook Pack (5)",
+        "category": "Stationery",
+        "unit_price": 500,
+        "quantity": 5,
+        "discount_percent": 0,
+        "price_after_discount": 2500,
+        "tax": {
+          "cgst": 225,
+          "sgst": 225,
+          "igst": 0
+        },
+        "supplier_payment_status": "PARTIALLY_PAID",
+        "remaining_supplier_amount": 1164,
+        "buying_price": 425
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV039",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-05-24",
+    "amount": 26254,
+    "tax": {
+      "cgst": 2002,
+      "sgst": 2002,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 7408,
+    "vendor_type": "retailers",
+    "buyer_type": "retailer",
+    "products": [
+      {
+        "sku": "STAT015",
+        "product_name": "Whiteboard Marker Set",
+        "category": "Stationery",
+        "unit_price": 250,
+        "quantity": 5,
+        "discount_percent": 0,
+        "price_after_discount": 1250,
+        "tax": {
+          "cgst": 112,
+          "sgst": 112,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1320,
+        "buying_price": 212
+      },
+      {
+        "sku": "ELEC003",
+        "product_name": "Monitor 24-inch",
+        "category": "Electronics",
+        "unit_price": 12000,
+        "quantity": 1,
+        "discount_percent": 0,
+        "price_after_discount": 12000,
+        "tax": {
+          "cgst": 1080,
+          "sgst": 1080,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 10200
+      },
+      {
+        "sku": "KITCH008",
+        "product_name": "Frying Pan Set",
+        "category": "Kitchenware",
+        "unit_price": 2500,
+        "quantity": 4,
+        "discount_percent": 10,
+        "price_after_discount": 9000,
+        "tax": {
+          "cgst": 810,
+          "sgst": 810,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1401,
+        "buying_price": 2125
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV040",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-06-06",
+    "amount": 208152,
+    "tax": {
+      "cgst": 15876,
+      "sgst": 15876,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 6328,
+    "vendor_type": "manufacturers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "APP010",
+        "product_name": "T-Shirt - Cotton",
+        "category": "Apparel",
+        "unit_price": 600,
+        "quantity": 3,
+        "discount_percent": 0,
+        "price_after_discount": 1800,
+        "tax": {
+          "cgst": 162,
+          "sgst": 162,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 300
+      },
+      {
+        "sku": "ELEC006",
+        "product_name": "Wireless Mouse",
+        "category": "Electronics",
+        "unit_price": 900,
+        "quantity": 4,
+        "discount_percent": 0,
+        "price_after_discount": 3600,
+        "tax": {
+          "cgst": 324,
+          "sgst": 324,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 450
+      },
+      {
+        "sku": "ELEC001",
+        "product_name": "Laptop",
+        "category": "Electronics",
+        "unit_price": 45000,
+        "quantity": 2,
+        "discount_percent": 0,
+        "price_after_discount": 90000,
+        "tax": {
+          "cgst": 8100,
+          "sgst": 8100,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 22500
+      },
+      {
+        "sku": "ELEC001",
+        "product_name": "Laptop",
+        "category": "Electronics",
+        "unit_price": 45000,
+        "quantity": 2,
+        "discount_percent": 10,
+        "price_after_discount": 81000,
+        "tax": {
+          "cgst": 7290,
+          "sgst": 7290,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 22500
+      }
+    ],
+    "status": "REFUNDED",
+    "payment_status": "REFUNDED",
+    "amount_paid": 208152
+  },
+  {
+    "invoice_id": "INV041",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-06-19",
+    "amount": 82985,
+    "tax": {
+      "cgst": 6330,
+      "sgst": 6330,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 5634,
+    "vendor_type": "manufacturers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "FURN002",
+        "product_name": "Office Chair",
+        "category": "Furniture",
+        "unit_price": 7000,
+        "quantity": 5,
+        "discount_percent": 5,
+        "price_after_discount": 33250,
+        "tax": {
+          "cgst": 2992,
+          "sgst": 2992,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 3500
+      },
+      {
+        "sku": "KITCH008",
+        "product_name": "Frying Pan Set",
+        "category": "Kitchenware",
+        "unit_price": 2500,
+        "quantity": 3,
+        "discount_percent": 15,
+        "price_after_discount": 6375,
+        "tax": {
+          "cgst": 574,
+          "sgst": 574,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1401,
+        "raw_materials_cost": 1250
+      },
+      {
+        "sku": "FURN002",
+        "product_name": "Office Chair",
+        "category": "Furniture",
+        "unit_price": 7000,
+        "quantity": 5,
+        "discount_percent": 15,
+        "price_after_discount": 29750,
+        "tax": {
+          "cgst": 2678,
+          "sgst": 2678,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 3500
+      },
+      {
+        "sku": "STAT004",
+        "product_name": "Notebook Pack (5)",
+        "category": "Stationery",
+        "unit_price": 500,
+        "quantity": 2,
+        "discount_percent": 5,
+        "price_after_discount": 950,
+        "tax": {
+          "cgst": 86,
+          "sgst": 86,
+          "igst": 0
+        },
+        "supplier_payment_status": "PARTIALLY_PAID",
+        "remaining_supplier_amount": 1164,
+        "raw_materials_cost": 250
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV042",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-07-02",
+    "amount": 2868,
+    "tax": {
+      "cgst": 219,
+      "sgst": 219,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 10237,
+    "vendor_type": "manufacturers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "ELEC006",
+        "product_name": "Wireless Mouse",
+        "category": "Electronics",
+        "unit_price": 900,
+        "quantity": 3,
+        "discount_percent": 10,
+        "price_after_discount": 2430,
+        "tax": {
+          "cgst": 219,
+          "sgst": 219,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 450
+      }
+    ],
+    "status": "PAID",
+    "payment_status": "COMPLETED",
+    "amount_paid": 2868
+  },
+  {
+    "invoice_id": "INV043",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-07-15",
+    "amount": 2124,
+    "tax": {
+      "cgst": 162,
+      "sgst": 162,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 5968,
+    "vendor_type": "retailers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "APP010",
+        "product_name": "T-Shirt - Cotton",
+        "category": "Apparel",
+        "unit_price": 600,
+        "quantity": 3,
+        "discount_percent": 0,
+        "price_after_discount": 1800,
+        "tax": {
+          "cgst": 162,
+          "sgst": 162,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 510
+      }
+    ],
+    "status": "RETURNED",
+    "payment_status": "ON_HOLD",
+    "amount_paid": 2124
+  },
+  {
+    "invoice_id": "INV044",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-07-28",
+    "amount": 17965,
+    "tax": {
+      "cgst": 1370,
+      "sgst": 1370,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 7205,
+    "vendor_type": "manufacturers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "ELEC006",
+        "product_name": "Wireless Mouse",
+        "category": "Electronics",
+        "unit_price": 900,
+        "quantity": 5,
+        "discount_percent": 15,
+        "price_after_discount": 3825,
+        "tax": {
+          "cgst": 344,
+          "sgst": 344,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 450
+      },
+      {
+        "sku": "ELEC012",
+        "product_name": "Power Bank 10000mAh",
+        "category": "Electronics",
+        "unit_price": 1500,
+        "quantity": 4,
+        "discount_percent": 0,
+        "price_after_discount": 6000,
+        "tax": {
+          "cgst": 540,
+          "sgst": 540,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 976,
+        "raw_materials_cost": 750
+      },
+      {
+        "sku": "ACC013",
+        "product_name": "Wrist Watch - Analog",
+        "category": "Accessories",
+        "unit_price": 3000,
+        "quantity": 2,
+        "discount_percent": 10,
+        "price_after_discount": 5400,
+        "tax": {
+          "cgst": 486,
+          "sgst": 486,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "raw_materials_cost": 1500
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV045",
+    "gstin": "33LMNOP9876W4X2",
+    "date": "2025-08-10",
+    "amount": 21565,
+    "tax": {
+      "cgst": 1645,
+      "sgst": 1645,
+      "igst": 0
+    },
+    "state": "Tamil Nadu",
+    "buying_price": 6954,
+    "vendor_type": "wholesellers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "ELEC012",
+        "product_name": "Power Bank 10000mAh",
+        "category": "Electronics",
+        "unit_price": 1500,
+        "quantity": 3,
+        "discount_percent": 5,
+        "price_after_discount": 4275,
+        "tax": {
+          "cgst": 385,
+          "sgst": 385,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 976,
+        "buying_price": 1275
+      },
+      {
+        "sku": "FURN002",
+        "product_name": "Office Chair",
+        "category": "Furniture",
+        "unit_price": 7000,
+        "quantity": 2,
+        "discount_percent": 0,
+        "price_after_discount": 14000,
+        "tax": {
+          "cgst": 1260,
+          "sgst": 1260,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 5950
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 11049
+  },
+  {
+    "invoice_id": "INV046",
+    "gstin": "DCABCDE9994F2Z5",
+    "date": "2025-08-23",
+    "amount": 5310,
+    "tax": {
+      "cgst": 405,
+      "sgst": 405,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "wholesellers",
+    "buyer_type": "consumer",
+    "products": [
+      {
+        "sku": "FURN007",
+        "product_name": "Desk Lamp",
+        "category": "Furniture",
+        "unit_price": 1500,
+        "quantity": 3,
+        "discount_percent": 0,
+        "price_after_discount": 4500,
+        "tax": {
+          "cgst": 405,
+          "sgst": 405,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 1275
+      }
+    ],
+    "status": "REFUNDED",
+    "payment_status": "REFUNDED",
+    "amount_paid": 5310
+  },
+  {
+    "invoice_id": "INV047",
+    "gstin": "DCABCDE9994F2Z5",
+    "date": "2025-04-05",
+    "amount": 10620,
+    "tax": {
+      "cgst": 810,
+      "sgst": 810,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "wholesellers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "FURN007",
+        "product_name": "Desk Lamp",
+        "category": "Furniture",
+        "unit_price": 1500,
+        "quantity": 2,
+        "discount_percent": 0,
+        "price_after_discount": 3000,
+        "tax": {
+          "cgst": 270,
+          "sgst": 270,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 1275
+      },
+      {
+        "sku": "ELEC012",
+        "product_name": "Power Bank 10000mAh",
+        "category": "Electronics",
+        "unit_price": 1500,
+        "quantity": 4,
+        "discount_percent": 0,
+        "price_after_discount": 6000,
+        "tax": {
+          "cgst": 540,
+          "sgst": 540,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 976,
+        "buying_price": 1275
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV048",
+    "gstin": "DCABCDE9994F2Z5",
+    "date": "2025-04-18",
+    "amount": 83279,
+    "tax": {
+      "cgst": 6352,
+      "sgst": 6352,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "wholesellers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "FURN007",
+        "product_name": "Desk Lamp",
+        "category": "Furniture",
+        "unit_price": 1500,
+        "quantity": 1,
+        "discount_percent": 10,
+        "price_after_discount": 1350,
+        "tax": {
+          "cgst": 122,
+          "sgst": 122,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 1275
+      },
+      {
+        "sku": "ELEC005",
+        "product_name": "Smartphone",
+        "category": "Electronics",
+        "unit_price": 20000,
+        "quantity": 3,
+        "discount_percent": 15,
+        "price_after_discount": 51000,
+        "tax": {
+          "cgst": 4590,
+          "sgst": 4590,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1700,
+        "buying_price": 17000
+      },
+      {
+        "sku": "ELEC005",
+        "product_name": "Smartphone",
+        "category": "Electronics",
+        "unit_price": 20000,
+        "quantity": 1,
+        "discount_percent": 10,
+        "price_after_discount": 18000,
+        "tax": {
+          "cgst": 1620,
+          "sgst": 1620,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1700,
+        "buying_price": 17000
+      },
+      {
+        "sku": "STAT015",
+        "product_name": "Whiteboard Marker Set",
+        "category": "Stationery",
+        "unit_price": 250,
+        "quantity": 1,
+        "discount_percent": 10,
+        "price_after_discount": 225,
+        "tax": {
+          "cgst": 20,
+          "sgst": 20,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1320,
+        "buying_price": 212
+      }
+    ],
+    "status": "PARTIALLY_PAID",
+    "payment_status": "PARTIAL",
+    "amount_paid": 74453
+  },
+  {
+    "invoice_id": "INV049",
+    "gstin": "DCABCDE9994F2Z5",
+    "date": "2025-05-01",
+    "amount": 13968,
+    "tax": {
+      "cgst": 1065,
+      "sgst": 1065,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "retailers",
+    "buyer_type": "wholeseller",
+    "products": [
+      {
+        "sku": "ACC011",
+        "product_name": "Backpack",
+        "category": "Accessories",
+        "unit_price": 1800,
+        "quantity": 2,
+        "discount_percent": 0,
+        "price_after_discount": 3600,
+        "tax": {
+          "cgst": 324,
+          "sgst": 324,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 769,
+        "buying_price": 1530
+      },
+      {
+        "sku": "ACC013",
+        "product_name": "Wrist Watch - Analog",
+        "category": "Accessories",
+        "unit_price": 3000,
+        "quantity": 2,
+        "discount_percent": 5,
+        "price_after_discount": 5700,
+        "tax": {
+          "cgst": 513,
+          "sgst": 513,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2550
+      },
+      {
+        "sku": "STAT004",
+        "product_name": "Notebook Pack (5)",
+        "category": "Stationery",
+        "unit_price": 500,
+        "quantity": 4,
+        "discount_percent": 5,
+        "price_after_discount": 1900,
+        "tax": {
+          "cgst": 171,
+          "sgst": 171,
+          "igst": 0
+        },
+        "supplier_payment_status": "PARTIALLY_PAID",
+        "remaining_supplier_amount": 1164,
+        "buying_price": 425
+      },
+      {
+        "sku": "STAT015",
+        "product_name": "Whiteboard Marker Set",
+        "category": "Stationery",
+        "unit_price": 250,
+        "quantity": 3,
+        "discount_percent": 15,
+        "price_after_discount": 638,
+        "tax": {
+          "cgst": 57,
+          "sgst": 57,
+          "igst": 0
+        },
+        "supplier_payment_status": "UNPAID",
+        "remaining_supplier_amount": 1320,
+        "buying_price": 212
+      }
+    ],
+    "status": "CANCELLED",
+    "payment_status": "NOTPAID",
+    "amount_paid": 0
+  },
+  {
+    "invoice_id": "INV050",
+    "gstin": "DCABCDE9994F2Z5",
+    "date": "2025-05-14",
+    "amount": 231870,
+    "tax": {
+      "cgst": 17685,
+      "sgst": 17685,
+      "igst": 0
+    },
+    "state": "Karnataka",
+    "vendor_type": "retailers",
+    "buyer_type": "retailer",
+    "products": [
+      {
+        "sku": "FURN007",
+        "product_name": "Desk Lamp",
+        "category": "Furniture",
+        "unit_price": 1500,
+        "quantity": 1,
+        "discount_percent": 0,
+        "price_after_discount": 1500,
+        "tax": {
+          "cgst": 135,
+          "sgst": 135,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 1275
+      },
+      {
+        "sku": "ELEC003",
+        "product_name": "Monitor 24-inch",
+        "category": "Electronics",
+        "unit_price": 12000,
+        "quantity": 2,
+        "discount_percent": 15,
+        "price_after_discount": 20400,
+        "tax": {
+          "cgst": 1836,
+          "sgst": 1836,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 10200
+      },
+      {
+        "sku": "TOOL014",
+        "product_name": "Drill Machine",
+        "category": "Tools",
+        "unit_price": 3500,
+        "quantity": 4,
+        "discount_percent": 10,
+        "price_after_discount": 12600,
+        "tax": {
+          "cgst": 1134,
+          "sgst": 1134,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 2975
+      },
+      {
+        "sku": "ELEC001",
+        "product_name": "Laptop",
+        "category": "Electronics",
+        "unit_price": 45000,
+        "quantity": 4,
+        "discount_percent": 10,
+        "price_after_discount": 162000,
+        "tax": {
+          "cgst": 14580,
+          "sgst": 14580,
+          "igst": 0
+        },
+        "supplier_payment_status": "PAID",
+        "buying_price": 38250
+      }
+    ],
+    "status": "RETURNED",
+    "payment_status": "ON_HOLD",
+    "amount_paid": 231870
+  }
+]
