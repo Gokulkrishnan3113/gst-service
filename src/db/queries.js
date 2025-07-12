@@ -135,8 +135,8 @@ async function addInvoices(gstFilingId, invoices) {
         const result = await db.query(
             `INSERT INTO invoices (
                 gst_filing_id, invoice_id, date, amount,
-                buying_price, cgst, sgst, igst, state,net_amount,itc
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11)
+                buying_price, cgst, sgst, igst, state,net_amount,itc,status,payment_status,amount_paid
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11,$12,$13,$14)
             RETURNING id`,
             [
                 gstFilingId,
@@ -149,7 +149,10 @@ async function addInvoices(gstFilingId, invoices) {
                 inv.tax?.igst || 0,
                 inv.state,
                 inv.amount,
-                inv.itc || 0
+                inv.itc || 0,
+                inv.status || 'PAID',
+                inv.payment_status || 'PAID',
+                inv.amount_paid || 0
             ]
         );
         const insertedInvoiceId = result.rows[0].id;
@@ -165,8 +168,8 @@ async function addProductsForInvoice(invoiceId, products) {
             `INSERT INTO products(
                 invoice_id, sku, product_name, category,
                 unit_price, quantity, discount_percent,
-                price_after_discount, cgst, sgst, igst, buying_price
-            ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+                price_after_discount, cgst, sgst, igst, buying_price,supplier_payment_status,remaining_supplier_amount
+            ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12,$13,$14)`,
             [
                 invoiceId,
                 product.sku,
@@ -179,7 +182,9 @@ async function addProductsForInvoice(invoiceId, products) {
                 product.tax?.cgst || 0,
                 product.tax?.sgst || 0,
                 product.tax?.igst || 0,
-                product.buying_price || 0
+                product.buying_price || 0,
+                product.supplier_payment_status || 'PAID',
+                product.remaining_supplier_amount || 0
             ]
         );
     }
@@ -203,6 +208,9 @@ async function getAllFilingsWithInvoices() {
             i.state,
             i.net_amount,
             i.itc,
+            i.status AS invoice_status,
+            i.payment_status AS invoice_payment_status,
+            i.amount_paid AS invoice_amount_paid,
             p.sku,
             p.product_name,
             p.category,
@@ -265,6 +273,9 @@ async function getAllFilingsWithInvoices() {
                     state: row.state,
                     net_amount: row.net_amount,
                     itc: row.itc,
+                    status: row.invoice_status,
+                    payment_status: row.invoice_payment_status,
+                    amount_paid: row.invoice_amount_paid,
                     products: []
                 };
                 filing.invoices.push(invoice);
@@ -315,6 +326,9 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
             i.state,
             i.net_amount,
             i.itc,
+            i.status AS invoice_status,
+            i.payment_status AS invoice_payment_status,
+            i.amount_paid AS invoice_amount_paid,
             p.sku,
             p.product_name,
             p.category,
@@ -377,6 +391,9 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
                     state: row.state,
                     net_amount: row.net_amount,
                     itc: row.itc,
+                    status: row.invoice_status,
+                    payment_status: row.invoice_payment_status,
+                    amount_paid: row.invoice_amount_paid,
                     products: []
                 };
                 filing.invoices.push(invoice);
