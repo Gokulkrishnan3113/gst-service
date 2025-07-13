@@ -7,6 +7,17 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
     const filingDate = new Date();
 
     for (const invoice of filteredInvoices) {
+        const existingitc = invoice.itc || 0;
+        console.log('Processing invoiceeeeeeeeeeee:', invoice);
+        
+        if (
+        (invoice.status === 'CANCELLED' && invoice.payment_status === 'NOTPAID') ||
+        (invoice.status === 'PARTIALLY_PAID' && invoice.payment_status === 'PARTIAL') ||
+        (invoice.status === 'NOTPAID' && invoice.payment_status === 'NOTPAID') ||
+        (invoice.status === 'REFUNDED' && invoice.payment_status !== 'REFUNDED') ||
+        (invoice.status === 'PAID' && invoice.payment_status !== 'COMPLETED')) {   
+            continue;
+        }
         inputTaxCredit = 0;
         buyingPrice = 0;
         const { amount, date, tax = {}, products = [] } = invoice;
@@ -48,9 +59,11 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
                 buyingPrice += buying_price * product.quantity;
             }
         }
-        invoice.itc = parseFloat(inputTaxCredit.toFixed(2));
         invoice.buyingPrice = parseFloat(buyingPrice.toFixed(2));
-        totalinputTaxCredit += invoice.itc;
+        if(existingitc >= 0) {
+            invoice.itc = parseFloat(inputTaxCredit.toFixed(2));
+            totalinputTaxCredit += invoice.itc;
+        }
     }
 
     const delayInDays = Math.max(0, Math.floor(

@@ -1,4 +1,4 @@
-const { findVendorByGstin, addVendor, getLastInvoiceId, updateLastInvoiceId, addGstFiling, getFilingsByGstin, addInvoices } = require('../db/queries');
+const { findVendorByGstin, addVendor, getLastInvoiceId, updateLastInvoiceId, addGstFiling, getFilingsByGstin, addInvoices, getInvoicesToBeFiledAgain } = require('../db/queries');
 const { getTimeframeRange } = require('../utils/timeframe-helper')
 const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
 const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
@@ -9,6 +9,7 @@ const { calculateGSTSummary } = require('../utils/gstcal-helper');
 const { detectFilingConflicts } = require('../utils/conflict-helper');
 const { formatFilingDates } = require('../utils/timeformat-helper');
 const { checkMissingInvoices } = require('../utils/missinginvoice-helper');
+const {addinvoicestobefiledagain} = require('../utils/refilinginvoice-helper.js');
 function formatDate(d) {
     const date = new Date(d);
     date.setDate(date.getDate());
@@ -92,7 +93,7 @@ async function fileGstService(payload) {
         };
     }
 
-    const filteredData = filterInvoices(invoice, startDate, endDate, gstin);
+    let filteredData = filterInvoices(invoice, startDate, endDate, gstin);
     if (filteredData.length === 0) {
         return {
             status: 404,
@@ -105,15 +106,14 @@ async function fileGstService(payload) {
     if (missingCheck) {
         return missingCheck;
     }
-    // console.log(filteredData.length);
+    const refilinginvoice = await getInvoicesToBeFiledAgain(gstin);
+    console.log('Invoices to be filed again:', refilinginvoice);
+    if (refilinginvoice.length > 0) {   
+        const revisedInvoices = await addinvoicestobefiledagain(refilinginvoice, gstin);
+        console.log('Revised Invoices:', revisedInvoices);
+        filteredData = [...filteredData, ...revisedInvoices];
+    }
 
-    // if (filteredData.length > 0) {
-    //     const lastInvoice = filteredData[filteredData.length - 1]; // last one after sorting
-    //     const lastInvoiceIdToUpdate = lastInvoice.invoice_id;
-    //     console.log(`Last invoice ID to update: ${lastInvoiceIdToUpdate}`);
-
-    //     await updateLastInvoiceId(gstin, lastInvoiceIdToUpdate);
-    // }
     const res = calculateGSTSummary(filteredData, merchant_type, dueDate, timeframe, turnover, is_itc_optedin);
 
     const gstFiling = await addGstFiling({

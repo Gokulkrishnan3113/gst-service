@@ -129,14 +129,133 @@ async function addGstFiling({
 
     return result.rows[0];
 }
+async function getInvoicesToBeFiledAgain(gstin) {
+    const result = await db.query(
+        `SELECT 
+            inv.*, 
+            inv.buying_price AS "buyingPrice",
+            inv.status AS "original_status", 
+            inv.payment_status AS "original_payment_status",
+            updated.status AS "status", 
+            updated.payment_status AS "payment_status",
+            p.id AS product_id,
+            p.sku,
+            p.product_name,
+            p.category,
+            p.unit_price,
+            p.quantity,
+            p.discount_percent,
+            p.price_after_discount,
+            p.cgst AS product_cgst,
+            p.sgst AS product_sgst,
+            p.igst AS product_igst,
+            p.buying_price AS product_buying_price,
+            p.remaining_supplier_amount,
+            p.supplier_payment_status
+        FROM invoices inv
+        JOIN gst_filings g ON inv.gst_filing_id = g.id
+        JOIN invoice_to_be_filed_again updated ON updated.invoice_ref_id = inv.id
+        LEFT JOIN products p ON p.invoice_id = inv.id
+        WHERE g.gstin = $1
+          AND inv.is_to_be_filed_again = true
+        ORDER BY inv.id`,
+        [gstin]
+    );
+
+    const rows = result.rows;
+    const invoiceMap = new Map();
+
+    for (const row of rows) {
+        const invoiceId = row.id;
+
+        if (!invoiceMap.has(invoiceId)) {
+            invoiceMap.set(invoiceId, {
+                id: row.id,
+                gst_filing_id: row.gst_filing_id,
+                invoice_id: row.invoice_id,
+                date: row.date,
+                amount: Number(row.amount) + Number(row.cgst) + Number(row.sgst) + Number(row.igst),
+                buyingPrice: row.buyingPrice,
+                tax :{
+                    cgst: Number(row.cgst),
+                    sgst: Number(row.sgst),
+                    igst: Number(row.igst),
+                },
+                state: row.state,
+                itc: Number(row.itc),
+                status: row.status,
+                payment_status: row.payment_status,
+                original_status: row.original_status,
+                original_payment_status: row.original_payment_status,
+                products: []
+            });
+        }
+
+        // If product data exists in the row, add it to the products array
+        if (row.product_id) {
+            invoiceMap.get(invoiceId).products.push({
+                id: row.product_id,
+                sku: row.sku,
+                product_name: row.product_name,
+                category: row.category,
+                unit_price: Number(row.unit_price),
+                quantity: Number(row.quantity),
+                discount_percent: Number(row.discount_percent),
+                price_after_discount: Number(row.price_after_discount),
+                tax :{
+                    cgst: Number(row.product_cgst),
+                    sgst: Number(row.product_sgst),
+                    igst: Number(row.product_igst),
+                },
+                buying_price: Number(row.product_buying_price),
+                remaining_supplier_amount: Number(row.remaining_supplier_amount),
+                supplier_payment_status: row.supplier_payment_status
+            });
+        }
+    }
+
+    const invoices = Array.from(invoiceMap.values());
+
+    // Update the invoices table for all those that were processed
+    for (const inv of invoices) {
+        await db.query(
+            `UPDATE invoices
+             SET is_to_be_filed_again = false,
+                 is_credit_note_added = true,
+                 is_filed = true
+             WHERE id = $1`,
+            [inv.id]
+        );
+    }
+
+    return invoices;
+}
+
+
+
 
 async function addInvoices(gstFilingId, invoices) {
+    function shouldFileInvoice(status, paymentStatus) {
+        return (
+            (status === 'PAID' && paymentStatus === 'COMPLETED') ||
+            (status === 'CANCELLED' && paymentStatus === 'REFUNDED') ||
+            (status === 'RETURNED' && paymentStatus === 'REFUNDED') ||
+            (status === 'REFUNDED' && paymentStatus === 'REFUNDED')
+        );
+    }
+
     for (const inv of invoices) {
+        console.log('Adding invoice:', inv);
+        
+        const status = inv.status || 'PAID';
+        const paymentStatus = inv.payment_status || 'PAID';
+        const isFiled = shouldFileInvoice(status, paymentStatus);
+
         const result = await db.query(
             `INSERT INTO invoices (
                 gst_filing_id, invoice_id, date, amount,
-                buying_price, cgst, sgst, igst, state,net_amount,itc,status,payment_status,amount_paid
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11,$12,$13,$14)
+                buying_price, cgst, sgst, igst, state,net_amount,itc,status,payment_status,amount_paid,is_filed
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11,$12,$13,$14,$15)
             RETURNING id`,
             [
                 gstFilingId,
@@ -144,15 +263,16 @@ async function addInvoices(gstFilingId, invoices) {
                 new Date(inv.date),
                 inv.amount - inv.tax?.cgst - inv.tax?.sgst - inv.tax?.igst,
                 inv.buyingPrice || 0,
-                inv.tax?.cgst || 0,
-                inv.tax?.sgst || 0,
-                inv.tax?.igst || 0,
+                inv.tax?.cgst || inv?.cgst || 0,
+                inv.tax?.sgst || inv?.sgst || 0,
+                inv.tax?.igst || inv?.igst || 0,
                 inv.state,
                 inv.amount,
                 inv.itc || 0,
-                inv.status || 'PAID',
-                inv.payment_status || 'PAID',
-                inv.amount_paid || 0
+                status,
+                paymentStatus,
+                inv.amount_paid || 0,
+                isFiled
             ]
         );
         const insertedInvoiceId = result.rows[0].id;
@@ -223,7 +343,7 @@ async function insertCreditNoteForInvoice(invoice, gstin) {
     const cgst = Math.abs(invoice.cgst || 0);
     const sgst = Math.abs(invoice.sgst || 0);
     const igst = Math.abs(invoice.igst || 0);
-    const totalTax = cgst + sgst + igst;
+    const totalTax = cgst - sgst - igst;
 
     await db.query(
         `INSERT INTO credit_notes (
@@ -247,11 +367,11 @@ async function insertCreditNoteForInvoice(invoice, gstin) {
             invoice.date,
             new Date(),
             reason,
-            invoice.amount - totalTax,
+            (invoice.amount - totalTax)* -1,
             cgst,
             sgst,
             igst,
-            invoice.amount
+            (invoice.amount) * -1
         ]
     );
 }
@@ -539,5 +659,8 @@ module.exports = {
     getAllFilingsWithInvoices,
     getAllFilingsWithInvoicesByGstin,
     addProductsForInvoice,
-    updateInvoice
+    updateInvoice,
+    getInvoiceByGstin,
+    getInvoicesToBeFiledAgain,
+    insertCreditNoteForInvoice
 };
