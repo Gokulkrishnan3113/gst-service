@@ -286,7 +286,7 @@ async function getInvoiceByGstin(gstin){
     const result = await db.query(
         `SELECT * FROM invoices 
         where gst_filing_id = (
-            SELECT id FROM gst_filings WHERE gstin = $1
+            SELECT id FROM gst_filings WHERE gstin = $1 LIMIT 1
         )`,
         [gstin]
     );
@@ -298,7 +298,7 @@ async function updateInvoice(gstin, invoiceId, fields) {
         `SELECT id, invoice_id FROM invoices
          WHERE invoice_id = $1
            AND gst_filing_id = (
-               SELECT id FROM gst_filings WHERE gstin = $2
+               SELECT id FROM gst_filings WHERE gstin = $2 LIMIT 1
            )`,
         [invoiceId, gstin]
     );
