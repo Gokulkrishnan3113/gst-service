@@ -1,4 +1,4 @@
-const { updateInvoice,getInvoiceByGstin } = require('../db/queries');
+const { updateInvoice,getInvoiceByGstin, getPendingInvoicesByGstin } = require('../db/queries');
 
 async function updateInvoiceByIdHandler(req, res) {
     const { gstin, invoice_id } = req.params;
@@ -41,8 +41,26 @@ async function getInvoiceByGstinHandler(req, res) {
     }
 }
 
+async function getPendingInvoicesHandler(req, res) {
+    const { gstin } = req.params;
+
+    try {
+        const invoices = await getPendingInvoicesByGstin(gstin);
+
+        if (invoices.length === 0) {
+            return res.status(404).json({ success: false, message: 'No pending invoices found for this GSTIN' });
+        }
+
+        res.status(200).json({ success: true, invoice_count: invoices.length, data: invoices });
+    } catch (err) {
+        console.error('Error fetching pending invoices:', err);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
+    
 
 module.exports = {
     updateInvoiceByIdHandler,
-    getInvoiceByGstinHandler
+    getInvoiceByGstinHandler,
+    getPendingInvoicesHandler
 };

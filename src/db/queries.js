@@ -331,6 +331,29 @@ async function updateInvoice(gstin, invoiceId, fields) {
     return true;
 }
 
+async function getPendingInvoicesByGstin(gstin) {
+    const result = await db.query(
+        `SELECT 
+            inv.invoice_id,
+            inv.date,
+            inv.amount,
+            inv.amount_paid AS paid_amount,
+            (inv.amount - inv.amount_paid) AS remaining_amount,
+            (CURRENT_DATE - inv.date) AS days_since_issued
+         FROM invoices inv
+         JOIN gst_filings gf ON inv.gst_filing_id = gf.id
+         WHERE gf.gstin = $1
+           AND inv.is_filed = false
+           AND inv.status != 'CANCELLED'
+           AND inv.payment_status != 'NOTPAID'
+         ORDER BY (CURRENT_DATE - inv.date) DESC`,
+        [gstin]
+    );
+
+    return result.rows;
+}
+
+
 async function insertCreditNoteForInvoice(invoice, gstin) {
     const creditNoteReasonMap = {
         REFUNDED: 'REFUND',
@@ -662,5 +685,6 @@ module.exports = {
     updateInvoice,
     getInvoiceByGstin,
     getInvoicesToBeFiledAgain,
-    insertCreditNoteForInvoice
+    insertCreditNoteForInvoice,
+    getPendingInvoicesByGstin
 };
