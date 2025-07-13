@@ -3,7 +3,7 @@ const { getAllVendors, addVendor, updateVendor, dropVendor } = require('../db/qu
 async function getVendors(req, res) {
     try {
         const vendors = await getAllVendors();
-        res.status(200).json({ success: true, data: vendors });
+        res.status(200).json({ success: true, vendors_count: vendors.length, data: vendors });
     } catch (error) {
         console.error('Error fetching vendors:', error);
         res.status(500).json({ success: false, error: 'Internal Server Error' });

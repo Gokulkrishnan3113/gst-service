@@ -34,7 +34,7 @@ async function getInvoiceByGstinHandler(req, res) {
         if (!invoices || invoices.length === 0) {
             return res.status(404).json({ success: false, message: 'No invoices found for this GSTIN' });
         }
-        res.status(200).json({ success: true, data: invoices });
+        res.status(200).json({ success: true, invoice_count: invoices.length, data: invoices });
     } catch (err) {
         console.error('Error fetching invoices:', err);
         res.status(500).json({ success: false, message: 'Internal Server Error' });

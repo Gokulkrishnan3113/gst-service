@@ -50,7 +50,7 @@ async function getAllFilingsWithInvoicesHandler(req, res) {
         if (!filings || filings.length === 0) {
             return res.status(404).json({ success: false, error: 'No filings found' });
         }
-        res.status(200).json({ success: true, data: filings });
+        res.status(200).json({ success: true, filings_count: filings.length, data: filings });
     } catch (error) {
         console.error('Error fetching filings with invoices:', error);
         res.status(500).json({ success: false, error: 'Internal Server Error' });
@@ -73,6 +73,7 @@ async function getFilingsWithInvoicesByIdHandler(req, res) {
         return res.status(200).json({
             success: true,
             message: `Filings with invoices for GSTIN ${gstin} retrieved.`,
+            filings_count: data.length,
             data
         });
     } catch (error) {
