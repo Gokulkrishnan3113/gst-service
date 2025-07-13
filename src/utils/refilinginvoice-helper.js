@@ -32,7 +32,7 @@ async function addinvoicestobefiledagain(rawInvoices, gstin) {
                 sgst: -(row.tax.sgst || 0),
                 igst: -(row.tax.igst || 0),
             };
-            row.amount = -row.amount + row.tax.cgst + row.tax.sgst + row.tax.igst;
+            row.amount = -row.amount;
             row.itc = -row.itc;
             await insertCreditNoteForInvoice(row, gstin);
 

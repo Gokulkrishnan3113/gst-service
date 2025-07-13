@@ -340,9 +340,9 @@ async function insertCreditNoteForInvoice(invoice, gstin) {
 
     const reason = creditNoteReasonMap[invoice.status] || 'OTHER';
 
-    const cgst = Math.abs(invoice.cgst || 0);
-    const sgst = Math.abs(invoice.sgst || 0);
-    const igst = Math.abs(invoice.igst || 0);
+    const cgst = Math.abs(invoice.tax.cgst || 0);
+    const sgst = Math.abs(invoice.tax.sgst || 0);
+    const igst = Math.abs(invoice.tax.igst || 0);
     const totalTax = cgst - sgst - igst;
 
     await db.query(
