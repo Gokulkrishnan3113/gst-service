@@ -335,8 +335,8 @@ async function getPendingInvoicesByGstin(gstin) {
     const result = await db.query(
         `SELECT 
             inv.invoice_id,
-            inv.date,
-            inv.amount,
+            inv.date as invoice_date,
+            inv.amount as total_amount,
             inv.amount_paid AS paid_amount,
             (inv.amount - inv.amount_paid) AS remaining_amount,
             (CURRENT_DATE - inv.date) AS days_since_issued
