@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/vendors', getVendors); // GET /file-gst/vendors
-// router.post('/vendors', createVendor);
+router.post('/vendors', createVendor);
 // router.patch('/vendors/:gstin', modifyVendor);
 // router.delete('/vendors/:gstin', deleteVendor);
 
