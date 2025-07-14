@@ -70,21 +70,38 @@ async function runPendingInvoiceReminderLogic() {
         const pendingInvoices = await getPendingInvoicesByGstin(gstin);
         if (!pendingInvoices || pendingInvoices.length === 0) continue;
 
-        await sendReminderEmail(email, gstin, pendingInvoices);
-        allReminders.push({ gstin, email, count: pendingInvoices.length, invoices: pendingInvoices });
-    }
+        const sent = await sendReminderEmail(email, gstin, pendingInvoices);
 
+        if (sent) {
+            allReminders.push({
+                gstin,
+                email,
+                count: pendingInvoices.length,
+                invoices: pendingInvoices
+            });
+        }
+    }
     return allReminders;
 }
 
 async function triggerPendingInvoiceReminder(req, res) {
     try {
         const data = await runPendingInvoiceReminderLogic();
+
+        if (!data || data.length === 0) {
+            return res.status(200).json({
+                success: true,
+                message: 'No email reminders sent. All vendors skipped or email failed.',
+                data: []
+            });
+        }
+
         return res.status(200).json({
             success: true,
             message: 'Reminder logic executed successfully',
             data
         });
+
     } catch (err) {
         console.error('Error running reminder logic:', err);
         return res.status(500).json({
@@ -93,6 +110,7 @@ async function triggerPendingInvoiceReminder(req, res) {
         });
     }
 }
+
 
 
 module.exports = {
