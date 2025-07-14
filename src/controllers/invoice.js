@@ -1,4 +1,5 @@
-const { updateInvoice,getInvoiceByGstin, getPendingInvoicesByGstin } = require('../db/queries');
+const { updateInvoice, getInvoiceByGstin, getPendingInvoicesByGstin, getAllVendors } = require('../db/queries');
+const { sendReminderEmail } = require('../utils/mailsender-helper');
 
 async function updateInvoiceByIdHandler(req, res) {
     const { gstin, invoice_id } = req.params;
@@ -57,10 +58,47 @@ async function getPendingInvoicesHandler(req, res) {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 }
-    
+
+async function runPendingInvoiceReminderLogic() {
+    const vendors = await getAllVendors();
+    const allReminders = [];
+
+    for (const vendor of vendors) {
+        const { gstin, email } = vendor;
+        if (!gstin || !email) continue;
+
+        const pendingInvoices = await getPendingInvoicesByGstin(gstin);
+        if (!pendingInvoices || pendingInvoices.length === 0) continue;
+
+        await sendReminderEmail(email, gstin, pendingInvoices);
+        allReminders.push({ gstin, email, count: pendingInvoices.length, invoices: pendingInvoices });
+    }
+
+    return allReminders;
+}
+
+async function triggerPendingInvoiceReminder(req, res) {
+    try {
+        const data = await runPendingInvoiceReminderLogic();
+        return res.status(200).json({
+            success: true,
+            message: 'Reminder logic executed successfully',
+            data
+        });
+    } catch (err) {
+        console.error('Error running reminder logic:', err);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error while running reminder logic'
+        });
+    }
+}
+
 
 module.exports = {
     updateInvoiceByIdHandler,
     getInvoiceByGstinHandler,
-    getPendingInvoicesHandler
+    getPendingInvoicesHandler,
+    triggerPendingInvoiceReminder,
+    runPendingInvoiceReminderLogic
 };

@@ -9,7 +9,8 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+    const now = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    console.log(`[${now}] ${req.method} ${req.originalUrl}`);
     next();
 });
 
@@ -26,5 +27,8 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    const now = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    console.log(`[${now}] 🚀 Server running at http://localhost:${PORT}`);
 });
+
+require('./services/pending-invoice-cron');
