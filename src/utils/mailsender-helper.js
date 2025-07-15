@@ -32,7 +32,7 @@ async function sendReminderEmail(email, gstin, invoices) {
     };
 
     try {
-        const response = await axios.post('http://127.0.0.1:3000/send', payload);
+        const response = await axios.post(`${process.env.EMAIL_SERVICE_HOST_URL}/send`, payload);
         console.log(`✅ Email sent to ${email}:`, response.status);
         return true;
     } catch (err) {
