@@ -666,6 +666,58 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
     return Array.from(filingsMap.values());
 }
 
+async function getLedgerLogs(gstin) {
+    const result = await db.query(
+        `SELECT * FROM credit_ledger WHERE gstin = $1 ORDER BY txn_date DESC, id DESC`,
+        [gstin]
+    );
+    return result.rows;
+}
+
+async function insertLedgerTransaction({
+    gstin,
+    txn_type,
+    igst = 0,
+    cgst = 0,
+    sgst = 0,
+}) {
+    const query = `
+    INSERT INTO credit_ledger (
+      gstin, txn_type, igst, cgst, sgst
+    ) VALUES ($1, $2, $3, $4, $5)
+    RETURNING *
+  `;
+    const values = [gstin, txn_type, igst, cgst, sgst];
+    const result = await db.query(query, values);
+    return result.rows[0];
+}
+
+async function getBalance(gstin) {
+    const result = await db.query(
+        `SELECT * FROM credit_balances WHERE gstin = $1`,
+        [gstin]
+    );
+    return result.rows[0] || null;
+}
+
+async function upsertBalance(gstin, igst = 0, cgst = 0, sgst = 0) {
+    const query = `
+    INSERT INTO credit_balances (
+      gstin, igst_balance, cgst_balance, sgst_balance
+    ) VALUES ($1, $2, $3, $4)
+    ON CONFLICT (gstin) DO UPDATE SET
+      igst_balance = credit_balances.igst_balance + EXCLUDED.igst_balance,
+      cgst_balance = credit_balances.cgst_balance + EXCLUDED.cgst_balance,
+      sgst_balance = credit_balances.sgst_balance + EXCLUDED.sgst_balance,
+      updated_at = NOW()
+    RETURNING *;
+  `;
+    const values = [gstin, igst, cgst, sgst];
+    const result = await db.query(query, values);
+    return result.rows[0];
+}
+
+
 
 module.exports = {
     getAllVendors,
@@ -686,5 +738,9 @@ module.exports = {
     getInvoiceByGstin,
     getInvoicesToBeFiledAgain,
     insertCreditNoteForInvoice,
-    getPendingInvoicesByGstin
+    getPendingInvoicesByGstin,
+    getLedgerLogs,
+    insertLedgerTransaction,
+    getBalance,
+    upsertBalance
 };

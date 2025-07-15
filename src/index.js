@@ -4,6 +4,7 @@ const cors = require('cors');
 const vendorRouter = require('./routes/vendor'); // Importing vendor routes
 const fileGstRoutes = require('./routes/file-gst'); // Importing file GST routes
 const invoiceRouter = require('./routes/invoice'); // Importing invoice routes
+const ledgerRouter = require('./routes/ledger'); // Importing ledger routes
 dotenv.config();
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(vendorRouter);
 app.use(fileGstRoutes);
 app.use(invoiceRouter);
+app.use(ledgerRouter);
 
 app.get('/', (req, res) => {
     res.send('GST Filing Service is up and running 🚀');
