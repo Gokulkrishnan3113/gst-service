@@ -1937,8 +1937,8 @@
         "buying_price": 5950
       }
     ],
-    "status": "REFUNDED",
-    "payment_status": "REFUNDED",
+    "status": "PAID",
+    "payment_status": "COMPLETED",
     "amount_paid": 39234
   },
   {
