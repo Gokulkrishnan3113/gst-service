@@ -1,4 +1,4 @@
-const { findVendorByGstin, addVendor, getLastInvoiceId, updateLastInvoiceId, addGstFiling, getFilingsByGstin, addInvoices, getInvoicesToBeFiledAgain } = require('../db/queries');
+const { findVendorByGstin, addVendor, addGstFiling, getFilingsByGstin, addInvoices, getInvoicesToBeFiledAgain, upsertBalance, insertLedgerTransaction } = require('../db/queries');
 const { getTimeframeRange } = require('../utils/timeframe-helper')
 const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
 const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
@@ -107,10 +107,8 @@ async function fileGstService(payload) {
         return missingCheck;
     }
     const refilinginvoice = await getInvoicesToBeFiledAgain(gstin);
-    console.log('Invoices to be filed again:', refilinginvoice);
     if (refilinginvoice.length > 0) {   
         const revisedInvoices = await addinvoicestobefiledagain(refilinginvoice, gstin);
-        console.log('Revised Invoices:', revisedInvoices);
         filteredData = [...filteredData, ...revisedInvoices];
     }
 

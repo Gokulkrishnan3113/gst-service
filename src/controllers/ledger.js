@@ -1,4 +1,3 @@
-// GET /ledger/:gstin
 const { getLedgerLogs, getBalance } = require('../db/queries');
 
 

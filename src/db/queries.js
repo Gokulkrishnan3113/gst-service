@@ -245,8 +245,6 @@ async function addInvoices(gstFilingId, invoices) {
     }
 
     for (const inv of invoices) {
-        console.log('Adding invoice:', inv);
-        
         const status = inv.status || 'PAID';
         const paymentStatus = inv.payment_status || 'PAID';
         const isFiled = shouldFileInvoice(status, paymentStatus);
