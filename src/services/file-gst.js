@@ -114,6 +114,20 @@ async function fileGstService(payload) {
 
     const res = calculateGSTSummary(filteredData, merchant_type, dueDate, timeframe, turnover, is_itc_optedin);
     const { igst, cgst, sgst } = res.itc_breakdown || {};
+    const { igst: tax_igst, cgst: tax_cgst, sgst: tax_sgst } = res.tax_due || {};
+    // console.log(`Each Tax breakdown: IGST: ${tax_igst}, CGST: ${tax_cgst}, SGST: ${tax_sgst}`);
+
+    await insertLedgerTransaction({ gstin, txn_type: 'CREDIT', igst, cgst, sgst });
+    await upsertBalance(gstin, igst, cgst, sgst);
+
+    const {
+        payableIGST, // future use
+        payableCGST, // future use
+        payableSGST, // future use
+        totalPayable
+    } = await applyITCOffsets(gstin, { igst: tax_igst, cgst: tax_cgst, sgst: tax_sgst });
+
+
     const gstFiling = await addGstFiling({
         gstin,
         timeframe,
@@ -125,14 +139,12 @@ async function fileGstService(payload) {
         totalTax: Number(res.totalTax.toFixed(2)),
         invoiceCount: filteredData.length,
         inputTaxCredit: Number(res.inputTaxCredit.toFixed(2)),
-        taxPayable: Number((res.totalTax - res.inputTaxCredit).toFixed(2)),
+        taxPayable: totalPayable,
         penalty: Number(res.penalty.toFixed(2)),
-        totalPayableAmount: Number((res.totalTax - res.inputTaxCredit + res.penalty).toFixed(2))
+        totalPayableAmount: Number((totalPayable + res.penalty).toFixed(2))
     });
 
     await addInvoices(gstFiling.id, filteredData);
-    await insertLedgerTransaction({ gstin, txn_type: 'CREDIT', igst, cgst, sgst });
-    await upsertBalance(gstin, igst, cgst, sgst);
 
     return {
         status: 200,

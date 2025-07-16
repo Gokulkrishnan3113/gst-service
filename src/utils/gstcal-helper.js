@@ -6,6 +6,10 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
     let buyingPrice = 0;
     const filingDate = new Date();
 
+    let totalCGST = 0;
+    let totalSGST = 0;
+    let totalIGST = 0;
+
     // NEW: initialize ITC buckets
     let itcCGST = 0;
     let itcSGST = 0;
@@ -32,7 +36,9 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
         const sgst = tax.sgst || 0;
         const igst = tax.igst || 0;
         const invoiceTax = cgst + sgst + igst;
-
+        totalCGST += cgst;
+        totalSGST += sgst;
+        totalIGST += igst;
         totalAmount += amount;
         totalTax += invoiceTax;
 
@@ -91,7 +97,7 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
 
     if (delayInDays > 0) {
         if (['monthly', 'quarterly'].includes(timeframe)) {
-            const isNilReturn = totalAmount === 0 && totalTax === 0;
+            const isNilReturn = totalAmount === 0 && totalCGST === 0 && totalSGST === 0 && totalIGST === 0;
             const rate = isNilReturn ? 20 : 50;
             penalty = Math.min(delayInDays * rate, 5000);
         } else if (timeframe === 'annual') {
@@ -106,7 +112,12 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
         totalTax: parseFloat(totalTax.toFixed(2)),
         invoiceCount: filteredInvoices.length,
         inputTaxCredit: parseFloat(totalinputTaxCredit.toFixed(2)),
-        taxPayable: parseFloat((totalTax - totalinputTaxCredit).toFixed(2)),
+        // taxPayable: parseFloat((totalTax - totalinputTaxCredit).toFixed(2)),
+        tax_due: {
+            igst: parseFloat(totalIGST.toFixed(2)),
+            cgst: parseFloat(totalCGST.toFixed(2)),
+            sgst: parseFloat(totalSGST.toFixed(2))
+        },
         penalty: parseFloat(penalty.toFixed(2)),
         // NEW: ITC breakup by tax type
         itc_breakdown: {

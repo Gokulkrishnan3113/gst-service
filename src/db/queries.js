@@ -678,14 +678,17 @@ async function insertLedgerTransaction({
     igst = 0,
     cgst = 0,
     sgst = 0,
+    txn_reason = 'ITC CLAIM',
+    effective_from = new Date()
 }) {
     const query = `
     INSERT INTO credit_ledger (
-      gstin, txn_type, igst, cgst, sgst
-    ) VALUES ($1, $2, $3, $4, $5)
+      gstin, txn_type, igst, cgst, sgst,txn_reason,effective_from
+    ) VALUES ($1, $2, $3, $4, $5,$6,$7)
     RETURNING *
   `;
-    const values = [gstin, txn_type, igst, cgst, sgst];
+    const values = [gstin, txn_type, igst, cgst, sgst, txn_reason, effective_from];
+    // console.log(`Inserting ledger transaction for GSTIN ${gstin}:`, values);
     const result = await db.query(query, values);
     return result.rows[0];
 }
@@ -697,6 +700,21 @@ async function getBalance(gstin) {
     );
     return result.rows[0] || null;
 }
+
+async function getClaimableBalance(gstin) {
+    const query = `
+        SELECT
+            COALESCE(SUM(CASE WHEN txn_type = 'CREDIT' THEN igst ELSE -igst END), 0) AS igst_balance,
+            COALESCE(SUM(CASE WHEN txn_type = 'CREDIT' THEN cgst ELSE -cgst END), 0) AS cgst_balance,
+            COALESCE(SUM(CASE WHEN txn_type = 'CREDIT' THEN sgst ELSE -sgst END), 0) AS sgst_balance
+        FROM credit_ledger
+        WHERE gstin = $1 AND effective_from <= CURRENT_DATE;
+    `;
+    const result = await db.query(query, [gstin]);
+    return result.rows[0];
+}
+
+
 
 async function upsertBalance(gstin, igst = 0, cgst = 0, sgst = 0) {
     const query = `
@@ -711,6 +729,7 @@ async function upsertBalance(gstin, igst = 0, cgst = 0, sgst = 0) {
     RETURNING *;
   `;
     const values = [gstin, igst, cgst, sgst];
+    // console.log(`Upserting balance  for GSTIN ${gstin}:`, values);
     const result = await db.query(query, values);
     return result.rows[0];
 }
@@ -740,5 +759,6 @@ module.exports = {
     getLedgerLogs,
     insertLedgerTransaction,
     getBalance,
-    upsertBalance
+    upsertBalance,
+    getClaimableBalance
 };
