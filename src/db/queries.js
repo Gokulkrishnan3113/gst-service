@@ -397,7 +397,10 @@ async function insertCreditNoteForInvoice(invoice, gstin) {
     );
 }
 
-
+async function getCreditNoteByGstin(gstin) {
+    const result = await db.query('SELECT * FROM credit_notes WHERE gstin = $1', [gstin]);
+    return result.rows;
+}
 
 async function addProductsForInvoice(invoiceId, products) {
     for (const product of products) {
@@ -760,5 +763,6 @@ module.exports = {
     insertLedgerTransaction,
     getBalance,
     upsertBalance,
-    getClaimableBalance
+    getClaimableBalance,
+    getCreditNoteByGstin
 };

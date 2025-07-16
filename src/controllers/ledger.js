@@ -1,4 +1,4 @@
-const { getLedgerLogs, getBalance } = require('../db/queries');
+const { getLedgerLogs, getBalance, getCreditNoteByGstin } = require('../db/queries');
 
 
 async function getLedgerLogsHandler(req, res) {
@@ -35,8 +35,25 @@ async function getBalanceHandler(req, res) {
     }
 }
 
+async function getCreditNotesHandler(req, res) {
+    const { gstin } = req.params;
+    if (!gstin) {
+        return res.status(400).json({ success: false, error: 'Missing GSTIN' });
+    }
+    try {
+        const creditnotes = await getCreditNoteByGstin(gstin);
+        if (!creditnotes) {
+            return res.status(404).json({ success: false, error: 'No credit notes found for the given GSTIN' });
+        }
+        res.status(200).json({ success: true, credit_notes_count: creditnotes.length, data: creditnotes });
+    } catch (err) {
+        console.error('Error fetching credit notes:', err);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+}
 
 module.exports = {
     getLedgerLogsHandler,
-    getBalanceHandler
+    getBalanceHandler,
+    getCreditNotesHandler
 };
