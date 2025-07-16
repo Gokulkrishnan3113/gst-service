@@ -6,16 +6,21 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
     let buyingPrice = 0;
     const filingDate = new Date();
 
+    // NEW: initialize ITC buckets
+    let itcCGST = 0;
+    let itcSGST = 0;
+    let itcIGST = 0;
+
     for (const invoice of filteredInvoices) {
         const existingitc = invoice.itc || 0;
-        console.log('Processing invoiceeeeeeeeeeee:', invoice);
-        
+        // console.log('Processing invoiceeeeeeeeeeee:', invoice);
+
         if (
-        (invoice.status === 'CANCELLED' && invoice.payment_status === 'NOTPAID') ||
-        (invoice.status === 'PARTIALLY_PAID' && invoice.payment_status === 'PARTIAL') ||
-        (invoice.status === 'NOTPAID' && invoice.payment_status === 'NOTPAID') ||
-        (invoice.status === 'REFUNDED' && invoice.payment_status !== 'REFUNDED') ||
-        (invoice.status === 'PAID' && invoice.payment_status !== 'COMPLETED')) {   
+            (invoice.status === 'CANCELLED' && invoice.payment_status === 'NOTPAID') ||
+            (invoice.status === 'PARTIALLY_PAID' && invoice.payment_status === 'PARTIAL') ||
+            (invoice.status === 'NOTPAID' && invoice.payment_status === 'NOTPAID') ||
+            (invoice.status === 'REFUNDED' && invoice.payment_status !== 'REFUNDED') ||
+            (invoice.status === 'PAID' && invoice.payment_status !== 'COMPLETED')) {
             continue;
         }
         inputTaxCredit = 0;
@@ -46,21 +51,33 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
         }
 
         for (const product of products) {
-            const { buying_price = 0, tax = {}, price_after_discount = 0 } = product;
-            if (eligibleForITC) {
-                const prodTax = (tax.cgst || 0) + (tax.sgst || 0) + (tax.igst || 0);
-                const effectiveGstRate = price_after_discount > 0 ? prodTax / price_after_discount : 0;
-                const productITC = buying_price * effectiveGstRate;
+            const { buying_price = 0, tax = {}, price_after_discount = 0, quantity = 1 } = product;
+
+            const cgst = tax.cgst || 0;
+            const sgst = tax.sgst || 0;
+            const igst = tax.igst || 0;
+            const prodTax = cgst + sgst + igst;
+
+            const totalBuyPrice = buying_price * quantity;
+
+
+            if (eligibleForITC && prodTax > 0 && price_after_discount > 0) {
+                const effectiveGstRate = prodTax / price_after_discount;
+                const productITC = totalBuyPrice * effectiveGstRate;
                 inputTaxCredit += productITC;
-                buyingPrice += buying_price * product.quantity;
+
+                // Proportional ITC distribution
+                itcCGST += productITC * (cgst / prodTax);
+                itcSGST += productITC * (sgst / prodTax);
+                itcIGST += productITC * (igst / prodTax);
+
                 product.itc = parseFloat(productITC.toFixed(2));
             }
-            else {
-                buyingPrice += buying_price * product.quantity;
-            }
+
+            buyingPrice += buying_price * quantity;
         }
         invoice.buyingPrice = parseFloat(buyingPrice.toFixed(2));
-        if(existingitc >= 0) {
+        if (existingitc >= 0) {
             invoice.itc = parseFloat(inputTaxCredit.toFixed(2));
             totalinputTaxCredit += invoice.itc;
         }
@@ -91,6 +108,12 @@ function calculateGSTSummary(filteredInvoices, merchantType, dueDate, timeframe,
         inputTaxCredit: parseFloat(totalinputTaxCredit.toFixed(2)),
         taxPayable: parseFloat((totalTax - totalinputTaxCredit).toFixed(2)),
         penalty: parseFloat(penalty.toFixed(2)),
+        // NEW: ITC breakup by tax type
+        itc_breakdown: {
+            igst: parseFloat(itcIGST.toFixed(2)),
+            cgst: parseFloat(itcCGST.toFixed(2)),
+            sgst: parseFloat(itcSGST.toFixed(2))
+        }
     };
 }
 

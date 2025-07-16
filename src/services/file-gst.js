@@ -113,7 +113,7 @@ async function fileGstService(payload) {
     }
 
     const res = calculateGSTSummary(filteredData, merchant_type, dueDate, timeframe, turnover, is_itc_optedin);
-
+    const { igst, cgst, sgst } = res.itc_breakdown || {};
     const gstFiling = await addGstFiling({
         gstin,
         timeframe,
@@ -131,6 +131,8 @@ async function fileGstService(payload) {
     });
 
     await addInvoices(gstFiling.id, filteredData);
+    await insertLedgerTransaction({ gstin, txn_type: 'CREDIT', igst, cgst, sgst });
+    await upsertBalance(gstin, igst, cgst, sgst);
 
     return {
         status: 200,
