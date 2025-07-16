@@ -1,4 +1,13 @@
-const {insertCreditNoteForInvoice} = require('../db/queries');
+const { insertCreditNoteForInvoice, insertLedgerTransaction, upsertBalance } = require('../db/queries');
+
+function getNextMonthStart() {
+    const today = new Date();
+    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    const yyyy = nextMonth.getFullYear();
+    const mm = String(nextMonth.getMonth() + 1).padStart(2, '0');
+    const dd = String(nextMonth.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+}
 
 async function addinvoicestobefiledagain(rawInvoices, gstin) {
     const revised = [];
@@ -35,6 +44,25 @@ async function addinvoicestobefiledagain(rawInvoices, gstin) {
             row.amount = -row.amount;
             row.itc = -row.itc;
             await insertCreditNoteForInvoice(row, gstin);
+            const claimableFrom = getNextMonthStart();
+
+            await insertLedgerTransaction({
+                gstin,
+                txn_type: 'CREDIT',
+                cgst: -row.tax.cgst,
+                sgst: -row.tax.sgst,
+                igst: -row.tax.igst,
+                txn_reason: 'REFUNDED INVOICE',
+                effective_from: claimableFrom
+            });
+
+            await upsertBalance(
+                gstin,
+                -row.tax.igst,
+                -row.tax.cgst,
+                -row.tax.sgst
+            );
+
 
         }
 
