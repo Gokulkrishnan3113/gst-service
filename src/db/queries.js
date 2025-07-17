@@ -243,12 +243,14 @@ async function addInvoices(gstFilingId, invoices) {
             (status === 'REFUNDED' && paymentStatus === 'REFUNDED')
         );
     }
-
+    let totalfilings = 0;
     for (const inv of invoices) {
         const status = inv.status || 'PAID';
         const paymentStatus = inv.payment_status || 'PAID';
         const isFiled = shouldFileInvoice(status, paymentStatus);
-
+        if (isFiled) {
+            totalfilings += 1;
+        }
         const result = await db.query(
             `INSERT INTO invoices (
                 gst_filing_id, invoice_id, date, amount,
@@ -277,6 +279,9 @@ async function addInvoices(gstFilingId, invoices) {
         if (inv.products && inv.products.length > 0) {
             await addProductsForInvoice(insertedInvoiceId, inv.products);
         }
+        await db.query(`
+            UPDATE gst_filings set invoice_count = ${totalfilings} where id = ${gstFilingId}
+        `);
     }
 }
 
@@ -466,6 +471,7 @@ async function getAllFilingsWithInvoices() {
         LEFT JOIN invoices i ON f.id = i.gst_filing_id
         LEFT JOIN vendors v ON f.gstin = v.gstin
         LEFT JOIN products p ON i.id = p.invoice_id
+        WHERE i.is_filed = true
         ORDER BY f.filed_at DESC, i.date
         `);
 
@@ -584,7 +590,8 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
         LEFT JOIN vendors v ON f.gstin = v.gstin
         LEFT JOIN invoices i ON f.id = i.gst_filing_id
         LEFT JOIN products p ON i.id = p.invoice_id
-        WHERE f.gstin = $1
+        WHERE f.gstin = $1 and
+        i.is_filed = true
         ORDER BY f.filed_at DESC, i.date
     `, [gstin]);
 
