@@ -6,29 +6,11 @@ http://localhost:3000
 ```
 
 ## Table of Contents
-1. [Health Check](#health-check)
-2. [Vendor Management](#vendor-management)
-3. [GST Filing](#gst-filing)
-4. [Invoice Management](#invoice-management)
-5. [Ledger Management](#ledger-management)
-6. [Error Codes](#error-codes)
-
----
-
-## Health Check
-
-### GET /
-**Description:** Health check endpoint to verify service status.
-
-**cURL:**
-```bash
-curl -X GET http://localhost:3000/
-```
-
-**Response:**
-```
-GST Filing Service is up and running 🚀
-```
+1. [Vendor Management](#vendor-management)
+2. [GST Filing](#gst-filing)
+3. [Invoice Management](#invoice-management)
+4. [Ledger Management](#ledger-management)
+5. [Error Codes](#error-codes)
 
 ---
 
@@ -145,15 +127,25 @@ curl -X POST http://localhost:3000/file-gst \
 **Conflict Response (409):**
 ```json
 {
-  "status": 409,
-  "message": "Filing already exists for this timeframe.",
-  "data": {
-    "gstin": "29ABCDE1234F2Z5",
-    "timeframe": "monthly",
-    "filing_start_date": "2024-12-01",
-    "filing_end_date": "2024-12-31",
-    "due_date": "2025-01-20"
-  }
+    "status": 409,
+    "message": "Filing already exists for this timeframe.",
+    "data": {
+        "gstin": "33LMNOP9876W4X2",
+        "timeframe": "quarterly",
+        "filing_start_date": "2025-04-01",
+        "filing_end_date": "2025-06-30",
+        "total_amount": "271511",
+        "total_tax": "41416",
+        "invoice_count": 3,
+        "filed_at": "2025-07-17T12:27:19.933Z",
+        "status": "PENDING",
+        "input_tax_credit": "8750.66",
+        "tax_payable": "32665.34",
+        "penalty": "0",
+        "total_payable_amount": "32665.34",
+        "due_date": "2025-07-22",
+        "is_late": false
+    }
 }
 ```
 
@@ -590,17 +582,6 @@ Valid combinations of `status` and `payment_status`:
 ### Penalty Calculation
 - **Monthly/Quarterly**: ₹20/day (nil return) or ₹50/day (regular), max ₹5,000
 - **Annual**: ₹200/day, max 0.5% of turnover
-
----
-
-## Environment Variables Required
-
-```env
-DATABASE_URL=postgresql://username:password@localhost:5432/gst_service
-PORT=3000
-EMAIL_SERVICE_TOKEN=your_email_service_token
-EMAIL_SERVICE_HOST_URL=https://your-email-service.com
-```
 
 ---
 
