@@ -10,20 +10,25 @@ async function findVendorByGstin(gstin) {
     return result.rows[0];
 }
 
-async function addVendor(vendor) {
-    const { gstin, name, merchant_type, state, turnover, is_itc_optedin } = vendor;
+const crypto = require('crypto');
 
-    const result = await db.query(
-        `INSERT INTO vendors (gstin, name, merchant_type, state,turnover, is_itc_optedin)
-         VALUES ($1, $2, $3, $4, $5, $6)
-         ON CONFLICT (gstin) DO NOTHING
-         RETURNING *`,
-        [gstin, name, merchant_type, state, turnover, is_itc_optedin]
-    );
-
-    // If gstin existed already, result.rows[0] will be undefined
-    return result.rows[0] || null;
+function generateRandomKey(length = 16) {
+    return crypto.randomBytes(length).toString('hex').slice(0, length);
 }
+
+async function addVendor(vendor) {
+    const { gstin, name, state, turnover, merchant_type, is_itc_optedin,email } = vendor;
+    const api_key = generateRandomKey(16);
+
+    const result = await db.query(`
+        INSERT INTO vendors (gstin, name, state, turnover, merchant_type, is_itc_optedin, api_key)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        RETURNING *;
+    `, [gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key]);
+
+    return result.rows[0];
+}
+
 
 async function updateVendor(gstin, fields) {
     const keys = Object.keys(fields);
