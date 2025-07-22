@@ -4,6 +4,8 @@ const cors = require('cors');
 const vendorRouter = require('./routes/vendor'); // Importing vendor routes
 const fileGstRoutes = require('./routes/file-gst'); // Importing file GST routes
 const invoiceRouter = require('./routes/invoice'); // Importing invoice routes
+const { verifyVendorApiKey, verifyDynamicApiKey } = require('./middleware/apikeyverifier');
+
 dotenv.config();
 
 const app = express();
