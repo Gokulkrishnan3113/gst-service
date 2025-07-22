@@ -761,6 +761,7 @@ module.exports = {
     updateVendor,
     dropVendor,
     findVendorByGstin,
+    findVendorByApiKey,
     getLastInvoiceId,
     updateLastInvoiceId,
     addGstFiling,
