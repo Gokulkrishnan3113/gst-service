@@ -1,4 +1,4 @@
-const { findVendorByGstin, addVendor, getLastInvoiceId, updateLastInvoiceId, addGstFiling, getFilingsByGstin, addInvoices, getInvoicesToBeFiledAgain } = require('../db/queries');
+const { findVendorByGstin, addVendor, addGstFiling, getFilingsByGstin, addInvoices, getInvoicesToBeFiledAgain, upsertBalance, insertLedgerTransaction } = require('../db/queries');
 const { getTimeframeRange } = require('../utils/timeframe-helper')
 const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
 const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
@@ -9,7 +9,8 @@ const { calculateGSTSummary } = require('../utils/gstcal-helper');
 const { detectFilingConflicts } = require('../utils/conflict-helper');
 const { formatFilingDates } = require('../utils/timeformat-helper');
 const { checkMissingInvoices } = require('../utils/missinginvoice-helper');
-const {addinvoicestobefiledagain} = require('../utils/refilinginvoice-helper.js');
+const { addinvoicestobefiledagain } = require('../utils/refilinginvoice-helper.js');
+const { applyITCOffsets } = require('../utils/itc-balance-helper.js');
 function formatDate(d) {
     const date = new Date(d);
     date.setDate(date.getDate());
@@ -105,14 +106,26 @@ async function fileGstService(payload) {
         return missingCheck;
     }
     const refilinginvoice = await getInvoicesToBeFiledAgain(gstin);
-    console.log('Invoices to be filed again:', refilinginvoice);
     if (refilinginvoice.length > 0) {   
         const revisedInvoices = await addinvoicestobefiledagain(refilinginvoice, gstin);
-        console.log('Revised Invoices:', revisedInvoices);
         filteredData = [...filteredData, ...revisedInvoices];
     }
 
     const res = calculateGSTSummary(filteredData, merchant_type, dueDate, timeframe, turnover, is_itc_optedin);
+    const { igst, cgst, sgst } = res.itc_breakdown || {};
+    const { igst: tax_igst, cgst: tax_cgst, sgst: tax_sgst } = res.tax_due || {};
+    // console.log(`Each Tax breakdown: IGST: ${tax_igst}, CGST: ${tax_cgst}, SGST: ${tax_sgst}`);
+
+    await insertLedgerTransaction({ gstin, txn_type: 'CREDIT', igst, cgst, sgst });
+    await upsertBalance(gstin, igst, cgst, sgst);
+
+    const {
+        payableIGST, // future use
+        payableCGST, // future use
+        payableSGST, // future use
+        totalPayable
+    } = await applyITCOffsets(gstin, { igst: tax_igst, cgst: tax_cgst, sgst: tax_sgst });
+
 
     const gstFiling = await addGstFiling({
         gstin,
@@ -125,9 +138,9 @@ async function fileGstService(payload) {
         totalTax: Number(res.totalTax.toFixed(2)),
         invoiceCount: filteredData.length,
         inputTaxCredit: Number(res.inputTaxCredit.toFixed(2)),
-        taxPayable: Number((res.totalTax - res.inputTaxCredit).toFixed(2)),
+        taxPayable: totalPayable,
         penalty: Number(res.penalty.toFixed(2)),
-        totalPayableAmount: Number((res.totalTax - res.inputTaxCredit + res.penalty).toFixed(2))
+        totalPayableAmount: Number((totalPayable + res.penalty).toFixed(2))
     });
 
     await addInvoices(gstFiling.id, filteredData);

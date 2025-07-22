@@ -252,14 +252,14 @@ async function addInvoices(gstFilingId, invoices) {
             (status === 'REFUNDED' && paymentStatus === 'REFUNDED')
         );
     }
-
+    let totalfilings = 0;
     for (const inv of invoices) {
-        console.log('Adding invoice:', inv);
-        
         const status = inv.status || 'PAID';
         const paymentStatus = inv.payment_status || 'PAID';
         const isFiled = shouldFileInvoice(status, paymentStatus);
-
+        if (isFiled) {
+            totalfilings += 1;
+        }
         const result = await db.query(
             `INSERT INTO invoices (
                 gst_filing_id, invoice_id, date, amount,
@@ -288,6 +288,9 @@ async function addInvoices(gstFilingId, invoices) {
         if (inv.products && inv.products.length > 0) {
             await addProductsForInvoice(insertedInvoiceId, inv.products);
         }
+        await db.query(`
+            UPDATE gst_filings set invoice_count = ${totalfilings} where id = ${gstFilingId}
+        `);
     }
 }
 
@@ -344,8 +347,8 @@ async function getPendingInvoicesByGstin(gstin) {
     const result = await db.query(
         `SELECT 
             inv.invoice_id,
-            inv.date,
-            inv.amount,
+            inv.date as invoice_date,
+            inv.amount as total_amount,
             inv.amount_paid AS paid_amount,
             (inv.amount - inv.amount_paid) AS remaining_amount,
             (CURRENT_DATE - inv.date) AS days_since_issued
@@ -408,7 +411,10 @@ async function insertCreditNoteForInvoice(invoice, gstin) {
     );
 }
 
-
+async function getCreditNoteByGstin(gstin) {
+    const result = await db.query('SELECT * FROM credit_notes WHERE gstin = $1', [gstin]);
+    return result.rows;
+}
 
 async function addProductsForInvoice(invoiceId, products) {
     for (const product of products) {
@@ -474,6 +480,7 @@ async function getAllFilingsWithInvoices() {
         LEFT JOIN invoices i ON f.id = i.gst_filing_id
         LEFT JOIN vendors v ON f.gstin = v.gstin
         LEFT JOIN products p ON i.id = p.invoice_id
+        WHERE i.is_filed = true
         ORDER BY f.filed_at DESC, i.date
         `);
 
@@ -592,7 +599,8 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
         LEFT JOIN vendors v ON f.gstin = v.gstin
         LEFT JOIN invoices i ON f.id = i.gst_filing_id
         LEFT JOIN products p ON i.id = p.invoice_id
-        WHERE f.gstin = $1
+        WHERE f.gstin = $1 and
+        i.is_filed = true
         ORDER BY f.filed_at DESC, i.date
     `, [gstin]);
 
@@ -675,6 +683,77 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
     return Array.from(filingsMap.values());
 }
 
+async function getLedgerLogs(gstin) {
+    const result = await db.query(
+        `SELECT * FROM credit_ledger WHERE gstin = $1 ORDER BY txn_date DESC, id DESC`,
+        [gstin]
+    );
+    return result.rows;
+}
+
+async function insertLedgerTransaction({
+    gstin,
+    txn_type,
+    igst = 0,
+    cgst = 0,
+    sgst = 0,
+    txn_reason = 'ITC CLAIM',
+    effective_from = new Date()
+}) {
+    const query = `
+    INSERT INTO credit_ledger (
+      gstin, txn_type, igst, cgst, sgst,txn_reason,effective_from
+    ) VALUES ($1, $2, $3, $4, $5,$6,$7)
+    RETURNING *
+  `;
+    const values = [gstin, txn_type, igst, cgst, sgst, txn_reason, effective_from];
+    // console.log(`Inserting ledger transaction for GSTIN ${gstin}:`, values);
+    const result = await db.query(query, values);
+    return result.rows[0];
+}
+
+async function getBalance(gstin) {
+    const result = await db.query(
+        `SELECT * FROM credit_balances WHERE gstin = $1`,
+        [gstin]
+    );
+    return result.rows[0] || null;
+}
+
+async function getClaimableBalance(gstin) {
+    const query = `
+        SELECT
+            COALESCE(SUM(CASE WHEN txn_type = 'CREDIT' THEN igst ELSE -igst END), 0) AS igst_balance,
+            COALESCE(SUM(CASE WHEN txn_type = 'CREDIT' THEN cgst ELSE -cgst END), 0) AS cgst_balance,
+            COALESCE(SUM(CASE WHEN txn_type = 'CREDIT' THEN sgst ELSE -sgst END), 0) AS sgst_balance
+        FROM credit_ledger
+        WHERE gstin = $1 AND effective_from <= CURRENT_DATE;
+    `;
+    const result = await db.query(query, [gstin]);
+    return result.rows[0];
+}
+
+
+
+async function upsertBalance(gstin, igst = 0, cgst = 0, sgst = 0) {
+    const query = `
+    INSERT INTO credit_balances (
+      gstin, igst_balance, cgst_balance, sgst_balance
+    ) VALUES ($1, $2, $3, $4)
+    ON CONFLICT (gstin) DO UPDATE SET
+      igst_balance = credit_balances.igst_balance + EXCLUDED.igst_balance,
+      cgst_balance = credit_balances.cgst_balance + EXCLUDED.cgst_balance,
+      sgst_balance = credit_balances.sgst_balance + EXCLUDED.sgst_balance,
+      updated_at = NOW()
+    RETURNING *;
+  `;
+    const values = [gstin, igst, cgst, sgst];
+    // console.log(`Upserting balance  for GSTIN ${gstin}:`, values);
+    const result = await db.query(query, values);
+    return result.rows[0];
+}
+
+
 
 module.exports = {
     getAllVendors,
@@ -695,5 +774,11 @@ module.exports = {
     getInvoiceByGstin,
     getInvoicesToBeFiledAgain,
     insertCreditNoteForInvoice,
-    getPendingInvoicesByGstin
+    getPendingInvoicesByGstin,
+    getLedgerLogs,
+    insertLedgerTransaction,
+    getBalance,
+    upsertBalance,
+    getClaimableBalance,
+    getCreditNoteByGstin
 };
