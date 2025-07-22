@@ -12,16 +12,16 @@ async function findVendorByGstin(gstin) {
 
 const crypto = require('crypto');
 
-function generateRandomKey(length = 16) {
+function generateRandomKey(length = 64) {
     return crypto.randomBytes(length).toString('hex').slice(0, length);
 }
-
+    
 async function addVendor(vendor) {
-    const { gstin, name, state, turnover, merchant_type, is_itc_optedin,email } = vendor;
-    const api_key = generateRandomKey(16);
+    const { gstin, name, state, turnover, merchant_type, is_itc_optedin, email } = vendor;
+    const api_key = generateRandomKey(64);
 
     const result = await db.query(`
-        INSERT INTO vendors (gstin, name, state, turnover, merchant_type, is_itc_optedin, api_key)
+        INSERT INTO vendors (gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING *;
     `, [gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key]);
