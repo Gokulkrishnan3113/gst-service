@@ -19,9 +19,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use(vendorRouter);
-app.use(fileGstRoutes);
-app.use(invoiceRouter);
+app.use('/vendors', verifyVendorApiKey, vendorRouter);
+app.use('/gst', verifyDynamicApiKey, fileGstRoutes);
+app.use('/invoice', verifyDynamicApiKey, invoiceRouter);
 
 app.get('/', (req, res) => {
     res.send('GST Filing Service is up and running 🚀');

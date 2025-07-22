@@ -10,6 +10,10 @@ async function findVendorByGstin(gstin) {
     return result.rows[0];
 }
 
+async function findVendorByApiKey(apiKey) {
+    const result = await db.query('SELECT * from vendors WHERE api_key = $1', [apiKey]);
+    return result.rows[0];
+}
 const crypto = require('crypto');
 
 function generateRandomKey(length = 64) {
