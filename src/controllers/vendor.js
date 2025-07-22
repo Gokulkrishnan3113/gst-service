@@ -1,4 +1,4 @@
-const { getAllVendors, addVendor, updateVendor, dropVendor } = require('../db/queries');
+const { getAllVendors, addVendor, updateVendor, dropVendor, findVendorByGstin } = require('../db/queries');
 
 async function getVendors(req, res) {
     try {
@@ -12,11 +12,36 @@ async function getVendors(req, res) {
 
 async function createVendor(req, res) {
     try {
+        const { gstin } = req.body;
+
+        // 1️⃣ Check if vendor exists in DB
+        const existingVendor = await findVendorByGstin(gstin);
+
+        if (existingVendor) {
+            // 2️⃣ Vendor exists → update instead of inserting
+            const updated = await updateVendor(gstin, req.body);
+            return res.status(200).json({
+                success: true,
+                message: 'Vendor updated successfully',
+                data: updated
+            });
+        }
+
+        // 3️⃣ Vendor not found → insert new with API keys
         const newVendor = await addVendor(req.body);
-        res.status(201).json({ success: true, data: newVendor });
+        return res.status(201).json({
+            success: true,
+            message: 'Vendor created successfully',
+            data: newVendor
+        });
+
     } catch (err) {
-        console.error('Error creating vendor:', err);
-        res.status(400).json({ success: false, error: 'Invalid data or vendor exists' });
+        console.error('Error creating/updating vendor:', err);
+        res.status(400).json({
+            success: false,
+            error: 'Failed to create or update vendor',
+            detail: err.message
+        });
     }
 }
 

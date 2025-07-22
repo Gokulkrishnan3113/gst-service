@@ -19,6 +19,12 @@ function formatDate(d) {
 
 async function fileGstService(payload) {
     const { gstin, timeframe, merchant_type, name, state, turnover, is_itc_optedin } = payload;
+    let vendor = await findVendorByGstin(gstin);
+    if (!vendor) {
+        if (!vendor) {
+            return { status: 403, error: 'Vendor Not Registered for the service' };
+        }
+    }
     if (!gstin || gstin.length !== 15) {
         return { status: 400, error: 'Invalid GSTIN. Must be 15 characters.' };
     }
@@ -56,14 +62,6 @@ async function fileGstService(payload) {
         };
     }
 
-
-    let vendor = await findVendorByGstin(gstin);
-    if (!vendor) {
-        vendor = await addVendor({ gstin, name, merchant_type, state, turnover, is_itc_optedin });
-        if (!vendor) {
-            return { status: 500, error: 'Vendor could not be created' };
-        }
-    }
 
     const { startDate, endDate, dueDate, isLate } = getTimeframeRange(timeframe, state);
     console.log({ startDate, endDate, dueDate, isLate });
