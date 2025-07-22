@@ -23,16 +23,26 @@ async function sendReminderEmail(email, gstin, invoices) {
     const body = buildEmailBody(gstin, invoices);
 
     const payload = {
-        token: process.env.EMAIL_SERVICE_TOKEN,
-        to: 'danu@gmail.com',
-        // to: email,
+        // to: 'vendor1@gmail.com',
+        from: 'gstservice@gmail.com',
+        to: email,
         subject: `Pending Invoice Reminder [GSTIN: ${gstin}]`,
         body,
         attachment: null
     };
 
+    const headers = {
+        [EMAIL_X_API_KEY_FIELD]: process.env.EMAIL_X_API_KEY
+    };
+
+    const url = `${process.env.EMAIL_SERVICE_HOST_URL}/send_email`;
+
+    // console.log(payload);
+    // console.log(`${process.env.EMAIL_SERVICE_HOST_URL}/send`);
+    // console.log(headers);
+
     try {
-        const response = await axios.post(`${process.env.EMAIL_SERVICE_HOST_URL}/send`, payload);
+        const response = await axios.post(url, payload, { headers });
         console.log(`✅ Email sent to ${email}:`, response.status);
         return true;
     } catch (err) {
