@@ -35,6 +35,7 @@ async function verifyGstinWithApiKey(req, res, next) {
                 message: 'API key does not match the GSTIN'
             });
         }
+        req.vendor = result;
 
         next();
     } catch (err) {
