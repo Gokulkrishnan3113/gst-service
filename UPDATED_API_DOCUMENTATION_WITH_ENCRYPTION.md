@@ -290,25 +290,25 @@ curl -X POST http://localhost:3000/gst \
 **Decrypted Conflict Response:**
 ```json
 {
-  "status": 409,
-  "message": "Filing already exists for this timeframe.",
-  "data": {
-    "gstin": "33LMNOP9876W4X2",
-    "timeframe": "quarterly",
-    "filing_start_date": "2025-04-01",
-    "filing_end_date": "2025-06-30",
-    "total_amount": "271511",
-    "total_tax": "41416",
-    "invoice_count": 3,
-    "filed_at": "2025-07-17T12:27:19.933Z",
-    "status": "PENDING",
-    "input_tax_credit": "8750.66",
-    "tax_payable": "32665.34",
-    "penalty": "0",
-    "total_payable_amount": "32665.34",
-    "due_date": "2025-07-22",
-    "is_late": false
-  }
+    "status": 409,
+    "message": "Filing already exists for this timeframe.",
+    "data": {
+        "gstin": "33LMNOP9876W4X2",
+        "timeframe": "quarterly",
+        "filing_start_date": "2025-04-01",
+        "filing_end_date": "2025-06-30",
+        "total_amount": "271511",
+        "total_tax": "41416",
+        "invoice_count": 3,
+        "filed_at": "2025-07-17T12:27:19.933Z",
+        "status": "PENDING",
+        "input_tax_credit": "8750.66",
+        "tax_payable": "32665.34",
+        "penalty": "0",
+        "total_payable_amount": "32665.34",
+        "due_date": "2025-07-22",
+        "is_late": false
+    }
 }
 ```
 
@@ -515,6 +515,23 @@ curl -X PATCH http://localhost:3000/invoice/29ABCDE1234F2Z5/INV001 \
 {
   "success": true,
   "message": "Invoice updated successfully"
+}
+```
+
+**Encrypted Error Response (400):**
+```json
+{
+  "encrypted_data": "base64-encoded-error-response",
+  "timestamp": "2025-01-27T10:30:00.000Z",
+  "encryption": "AES-256-GCM"
+}
+```
+
+**Decrypted Error Response:**
+```json
+{
+  "success": false,
+  "message": "Invalid field(s) in payload: invalid_field. Only 'status' and 'payment_status' are allowed."
 }
 ```
 
