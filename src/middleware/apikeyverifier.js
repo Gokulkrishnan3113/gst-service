@@ -1,11 +1,11 @@
-const { findVendorByApiKey } = require('../db/queries');
+const { findVendorByApiKey, findVendorByApiKeyAndGstin } = require('../db/queries');
 const dotenv = require('dotenv');
 
-async function verifyVendorApiKey(req, res, next) {
+async function verifyDefaultApiKey(req, res, next) {
     const apiKey = req.headers['authorization'];
     console.log(req.headers);
 
-    if (!apiKey || apiKey !== process.env.VENDOR_API_KEY) {
+    if (!apiKey || apiKey !== process.env.DEFAULT_API_KEY) {
         return res.status(401).json({
             success: false,
             message: 'Unauthorized: Invalid vendor API key',
@@ -15,42 +15,40 @@ async function verifyVendorApiKey(req, res, next) {
     next();
 }
 
-async function verifyDynamicApiKey(req, res, next) {
-    const apiKey = req.headers['authorization'];
-    console.log(req.headers);
-
-    if (!apiKey) {
-        return res.status(401).json({
-            success: false,
-            message: 'Unauthorized: Missing API key',
-        });
-    }
-
+async function verifyGstinWithApiKey(req, res, next) {
     try {
-        // const result = await db.query('SELECT * FROM vendors WHERE api_key = $1', [apiKey]);
-        const result = await findVendorByApiKey(apiKey);
-        console.log(result);
+        const apiKey = req.headers['authorization'];
+        const gstin = req.params.gstin || req.body.gstin;
 
-        if (!result) {
-            return res.status(401).json({
+        if (!apiKey || !gstin) {
+            return res.status(400).json({
                 success: false,
-                message: 'UnAuthorized: Invalid API key',
+                message: 'Missing API key or GSTIN'
             });
         }
 
-        req.vendor = result;
+        const result = await findVendorByApiKeyAndGstin(gstin, apiKey);
+
+        if (!result) {
+            return res.status(403).json({
+                success: false,
+                message: 'API key does not match the GSTIN'
+            });
+        }
 
         next();
     } catch (err) {
-        console.error('API key verification error:', err);
+        console.error('🔒 Error in verifyGstinWithApiKey:', err);
         return res.status(500).json({
             success: false,
-            message: 'Internal server error during API key verification',
+            message: 'Internal server error during GSTIN/API key check'
         });
     }
 }
 
+
 module.exports = {
-    verifyVendorApiKey,
-    verifyDynamicApiKey,
+    verifyDefaultApiKey,
+    verifyGstinWithApiKey
+
 };

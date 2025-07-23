@@ -1,5 +1,7 @@
 const db = require('./index');
 const { formatDate } = require('../utils/timeframe-helper');
+const crypto = require('crypto');
+
 async function getAllVendors() {
     const result = await db.query('SELECT * FROM vendors ORDER BY created_at DESC');
     return result.rows;
@@ -14,7 +16,11 @@ async function findVendorByApiKey(apiKey) {
     const result = await db.query('SELECT * from vendors WHERE api_key = $1', [apiKey]);
     return result.rows[0];
 }
-const crypto = require('crypto');
+
+async function findVendorByApiKeyAndGstin(gstin, apiKey) {
+    const result = await db.query('SELECT * FROM vendors WHERE gstin = $1 AND api_key = $2', [gstin, apiKey]);
+    return result.rows[0];
+}
 
 function generateRandomKey(length = 64) {
     return crypto.randomBytes(length).toString('hex').slice(0, length);
@@ -781,5 +787,6 @@ module.exports = {
     getBalance,
     upsertBalance,
     getClaimableBalance,
-    getCreditNoteByGstin
+    getCreditNoteByGstin,
+    findVendorByApiKeyAndGstin
 };
