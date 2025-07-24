@@ -1,6 +1,6 @@
 const axios = require('axios');
 const dotenv = require('dotenv');
-
+const { mailencrypt, maildecrypt } = require('./mailservice-encryption-helper')
 function buildEmailBody(gstin, invoices) {
     let text = `Hello,\n\nYou have ${invoices.length} pending invoice(s) for GSTIN: ${gstin}.\n\n`;
 
@@ -21,29 +21,33 @@ function buildEmailBody(gstin, invoices) {
 
 async function sendReminderEmail(email, gstin, invoices) {
     const body = buildEmailBody(gstin, invoices);
-
+    const sender_secret = process.env.EMAIL_X_CLIENT_SECRET_VALUE;
     const payload = {
-        // to: 'vendor1@gmail.com',
+        // to: 'mokobara@gmail.com',
         from: 'gstservice@gmail.com',
         to: email,
         subject: `Pending Invoice Reminder [GSTIN: ${gstin}]`,
         body,
         attachment: null
     };
+    const encryptedData = mailencrypt(payload, sender_secret);
 
     const headers = {
-        [EMAIL_X_API_KEY_FIELD]: process.env.EMAIL_X_API_KEY
+        [process.env.EMAIL_X_API_KEY_FIELD]: process.env.EMAIL_X_API_KEY_VALUE,
+        'Content-Type': 'application/json',
+        [process.env.EMAIL_X_CLIENT_SECRET_FIELD]: process.env.EMAIL_X_CLIENT_SECRET_VALUE
     };
 
-    const url = `${process.env.EMAIL_SERVICE_HOST_URL}/send_email`;
+    const url = `${process.env.EMAIL_SERVICE_HOST_URL}/service/send_email`;
 
     // console.log(payload);
     // console.log(`${process.env.EMAIL_SERVICE_HOST_URL}/send`);
     // console.log(headers);
 
     try {
-        const response = await axios.post(url, payload, { headers });
-        console.log(`✅ Email sent to ${email}:`, response.status);
+        const response = await axios.post(url, { encrypted_data: encryptedData }, { headers });
+        const decryptedData = maildecrypt(response.data.encrypted_response, sender_secret);
+        console.log(`✅ Email sent to ${email}`);
         return true;
     } catch (err) {
         console.error(`❌ Failed to send email to ${email}:`, err.message);
