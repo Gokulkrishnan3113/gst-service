@@ -1,5 +1,4 @@
 const axios = require('axios');
-const dotenv = require('dotenv');
 const { mailencrypt, maildecrypt } = require('./mailservice-encryption-helper')
 function buildEmailBody(gstin, invoices) {
     let text = `Hello,\n\nYou have ${invoices.length} pending invoice(s) for GSTIN: ${gstin}.\n\n`;

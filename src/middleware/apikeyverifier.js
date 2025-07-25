@@ -1,5 +1,4 @@
 const { findVendorByApiKey, findVendorByApiKeyAndGstin } = require('../db/queries');
-const dotenv = require('dotenv');
 
 async function verifyDefaultApiKey(req, res, next) {
     const apiKey = req.headers['authorization'];
