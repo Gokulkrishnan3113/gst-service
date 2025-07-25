@@ -14,20 +14,16 @@ async function createVendor(req, res) {
     try {
         const { gstin } = req.body;
 
-        // 1️⃣ Check if vendor exists in DB
         const existingVendor = await findVendorByGstin(gstin);
 
         if (existingVendor) {
-            // 2️⃣ Vendor exists → update instead of inserting
-            const updated = await updateVendor(gstin, req.body);
-            return res.status(200).json({
-                success: true,
-                message: 'Vendor updated successfully',
-                data: updated
+            return res.status(409).json({
+                success: false,
+                message: 'Vendor already exists',
+                data: existingVendor
             });
         }
 
-        // 3️⃣ Vendor not found → insert new with API keys
         const newVendor = await addVendor(req.body);
         return res.status(201).json({
             success: true,

@@ -5,13 +5,25 @@ async function fileGstHandler(req, res) {
     try {
         const result = await fileGstService(req.body);
         if (result.error) {
-            return res.status(result.status || 400).json({ error: result.error });
+            // return res.status(result.status || 400).json({ error: result.error });
+            return {
+                status: result.status || 400,
+                error: result.error
+            };
         }
 
-        res.status(result.status || 200).json(result);
+        return {
+            status: result.status || 200,
+            message: result.message || "GST filing successful.",
+            data: result.data || result
+        };
     } catch (error) {
         console.error('Error filing GST:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        // res.status(500).json({ error: 'Internal Server Error' });
+        return {
+            status: 500,
+            error: 'Internal Server Error'
+        }
     }
 }
 

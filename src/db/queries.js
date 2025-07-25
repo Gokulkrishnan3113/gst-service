@@ -29,12 +29,13 @@ function generateRandomKey(length = 64) {
 async function addVendor(vendor) {
     const { gstin, name, state, turnover, merchant_type, is_itc_optedin, email } = vendor;
     const api_key = generateRandomKey(64);
+    const secret_key = generateRandomKey(64);
 
     const result = await db.query(`
-        INSERT INTO vendors (gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        RETURNING *;
-    `, [gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key]);
+        INSERT INTO vendors (gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key,secret_key)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8,$9)
+        RETURNING api_key, secret_key;
+    `, [gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key, secret_key]);
 
     return result.rows[0];
 }

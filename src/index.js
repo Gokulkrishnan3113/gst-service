@@ -6,7 +6,7 @@ const fileGstRoutes = require('./routes/file-gst'); // Importing file GST routes
 const invoiceRouter = require('./routes/invoice'); // Importing invoice routes
 const ledgerRouter = require('./routes/ledger'); // Importing ledger routes
 
-dotenv.config();
+dotenv.config({ override: true });
 
 const app = express();
 app.use(cors());

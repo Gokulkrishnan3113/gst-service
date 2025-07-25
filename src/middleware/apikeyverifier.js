@@ -1,5 +1,4 @@
 const { findVendorByApiKey, findVendorByApiKeyAndGstin } = require('../db/queries');
-const dotenv = require('dotenv');
 
 async function verifyDefaultApiKey(req, res, next) {
     const apiKey = req.headers['authorization'];
@@ -35,6 +34,7 @@ async function verifyGstinWithApiKey(req, res, next) {
                 message: 'API key does not match the GSTIN'
             });
         }
+        req.vendor = result;
 
         next();
     } catch (err) {
