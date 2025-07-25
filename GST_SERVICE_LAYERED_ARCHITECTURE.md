@@ -2,118 +2,117 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                              PRESENTATION LAYER                                │
+│                              PRESENTATION LAYER                                 │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                │
-│  │   HTTP Routes   │  │   Middleware    │  │  Request/Resp   │                │
-│  │                 │  │                 │  │   Handling      │                │
-│  │ • /vendors      │  │ • CORS          │  │                 │                │
-│  │ • /gst          │  │ • Logging       │  │ • JSON Parsing  │                │
-│  │ • /invoice      │  │ • Error Handler │  │ • Response      │                │
-│  │ • /ledger       │  │ • API Key Auth  │  │   Formatting    │                │
-│  │                 │  │ • GSTIN Auth    │  │ • Status Codes  │                │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘                │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                  │
+│  │   HTTP Routes   │  │   Middleware    │  │  Request/Resp   │                  │
+│  │                 │  │                 │  │   Handling      │                  │
+│  │ • /vendors      │  │ • CORS          │  │                 │                  │
+│  │ • /gst          │  │ • Logging       │  │ • JSON Parsing  │                  │
+│  │ • /invoice      │  │ • Error Handler │  │ • Response      │                  │
+│  │ • /ledger       │  │ • API Key Auth  │  │   Formatting    │                  │
+│  │                 │  │ • GSTIN Auth    │  │ • Status Codes  │                  │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘                  │
 │                                                                                 │
-│  Express.js Server (Port: 3000)                                                │
+│  Express.js Server (Port: 8080)                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘
                                         │
                                         ▼
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                              APPLICATION LAYER                                 │
+│                              APPLICATION LAYER                                  │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                │
-│  │ Vendor Controller│  │Filing Controller│  │Invoice Controller│               │
-│  │                 │  │                 │  │                 │                │
-│  │ • getVendors    │  │ • fileGstHandler│  │ • updateInvoice │                │
-│  │ • createVendor  │  │ • getAllFilings │  │ • getInvoices   │                │
-│  │ • modifyVendor  │  │ • getFilingsById│  │ • getPending    │                │
-│  │ • deleteVendor  │  │ • getWithInvoice│  │ • sendReminders │                │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘                │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌──────────────────┐                 │
+│  │Vendor Controller│  │Filing Controller│  │Invoice Controller│                 │
+│  │                 │  │                 │  │                  │                 │
+│  │ • getVendors    │  │ • fileGstHandler│  │ • updateInvoice  │                 │
+│  │ • createVendor  │  │ • getAllFilings │  │ • getInvoices    │                 │
+│  │ • modifyVendor  │  │ • getFilingsById│  │ • getPending     │                 │
+│  │ • deleteVendor  │  │ • getWithInvoice│  │ • sendReminders  │                 │
+│  └─────────────────┘  └─────────────────┘  └──────────────────┘                 │
 │                                                                                 │
-│  ┌─────────────────┐                                                           │
-│  │Ledger Controller│                                                           │
-│  │                 │                                                           │
-│  │ • getLedgerLogs │                                                           │
-│  │ • getBalance    │                                                           │
-│  │ • getCreditNotes│                                                           │
-│  └─────────────────┘                                                           │
+│  ┌─────────────────┐                                                            │
+│  │Ledger Controller│                                                            │
+│  │                 │                                                            │
+│  │ • getLedgerLogs │                                                            │ 
+│  │ • getBalance    │                                                            │
+│  │ • getCreditNotes│                                                            │
+│  └─────────────────┘                                                            │ 
 │                                                                                 │
-│  Request Orchestration & Response Coordination                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘
                                         │
                                         ▼
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                            BUSINESS LOGIC LAYER                                │
+│                            BUSINESS LOGIC LAYER                                 │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
-│  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                        fileGstService                                   │   │
-│  │  • Vendor validation & creation                                         │   │
-│  │  • Timeframe validation & conflict detection                            │   │
-│  │  • Invoice filtering & processing                                       │   │
-│  │  • GST calculations & ITC processing                                    │   │
-│  │  • Database transaction management                                      │   │
-│  └─────────────────────────────────────────────────────────────────────────┘   │
+│  ┌─────────────────────────────────────────────────────────────────────────┐    │
+│  │                        fileGstService                                   │    │
+│  │  • Vendor validation & creation                                         │    │
+│  │  • Timeframe validation & conflict detection                            │    │
+│  │  • Invoice filtering & processing                                       │    │
+│  │  • GST calculations & ITC processing                                    │    │
+│  │  • Database transaction management                                      │    │
+│  └─────────────────────────────────────────────────────────────────────────┘    │
 │                                                                                 │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                │
-│  │ GST Calculations│  │ Time & Dates    │  │ Data Processing │                │
-│  │                 │  │                 │  │                 │                │
-│  │ • calculateGST  │  │ • getTimeframe  │  │ • filterInvoices│                │
-│  │ • ITC eligibility│  │ • formatDates   │  │ • detectConflict│                │
-│  │ • Tax offsetting│  │ • due dates     │  │ • missingInvoice│                │
-│  │ • Penalties     │  │ • state rules   │  │ • refilingHelper│                │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘                │
+│  ┌──────────────────┐  ┌─────────────────┐  ┌─────────────────┐                 │
+│  │ GST Calculations │  │ Time & Dates    │  │ Data Processing │                 │
+│  │                  │  │                 │  │                 │                 │
+│  │ • calculateGST   │  │ • getTimeframe  │  │ • filterInvoices│                 │
+│  │ • ITC eligibility│  │ • formatDates   │  │ • detectConflict│                 │ 
+│  │ • Tax offsetting │  │ • due dates     │  │ • missingInvoice│                 │
+│  │ • Penalties      │  │ • state rules   │  │ • refilingHelper│                 │
+│  └──────────────────┘  └─────────────────┘  └─────────────────┘                 │
 │                                                                                 │
-│  ┌─────────────────┐  ┌─────────────────┐                                     │
-│  │ Email Service   │  │ ITC Balance     │                                     │
-│  │                 │  │                 │                                     │
-│  │ • sendReminder  │  │ • applyOffsets  │                                     │
-│  │ • buildEmailBody│  │ • balanceCalc   │                                     │
-│  │ • axios calls   │  │ • ledgerUpdate  │                                     │
-│  └─────────────────┘  └─────────────────┘                                     │
+│  ┌─────────────────┐  ┌─────────────────┐                                       │
+│  │ Email Service   │  │ ITC Balance     │                                       │
+│  │                 │  │                 │                                       │
+│  │ • sendReminder  │  │ • applyOffsets  │                                       │
+│  │ • buildEmailBody│  │ • balanceCalc   │                                       │
+│  │ • axios calls   │  │ • ledgerUpdate  │                                       │
+│  └─────────────────┘  └─────────────────┘                                       │
 │                                                                                 │
-│  Core Business Rules & Domain Logic                                            │
+│  Core Business Rules & Domain Logic                                             │
 └─────────────────────────────────────────────────────────────────────────────────┘
                                         │
                                         ▼
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                            DATA ACCESS LAYER                                   │
+│                            DATA ACCESS LAYER                                    │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
-│  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                            queries.js                                   │   │
-│  │                                                                         │   │
-│  │  Vendor Operations:                                                     │   │
-│  │  • getAllVendors, addVendor, updateVendor, dropVendor                  │   │
-│  │  • findVendorByGstin, findVendorByApiKey                               │   │
-│  │                                                                         │   │
-│  │  Filing Operations:                                                     │   │
-│  │  • addGstFiling, getAllFilings, getFilingsByGstin                      │   │
-│  │  • getAllFilingsWithInvoices, getAllFilingsWithInvoicesByGstin         │   │
-│  │                                                                         │   │
-│  │  Invoice Operations:                                                    │   │
-│  │  • addInvoices, updateInvoice, getInvoiceByGstin                       │   │
-│  │  • getPendingInvoicesByGstin, getInvoicesToBeFiledAgain                │   │
-│  │                                                                         │   │
-│  │  Ledger Operations:                                                     │   │
-│  │  • insertLedgerTransaction, getLedgerLogs                              │   │
-│  │  • getBalance, upsertBalance, getClaimableBalance                      │   │
-│  │                                                                         │   │
-│  │  Credit Notes:                                                          │   │
-│  │  • insertCreditNoteForInvoice, getCreditNoteByGstin                    │   │
-│  └─────────────────────────────────────────────────────────────────────────┘   │
+│  ┌─────────────────────────────────────────────────────────────────────────┐    │
+│  │                            queries.js                                   │    │
+│  │                                                                         │    │
+│  │  Vendor Operations:                                                     │    │
+│  │  • getAllVendors, addVendor, updateVendor, dropVendor                   │    │
+│  │  • findVendorByGstin, findVendorByApiKey                                │    │
+│  │                                                                         │    │
+│  │  Filing Operations:                                                     │    │
+│  │  • addGstFiling, getAllFilings, getFilingsByGstin                       │    │ 
+│  │  • getAllFilingsWithInvoices, getAllFilingsWithInvoicesByGstin          │    │
+│  │                                                                         │    │ 
+│  │  Invoice Operations:                                                    │    │
+│  │  • addInvoices, updateInvoice, getInvoiceByGstin                        │    │
+│  │  • getPendingInvoicesByGstin, getInvoicesToBeFiledAgain                 │    │ 
+│  │                                                                         │    │
+│  │  Ledger Operations:                                                     │    │ 
+│  │  • insertLedgerTransaction, getLedgerLogs                               │    │
+│  │  • getBalance, upsertBalance, getClaimableBalance                       │    │
+│  │                                                                         │    │
+│  │  Credit Notes:                                                          │    │
+│  │  • insertCreditNoteForInvoice, getCreditNoteByGstin                     │    │
+│  └─────────────────────────────────────────────────────────────────────────┘    │
 │                                                                                 │
-│  Database Abstraction & Query Management                                       │
+│  Database Abstraction & Query Management                                        │
 └─────────────────────────────────────────────────────────────────────────────────┘
                                         │
                                         ▼
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                             DATABASE LAYER                                     │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│                              PostgreSQL Database                               │
-│                                                                                 │
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                             DATABASE LAYER                                    │
+├───────────────────────────────────────────────────────────────────────────────┤
+│                              PostgreSQL Database                              │
+│                                                                               │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                │
 │  │     vendors     │  │   gst_filings   │  │    invoices     │                │
 │  │                 │  │                 │  │                 │                │
@@ -126,7 +125,7 @@
 │  │ • email         │  │ • penalty       │  │ • is_filed      │                │
 │  │ • api_key       │  │ • status        │  │                 │                │
 │  └─────────────────┘  └─────────────────┘  └─────────────────┘                │
-│                                                                                 │
+│                                                                               │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                │
 │  │    products     │  │  credit_ledger  │  │ credit_balances │                │
 │  │                 │  │                 │  │                 │                │
@@ -139,7 +138,7 @@
 │  │ • quantity      │  │ • txn_date      │  │                 │                │
 │  │ • buying_price  │  │                 │  │                 │                │
 │  └─────────────────┘  └─────────────────┘  └─────────────────┘                │
-│                                                                                 │
+│                                                                               │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                │
 │  │  credit_notes   │  │invoice_tracker  │  │invoice_to_be_   │                │
 │  │                 │  │                 │  │filed_again      │                │
@@ -150,16 +149,16 @@
 │  │ • amount        │  │                 │  │                 │                │
 │  │ • cgst/sgst/igst│  │                 │  │                 │                │
 │  └─────────────────┘  └─────────────────┘  └─────────────────┘                │
-│                                                                                 │
-│  Data Persistence & Storage Management                                         │
-└─────────────────────────────────────────────────────────────────────────────────┘
+│                                                                               │
+│  Data Persistence & Storage Management                                        │
+└───────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## Data Flow Between Layers
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                              DATA FLOW DIAGRAM                                 │
+│                              DATA FLOW DIAGRAM                                  │
 └─────────────────────────────────────────────────────────────────────────────────┘
 
 Client Request
