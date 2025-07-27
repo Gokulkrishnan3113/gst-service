@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const { runPendingInvoiceReminderLogic } = require('../controllers/invoice');
+const { runPendingInvoiceReminderLogic } = require('../utils/pendinginvoice-helper');
 
 //  Run every day at 9 AM every month
 cron.schedule('0 9 1 * *', async () => {

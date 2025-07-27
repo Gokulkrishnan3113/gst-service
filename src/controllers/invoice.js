@@ -1,6 +1,5 @@
 const { updateInvoice, getInvoiceByGstin, getPendingInvoicesByGstin, getAllVendors } = require('../db/queries');
-const { sendReminderEmail } = require('../utils/mailsender-helper');
-
+const { runPendingInvoiceReminderLogic } = require('../utils/pendinginvoice-helper')
 async function updateInvoiceByIdHandler(req, res) {
     const { gstin, invoice_id } = req.params;
     const allowedFields = ['status', 'payment_status'];
@@ -98,30 +97,6 @@ async function getPendingInvoicesHandler(req, res) {
     }
 }
 
-async function runPendingInvoiceReminderLogic() {
-    const vendors = await getAllVendors();
-    const allReminders = [];
-
-    for (const vendor of vendors) {
-        const { gstin, email } = vendor;
-        if (!gstin || !email) continue;
-
-        const pendingInvoices = await getPendingInvoicesByGstin(gstin);
-        if (!pendingInvoices || pendingInvoices.length === 0) continue;
-
-        const sent = await sendReminderEmail(email, gstin, pendingInvoices);
-
-        if (sent) {
-            allReminders.push({
-                gstin,
-                email,
-                count: pendingInvoices.length,
-                invoices: pendingInvoices
-            });
-        }
-    }
-    return allReminders;
-}
 
 async function triggerPendingInvoiceReminder(req, res) {
     try {
@@ -156,6 +131,5 @@ module.exports = {
     updateInvoiceByIdHandler,
     getInvoiceByGstinHandler,
     getPendingInvoicesHandler,
-    triggerPendingInvoiceReminder,
-    runPendingInvoiceReminderLogic
+    triggerPendingInvoiceReminder
 };
