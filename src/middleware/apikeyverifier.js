@@ -2,7 +2,7 @@ const { findVendorByApiKey, findVendorByApiKeyAndGstin } = require('../db/querie
 
 async function verifyDefaultApiKey(req, res, next) {
     const apiKey = req.headers['authorization'];
-    console.log(req.headers);
+    // console.log(req.headers);
 
     if (!apiKey || apiKey !== process.env.DEFAULT_API_KEY) {
         return res.status(401).json({

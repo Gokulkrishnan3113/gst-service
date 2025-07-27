@@ -1,5 +1,6 @@
 const { getAllVendors, addVendor, updateVendor, dropVendor, findVendorByGstin } = require('../db/queries');
-
+const { checkifmailexists } = require('../utils/mailservice-checker')
+const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
 async function getVendors(req, res) {
     try {
         const vendors = await getAllVendors();
@@ -12,8 +13,20 @@ async function getVendors(req, res) {
 
 async function createVendor(req, res) {
     try {
-        const { gstin } = req.body;
+        const { gstin, name, state, turnover, merchant_type, email, is_itc_optedin } = req.body;
 
+        if (!gstin || !name || !state || !turnover || !merchant_type || !email || !is_itc_optedin) {
+            return res.status(400).json({
+                success: false,
+                message: 'Missing data fields. Required : [ gstin, name, state, turnover, merchant_type, email, is_itc_optedin ]',
+            });
+        }
+        if (gstin.length != 15) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid GSTIN , should be 15 char length',
+            });
+        }
         const existingVendor = await findVendorByGstin(gstin);
 
         if (existingVendor) {
@@ -21,6 +34,21 @@ async function createVendor(req, res) {
                 success: false,
                 message: 'Vendor already exists',
                 data: existingVendor
+            });
+        }
+
+        if (!VALID_MERCHANT_TYPES.includes(merchant_type)) {
+            return res.status(400).json({
+                status: 400,
+                error: `Invalid merchant type. Must be one of : ${VALID_MERCHANT_TYPES.join(', ')}`,
+            });
+        }
+        const mailcheck = await checkifmailexists(email);
+
+        if (!mailcheck) {
+            return res.status(400).json({
+                status: 400,
+                error: `Invalid Email, ${email} not subscribed to email service`
             });
         }
 
