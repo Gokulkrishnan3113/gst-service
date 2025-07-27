@@ -1,7 +1,7 @@
 const { findVendorByGstin, addVendor, addGstFiling, getFilingsByGstin, addInvoices, getInvoicesToBeFiledAgain, upsertBalance, insertLedgerTransaction } = require('../db/queries');
 const { getTimeframeRange } = require('../utils/timeframe-helper')
 const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
-const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
+// const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
 // const invoice = require('../data/invoice.json');
 const invoice = require('../data/invoicewithproduct3.json');
 const { filterInvoices } = require('../utils/invoice-filter');
@@ -18,51 +18,22 @@ function formatDate(d) {
 }
 
 async function fileGstService(payload) {
-    const { gstin, timeframe, merchant_type, name, state, turnover, is_itc_optedin } = payload;
+    const { gstin, timeframe } = payload;
+
     let vendor = await findVendorByGstin(gstin);
     if (!vendor) {
         if (!vendor) {
             return { status: 403, error: 'Vendor Not Registered for the service' };
         }
     }
-    if (!gstin || gstin.length !== 15) {
-        return { status: 400, error: 'Invalid GSTIN. Must be 15 characters.' };
-    }
-
+    // console.log(vendor);
     if (!VALID_TIMEFRAMES.includes(timeframe)) {
         return {
             status: 400,
             error: `Invalid timeframe. Must be one of: ${VALID_TIMEFRAMES.join(', ')}`,
         };
     }
-
-    if (!VALID_MERCHANT_TYPES.includes(merchant_type)) {
-        return {
-            status: 400,
-            error: `Invalid merchant type. Must be one of: ${VALID_MERCHANT_TYPES.join(', ')}`,
-        };
-    }
-    if (!state) {
-        return {
-            status: 400,
-            error: `Missing field - state`,
-        };
-    }
-
-    if (!turnover) {
-        return {
-            status: 400,
-            error: `Missing field - turnover`,
-        };
-    }
-    if (is_itc_optedin === undefined) {
-        return {
-            status: 400,
-            error: `Missing field - is_itc_optedin`,
-        };
-    }
-
-
+    const { merchant_type, state, is_itc_optedin, turnover } = vendor;
     const { startDate, endDate, dueDate, isLate } = getTimeframeRange(timeframe, state);
     console.log({ startDate, endDate, dueDate, isLate });
     const resultfromdb = await getFilingsByGstin(gstin);
