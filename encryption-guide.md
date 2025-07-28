@@ -1,15 +1,15 @@
-# 🔐 GST Service Integration Guide
+# GST Service Integration Guide
 
 Welcome! This guide will help you integrate securely with the GST Service using **AES-256-GCM** encryption. Every registered vendor is issued:
 
 - `api_key`: Used in headers to authorize requests.
 - `secret_key`: Used to encrypt request data and decrypt response data.
 
-> 🚨 **Never expose your `secret_key` publicly.** Keep it securely on your server.
+> **Never expose your `secret_key` publicly.** Keep it securely on your server.
 
 ---
 
-## 📦 What You’ll Get Upon Registration
+## What You’ll Get Upon Registration
 
 ```json
 {
@@ -20,19 +20,19 @@ Welcome! This guide will help you integrate securely with the GST Service using 
 
 ---
 
-## ⚙️ How Encryption & Decryption Works
+## How Encryption & Decryption Works
 
 We use AES-256-GCM — a secure, authenticated encryption algorithm — to protect sensitive information in transit.
 
-### 🔐 You must:
+### You must:
 - **Encrypt request bodies** using your `secret_key` before sending to the API.
 - **Decrypt response payloads** received from the API using the same `secret_key`.
 
 ---
 
-## 🧩 Request & Response Format
+## Request & Response Format
 
-### ✅ Request Payload (Encrypted)
+### Request Payload (Encrypted)
 
 ```json
 {
@@ -42,7 +42,7 @@ We use AES-256-GCM — a secure, authenticated encryption algorithm — to prote
 }
 ```
 
-### ✅ Response Payload (Encrypted)
+### Response Payload (Encrypted)
 
 ```json
 {
@@ -54,9 +54,9 @@ We use AES-256-GCM — a secure, authenticated encryption algorithm — to prote
 
 ---
 
-## 🧠 Integration Steps
+## Integration Steps
 
-### 1. 📁 Create `encryption-helper.js` (or `.ts`)
+### 1. Create `encryption-helper.js` (or `.ts`)
 
 ```js
 // encryption-helper.js
@@ -105,7 +105,7 @@ module.exports = { encrypt, decrypt };
 
 ---
 
-### 2. 📤 Sending Encrypted Requests
+### 2. Sending Encrypted Requests
 
 ```js
 const axios = require('axios');
@@ -144,7 +144,7 @@ axios.post(API_URL, encrypted, {
 
 ---
 
-### 3. 📥 Decrypting Responses
+### 3. Decrypting Responses
 
 > Already shown above in the `.then()` of the request.
 
@@ -156,9 +156,9 @@ const decrypted = decrypt(response.data, SECRET_KEY);
 
 ---
 
-## 🧪 Example
+## Example
 
-### 📨 Request (before encryption)
+### Request (before encryption)
 ```json
 {
   "gstin": "27AAAPL1234C1ZV",
@@ -167,7 +167,7 @@ const decrypted = decrypt(response.data, SECRET_KEY);
 }
 ```
 
-### 📤 Encrypted Request (sent to API)
+### Encrypted Request (sent to API)
 ```json
 {
   "iv": "d4f96b1e5b78e8c12a93fc98",
@@ -176,7 +176,7 @@ const decrypted = decrypt(response.data, SECRET_KEY);
 }
 ```
 
-### 📥 Encrypted Response (received)
+### Encrypted Response (received)
 ```json
 {
   "iv": "a1b2c3...",
@@ -185,7 +185,7 @@ const decrypted = decrypt(response.data, SECRET_KEY);
 }
 ```
 
-### 🔓 Decrypted Response
+### Decrypted Response
 ```json
 {
   "success": true,
@@ -195,7 +195,7 @@ const decrypted = decrypt(response.data, SECRET_KEY);
 
 ---
 
-## 🧷 Security Best Practices
+## Security Best Practices
 
 - Use HTTPS for all requests.
 - Store `secret_key` securely (e.g. in environment variables).
@@ -204,7 +204,7 @@ const decrypted = decrypt(response.data, SECRET_KEY);
 
 ---
 
-## ❓ Troubleshooting
+## Troubleshooting
 
 | Issue                            | Solution                                                                 |
 |----------------------------------|--------------------------------------------------------------------------|
