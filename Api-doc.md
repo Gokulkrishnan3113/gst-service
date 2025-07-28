@@ -57,8 +57,6 @@ curl -X GET http://localhost:3000/vendors \
 
 **Parameters:** None
 
-**Authentication:** Requires `verifyDefaultApiKey`
-
 **Response:**
 ```json
 {
@@ -81,7 +79,7 @@ curl -X GET http://localhost:3000/vendors \
 ```
 
 ### POST /vendors
-**Description:** Create or update a vendor.
+**Description:** Create a vendor.
 
 **cURL:**
 ```bash
@@ -98,8 +96,6 @@ curl -X POST http://localhost:3000/vendors \
     "email": "vendor@example.com"
   }'
 ```
-
-**Authentication:** Requires `verifyDefaultApiKey`
 
 **Payload:**
 ```json
@@ -121,24 +117,17 @@ curl -X POST http://localhost:3000/vendors \
 - `state` (required): State where vendor is registered
 - `turnover` (required): Annual turnover amount (number)
 - `is_itc_optedin` (required): Boolean indicating ITC opt-in status
-- `email` (required): Vendor email for notifications
+- `email` (required): Vendor email for notifications (Should be registered with email service)
 
 **Success Response (201/200):**
 ```json
 {
-  "success": true,
-  "message": "Vendor created successfully",
-  "data": {
-    "gstin": "29ABCDE1234F2Z5",
-    "name": "ABC Electronics",
-    "merchant_type": "retailers",
-    "state": "Karnataka",
-    "turnover": 50000000,
-    "is_itc_optedin": true,
-    "email": "vendor@example.com",
-    "api_key": "generated-64-character-api-key",
-    "created_at": "2025-01-27T10:30:00.000Z"
-  }
+    "success": true,
+    "message": "Vendor created successfully",
+    "data": {
+        "api_key": "generated-64-character-api-key",
+        "secret_key": "generated-64-character-secret-key"
+    }
 }
 ```
 
@@ -156,38 +145,21 @@ curl -X POST http://localhost:3000/gst \
   -H "Authorization: vendor-specific-api-key" \
   -d '{
     "gstin": "29ABCDE1234F2Z5",
-    "timeframe": "monthly",
-    "merchant_type": "retailers",
-    "name": "ABC Electronics",
-    "state": "Karnataka",
-    "turnover": 50000000,
-    "is_itc_optedin": true
+    "timeframe": "monthly"
   }'
 ```
-
-**Authentication:** Requires `verifyGstinWithApiKey`
 
 **Payload:**
 ```json
 {
   "gstin": "29ABCDE1234F2Z5",
   "timeframe": "monthly",
-  "merchant_type": "retailers",
-  "name": "ABC Electronics",
-  "state": "Karnataka",
-  "turnover": 50000000,
-  "is_itc_optedin": true
 }
 ```
 
 **Payload Field Definitions:**
 - `gstin` (required): 15-character GST identification number
 - `timeframe` (required): One of ["monthly", "quarterly", "annual"]
-- `merchant_type` (required): One of ["manufacturers", "retailers", "wholesellers"]
-- `name` (required): Vendor business name
-- `state` (required): State name for filing jurisdiction
-- `turnover` (required): Annual turnover amount (number)
-- `is_itc_optedin` (required): Boolean for ITC opt-in status
 
 **Success Response (200):**
 ```json
@@ -248,8 +220,6 @@ curl -X POST http://localhost:3000/gst \
 curl -X GET http://localhost:3000/gst/filings-with-invoices \
   -H "Authorization: your-default-api-key"
 ```
-
-**Authentication:** Requires `verifyDefaultApiKey`
 
 **Parameters:** None
 
@@ -322,8 +292,6 @@ curl -X GET http://localhost:3000/gst/filings-with-invoices/29ABCDE1234F2Z5 \
   -H "Authorization: your-default-api-key"
 ```
 
-**Authentication:** Requires `verifyDefaultApiKey`
-
 **Parameters:**
 - `gstin` (path parameter): 15-character GST identification number
 
@@ -341,8 +309,6 @@ curl -X GET http://localhost:3000/gst/filings-with-invoices/29ABCDE1234F2Z5 \
 curl -X GET http://localhost:3000/invoice/29ABCDE1234F2Z5 \
   -H "Authorization: vendor-specific-api-key"
 ```
-
-**Authentication:** Requires `verifyGstinWithApiKey`
 
 **Parameters:**
 - `gstin` (path parameter): 15-character GST identification number
@@ -391,8 +357,6 @@ curl -X PATCH http://localhost:3000/invoice/29ABCDE1234F2Z5/INV001 \
   }'
 ```
 
-**Authentication:** Requires `verifyGstinWithApiKey`
-
 **Parameters:**
 - `gstin` (path parameter): 15-character GST identification number
 - `invoice_id` (path parameter): Invoice identifier
@@ -434,8 +398,6 @@ curl -X GET http://localhost:3000/invoice/pending/29ABCDE1234F2Z5 \
   -H "Authorization: vendor-specific-api-key"
 ```
 
-**Authentication:** Requires `verifyGstinWithApiKey`
-
 **Parameters:**
 - `gstin` (path parameter): 15-character GST identification number
 
@@ -469,8 +431,6 @@ curl -X GET http://localhost:3000/invoice/pending/29ABCDE1234F2Z5 \
 curl -X GET http://localhost:3000/ledger/29ABCDE1234F2Z5 \
   -H "Authorization: vendor-specific-api-key"
 ```
-
-**Authentication:** Requires `verifyGstinWithApiKey`
 
 **Parameters:**
 - `gstin` (path parameter): 15-character GST identification number
@@ -523,8 +483,6 @@ curl -X GET http://localhost:3000/ledger/balance/29ABCDE1234F2Z5 \
   -H "Authorization: vendor-specific-api-key"
 ```
 
-**Authentication:** Requires `verifyGstinWithApiKey`
-
 **Parameters:**
 - `gstin` (path parameter): 15-character GST identification number
 
@@ -550,8 +508,6 @@ curl -X GET http://localhost:3000/ledger/balance/29ABCDE1234F2Z5 \
 curl -X GET http://localhost:3000/ledger/credit-notes/29ABCDE1234F2Z5 \
   -H "Authorization: vendor-specific-api-key"
 ```
-
-**Authentication:** Requires `verifyGstinWithApiKey`
 
 **Parameters:**
 - `gstin` (path parameter): 15-character GST identification number
