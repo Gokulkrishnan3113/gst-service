@@ -9,13 +9,13 @@
 │                                              INPUT/OUTPUT LAYER                                                    │
 ├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                                                     │
-│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                        │
-│  │   Web Clients   │    │  Mobile Apps    │    │  Third Party    │    │   Admin Panel   │                        │
-│  │                 │    │                 │    │   Integrations  │    │                 │                        │
-│  │ • React/Vue     │    │ • iOS/Android   │    │ • ERP Systems   │    │ • Dashboard     │                        │
-│  │ • JavaScript    │    │ • React Native  │    │ • Accounting    │    │ • Reports       │                        │
-│  │ • HTTPS/REST    │    │ • Flutter       │    │ • Tax Software  │    │ • Analytics     │                        │
-│  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                        │
+│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                                               │
+│  │   HTTP Clients  │    │  Third Party    │    │   Admin Panel   │                                               │
+│  │                 │    │   Integrations  │    │                 │                                               │
+│  │ • cURL/Postman  │    │ • ERP Systems   │    │ • API Testing   │                                               │
+│  │ • REST APIs     │    │ • Accounting    │    │ • Vendor Mgmt   │                                               │
+│  │ • JSON Payloads │    │ • Tax Software  │    │ • GST Filing    │                                               │
+│  └─────────────────┘    └─────────────────┘    └─────────────────┘                                               │
 │                                                                                                                     │
 │                                    INPUT: JSON/HTTP Requests                                                        │
 │                                   OUTPUT: JSON/HTTP Responses                                                       │
@@ -26,15 +26,15 @@
 │                                              PROTOCOL LAYER                                                        │
 ├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                                                     │
-│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                        │
-│  │      HTTPS      │    │      HTTP/2     │    │   WebSockets    │    │      SMTP       │                        │
-│  │                 │    │                 │    │                 │    │                 │                        │
-│  │ • TLS 1.3       │    │ • Multiplexing  │    │ • Real-time     │    │ • Email Service │                        │
-│  │ • SSL Certs     │    │ • Server Push   │    │ • Notifications │    │ • Reminders     │                        │
-│  │ • Port 443      │    │ • Binary Proto  │    │ • Live Updates  │    │ • Alerts        │                        │
-│  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                        │
+│  ┌─────────────────┐    ┌─────────────────┐                                                                       │
+│  │      HTTP       │    │      SMTP       │                                                                       │
+│  │                 │    │                 │                                                                       │
+│  │ • Express.js    │    │ • Email Service │                                                                       │
+│  │ • Port 3000     │    │ • Axios Calls   │                                                                       │
+│  │ • JSON/REST     │    │ • Reminders     │                                                                       │
+│  └─────────────────┘    └─────────────────┘                                                                       │
 │                                                                                                                     │
-│                                    TCP/IP • IPv4/IPv6 • DNS                                                        │
+│                                    TCP/IP • IPv4 • DNS                                                             │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
                                                         │
                                                         ▼
@@ -45,33 +45,33 @@
 │  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  │
 │  │                                    AUTHENTICATION & AUTHORIZATION                                              │  │
 │  │                                                                                                                 │  │
-│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                    │  │
-│  │  │  Default API    │    │ Vendor-Specific │    │  GSTIN-based    │    │   Rate Limiting │                    │  │
-│  │  │      Key        │    │    API Keys     │    │  Authorization  │    │                 │                    │  │
-│  │  │                 │    │                 │    │                 │    │ • Request/min   │                    │  │
-│  │  │ • Admin Access  │    │ • 64-char Keys  │    │ • Resource      │    │ • IP Blocking   │                    │  │
-│  │  │ • Full Control  │    │ • Vendor Scope  │    │   Isolation     │    │ • DDoS Protect  │                    │  │
-│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                    │  │
+│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                                           │  │
+│  │  │  Default API    │    │ Vendor-Specific │    │  GSTIN-based    │                                           │  │
+│  │  │      Key        │    │    API Keys     │    │  Authorization  │                                           │  │
+│  │  │                 │    │                 │    │                 │                                           │  │
+│  │  │ • Admin Access  │    │ • 64-char Keys  │    │ • Resource      │                                           │  │
+│  │  │ • Full Control  │    │ • Vendor Scope  │    │   Isolation     │                                           │  │
+│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘                                           │  │
 │  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
 │                                                                                                                     │
 │  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │                                         ENCRYPTION ALGORITHMS                                                  │  │
+│  │                                         ENCRYPTION ALGORITHMS (NOT IMPLEMENTED)                               │  │
 │  │                                                                                                                 │  │
-│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                    │  │
-│  │  │   AES-256-GCM   │    │   PBKDF2-SHA256 │    │   HMAC-SHA256   │    │   Crypto.random │                    │  │
-│  │  │                 │    │                 │    │                 │    │                 │                    │  │
-│  │  │ • Data Encrypt  │    │ • Key Derivation│    │ • Message Auth  │    │ • IV Generation │                    │  │
-│  │  │ • Auth Tags     │    │ • Salt-based    │    │ • Integrity     │    │ • API Key Gen   │                    │  │
-│  │  │ • 256-bit Keys  │    │ • 100k Rounds   │    │ • Signatures    │    │ • Secure Random │                    │  │
-│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                    │  │
+│  │  ┌─────────────────┐                                                                                          │  │
+│  │  │   Crypto.random │                                                                                          │  │
+│  │  │                 │                                                                                          │  │
+│  │  │ • API Key Gen   │                                                                                          │  │
+│  │  │ • 64-char Keys  │                                                                                          │  │
+│  │  │ • Secure Random │                                                                                          │  │
+│  │  └─────────────────┘                                                                                          │  │
 │  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
 │                                                                                                                     │
 │  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  │
 │  │                                           SECURITY POLICIES                                                    │  │
 │  │                                                                                                                 │  │
-│  │  • Input Validation & Sanitization    • SQL Injection Prevention    • XSS Protection                         │  │
-│  │  • CORS Policy Configuration          • Content Security Policy     • Secure Headers                         │  │
-│  │  • Session Management                 • Password Hashing            • Token Expiration                       │  │
+│  │  • Input Validation & Sanitization    • SQL Injection Prevention (via pg library)                            │  │
+│  │  • CORS Policy Configuration          • Authorization Header Check                                             │  │
+│  │  • API Key Validation                 • GSTIN-based Access Control                                            │  │
 │  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
                                                         │
@@ -88,44 +88,39 @@
 │  │  │                 │    │                 │    │                 │    │                 │                    │  │
 │  │  │ • CORS Handler  │    │ • /vendors      │    │ • Vendor CRUD   │    │ • GST Filing    │                    │  │
 │  │  │ • Body Parser   │    │ • /gst          │    │ • Filing Logic  │    │ • Tax Calc      │                    │  │
-│  │  │ • Error Handler │    │ • /invoice      │    │ • Invoice Mgmt  │    │ • ITC Processing│                    │  │
-│  │  │ • Request Log   │    │ • /ledger       │    │ • Ledger Ops    │    │ • Email Service │                    │  │
+│  │  │ • Request Log   │    │ • /invoice      │    │ • Invoice Mgmt  │    │ • ITC Processing│                    │  │
+│  │  │ • API Key Auth  │    │ • /ledger       │    │ • Ledger Ops    │    │ • Email Service │                    │  │
 │  │  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                    │  │
 │  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
 │                                                                                                                     │
 │  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │                                           BUFFER MANAGEMENT                                                    │  │
+│  │                                           BUFFER MANAGEMENT (BASIC)                                           │  │
 │  │                                                                                                                 │  │
-│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                    │  │
-│  │  │  Request Buffer │    │ Response Buffer │    │  Stream Buffer  │    │  Memory Buffer  │                    │  │
-│  │  │                 │    │                 │    │                 │    │                 │                    │  │
-│  │  │ • JSON Parsing  │    │ • JSON Stringify│    │ • File Upload   │    │ • Object Pool   │                    │  │
-│  │  │ • Size Limits   │    │ • Compression   │    │ • Large Data    │    │ • GC Optimization│                   │  │
-│  │  │ • Timeout       │    │ • Chunked       │    │ • Async Process │    │ • Memory Leaks  │                    │  │
-│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                    │  │
+│  │  ┌─────────────────┐    ┌─────────────────┐                                                                   │  │
+│  │  │  Request Buffer │    │ Response Buffer │                                                                   │  │
+│  │  │                 │    │                 │                                                                   │  │
+│  │  │ • JSON Parsing  │    │ • JSON Stringify│                                                                   │  │
+│  │  │ • Express.json()│    │ • HTTP Response │                                                                   │  │
+│  │  │ • Body Parsing  │    │ • Status Codes  │                                                                   │  │
+│  │  └─────────────────┘    └─────────────────┘                                                                   │  │
 │  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
                                                         │
                                                         ▼
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                              CACHE LAYER                                                          │
+│                                              CACHE LAYER (NOT IMPLEMENTED)                                       │
 ├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                                                     │
-│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                        │
-│  │   Memory Cache  │    │   Redis Cache   │    │  Query Cache    │    │  Session Cache  │                        │
-│  │                 │    │                 │    │                 │    │                 │                        │
-│  │ • Node.js Heap  │    │ • Distributed   │    │ • SQL Results   │    │ • User Sessions │                        │
-│  │ • LRU Algorithm │    │ • Key-Value     │    │ • Prepared Stmt │    │ • API Keys      │                        │
-│  │ • Fast Access   │    │ • Pub/Sub       │    │ • Connection    │    │ • Rate Limits   │                        │
-│  │ • TTL Support   │    │ • Persistence   │    │   Pooling       │    │ • Auth Tokens   │                        │
-│  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                        │
+│  ┌─────────────────┐                                                                                               │
+│  │   No Caching    │                                                                                               │
+│  │                 │                                                                                               │
+│  │ • Direct DB     │                                                                                               │
+│  │ • No Redis      │                                                                                               │
+│  │ • No Memory     │                                                                                               │
+│  │   Cache         │                                                                                               │
+│  └─────────────────┘                                                                                               │
 │                                                                                                                     │
-│  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │                                         CACHE STRATEGIES                                                       │  │
-│  │                                                                                                                 │  │
-│  │  • Cache-Aside Pattern    • Write-Through Cache    • Write-Behind Cache    • Refresh-Ahead Cache              │  │
-│  │  • TTL-based Expiration   • Event-based Invalidation    • Size-based Eviction                                 │  │
-│  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
+│  Note: All data access goes directly to PostgreSQL database                                                        │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
                                                         │
                                                         ▼
@@ -134,31 +129,19 @@
 ├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                                                     │
 │  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │                                         APPLICATION LOGS                                                       │  │
+│  │                                         BASIC CONSOLE LOGGING                                                  │  │
 │  │                                                                                                                 │  │
-│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                    │  │
-│  │  │  Request Logs   │    │   Error Logs    │    │  Business Logs  │    │  Security Logs  │                    │  │
-│  │  │                 │    │                 │    │                 │    │                 │                    │  │
-│  │  │ • HTTP Method   │    │ • Stack Traces  │    │ • GST Filing    │    │ • Auth Attempts │                    │  │
-│  │  │ • URL Path      │    │ • Error Codes   │    │ • Tax Calc      │    │ • API Key Usage │                    │  │
-│  │  │ • Response Time │    │ • DB Errors     │    │ • ITC Process   │    │ • Failed Logins │                    │  │
-│  │  │ • Status Codes  │    │ • Validation    │    │ • Email Sent    │    │ • Rate Limiting │                    │  │
-│  │  │ • User Agent    │    │ • Exceptions    │    │ • Cron Jobs     │    │ • Suspicious IP │                    │  │
-│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                    │  │
+│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                                           │  │
+│  │  │  Request Logs   │    │   Error Logs    │    │  Business Logs  │                                           │  │
+│  │  │                 │    │                 │    │                 │                                           │  │
+│  │  │ • HTTP Method   │    │ • console.error │    │ • GST Filing    │                                           │  │
+│  │  │ • URL Path      │    │ • Stack Traces  │    │ • Tax Calc      │                                           │  │
+│  │  │ • Timestamp     │    │ • DB Errors     │    │ • Email Sent    │                                           │  │
+│  │  │ • IST Timezone  │    │ • Validation    │    │ • Cron Jobs     │                                           │  │
+│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘                                           │  │
 │  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
 │                                                                                                                     │
-│  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │                                         LOG MANAGEMENT                                                         │  │
-│  │                                                                                                                 │  │
-│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                    │  │
-│  │  │   Log Rotation  │    │  Log Aggregation│    │   Log Analysis  │    │   Log Storage   │                    │  │
-│  │  │                 │    │                 │    │                 │    │                 │                    │  │
-│  │  │ • Daily Rotate  │    │ • ELK Stack     │    │ • Pattern Match │    │ • File System   │                    │  │
-│  │  │ • Size Limits   │    │ • Centralized   │    │ • Anomaly Detect│    │ • Cloud Storage │                    │  │
-│  │  │ • Compression   │    │ • Real-time     │    │ • Performance   │    │ • Retention     │                    │  │
-│  │  │ • Archive       │    │ • Dashboards    │    │ • Alerts        │    │ • Backup        │                    │  │
-│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                    │  │
-│  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
+│  Note: Basic console.log() and console.error() - No advanced log management implemented                            │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
                                                         │
                                                         ▼
@@ -173,10 +156,10 @@
 │  │  │   PostgreSQL    │    │  Connection     │    │   Transactions  │    │   Replication   │                    │  │
 │  │  │    Database     │    │     Pool        │    │                 │    │                 │                    │  │
 │  │  │                 │    │                 │    │ • ACID Props    │    │ • Master-Slave  │                    │  │
-│  │  │ • ACID Compliant│    │ • Pool Size: 20 │    │ • Isolation     │    │ • Read Replicas │                    │  │
-│  │  │ • JSONB Support │    │ • Idle Timeout  │    │ • Rollback      │    │ • Failover      │                    │  │
-│  │  │ • Full-text     │    │ • Health Check  │    │ • Deadlock      │    │ • Sync/Async    │                    │  │
-│  │  │ • Partitioning  │    │ • Load Balance  │    │   Detection     │    │ • Backup        │                    │  │
+│  │  │ • ACID Compliant│    │ • pg.Pool       │    │ • Isolation     │    │ • No Replication│                    │  │
+│  │  │ • Standard SQL  │    │ • Default Config│    │ • Rollback      │    │ • No Failover   │                    │  │
+│  │  │ • Relational    │    │ • Connection    │    │ • Error Handle  │    │ • Basic Setup   │                    │  │
+│  │  │ • 9 Tables      │    │   String        │    │                 │    │                 │                    │  │
 │  │  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                    │  │
 │  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
 │                                                                                                                     │
@@ -202,13 +185,7 @@
 │  │  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                    │  │
 │  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
 │                                                                                                                     │
-│  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │                                         BACKUP & RECOVERY                                                      │  │
-│  │                                                                                                                 │  │
-│  │  • Automated Daily Backups    • Point-in-Time Recovery    • Cross-Region Replication                         │  │
-│  │  • Incremental Backups        • WAL Archiving             • Disaster Recovery Plan                            │  │
-│  │  • Backup Encryption          • Recovery Testing          • RTO/RPO Objectives                                │  │
-│  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
+│  Note: Basic PostgreSQL setup - No advanced backup/recovery implemented                                            │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -218,105 +195,72 @@
 │  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  │
 │  │                                         EXTERNAL SERVICES                                                      │  │
 │  │                                                                                                                 │  │
-│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                    │  │
-│  │  │  Email Service  │    │  SMS Gateway    │    │  Payment Gateway│    │  File Storage   │                    │  │
-│  │  │                 │    │                 │    │                 │    │                 │                    │  │
-│  │  │ • SMTP/SendGrid │    │ • Twilio/AWS    │    │ • Stripe/Razorpay│    │ • AWS S3/GCS    │                    │  │
-│  │  │ • Templates     │    │ • OTP Service   │    │ • Webhooks      │    │ • CDN           │                    │  │
-│  │  │ • Bulk Send     │    │ • Notifications │    │ • Refunds       │    │ • Encryption    │                    │  │
-│  │  │ • Tracking      │    │ • Rate Limits   │    │ • Compliance    │    │ • Versioning    │                    │  │
-│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                    │  │
+│  │  ┌─────────────────┐                                                                                           │  │
+│  │  │  Email Service  │                                                                                           │  │
+│  │  │                 │                                                                                           │  │
+│  │  │ • Axios HTTP    │                                                                                           │  │
+│  │  │ • External API  │                                                                                           │  │
+│  │  │ • Reminder Cron │                                                                                           │  │
+│  │  │ • Basic Template│                                                                                           │  │
+│  │  └─────────────────┘                                                                                           │  │
 │  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
 │                                                                                                                     │
-│  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │                                         MONITORING & ALERTS                                                    │  │
-│  │                                                                                                                 │  │
-│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                    │  │
-│  │  │  Health Checks  │    │   Metrics       │    │     Alerts      │    │   Dashboards    │                    │  │
-│  │  │                 │    │                 │    │                 │    │                 │                    │  │
-│  │  │ • Endpoint      │    │ • Response Time │    │ • Error Rate    │    │ • Grafana       │                    │  │
-│  │  │ • Database      │    │ • Throughput    │    │ • DB Connection │    │ • Real-time     │                    │  │
-│  │  │ • External APIs │    │ • Memory Usage  │    │ • Disk Space    │    │ • Historical    │                    │  │
-│  │  │ • Cron Jobs     │    │ • CPU Usage     │    │ • Service Down  │    │ • Custom Views  │                    │  │
-│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                    │  │
-│  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
+│  ┌─────────────────┐                                                                                               │
+│  │  Cron Jobs      │                                                                                               │
+│  │                 │                                                                                               │
+│  │ • node-cron     │                                                                                               │
+│  │ • Monthly Run   │                                                                                               │
+│  │ • Email Remind  │                                                                                               │
+│  └─────────────────┘                                                                                               │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                         DEPLOYMENT ARCHITECTURE                                                    │
-├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                                                     │
-│  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │                                         CONTAINERIZATION                                                       │  │
-│  │                                                                                                                 │  │
-│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐                    │  │
-│  │  │   Docker        │    │   Kubernetes    │    │   Load Balancer │    │   Auto Scaling  │                    │  │
-│  │  │                 │    │                 │    │                 │    │                 │                    │  │
-│  │  │ • Multi-stage   │    │ • Pods/Services │    │ • NGINX/HAProxy │    │ • HPA/VPA       │                    │  │
-│  │  │ • Optimized     │    │ • ConfigMaps    │    │ • SSL Termination│    │ • Resource      │                    │  │
-│  │  │ • Security      │    │ • Secrets       │    │ • Health Checks │    │   Monitoring    │                    │  │
-│  │  │ • Minimal Base  │    │ • Ingress       │    │ • Sticky Session│    │ • Scaling Rules │                    │  │
-│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘                    │  │
-│  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
-│                                                                                                                     │
-│  ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │                                         INFRASTRUCTURE                                                         │  │
-│  │                                                                                                                 │  │
-│  │  • Cloud Provider: AWS/GCP/Azure    • CDN: CloudFlare/AWS CloudFront    • DNS: Route53/CloudDNS              │  │
-│  │  • Container Registry: ECR/GCR      • Service Mesh: Istio/Linkerd       • CI/CD: Jenkins/GitLab              │  │
-│  │  • Infrastructure as Code: Terraform/CloudFormation    • Secrets: Vault/AWS Secrets Manager                  │  │
-│  └─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## Architecture Components Summary
 
 ### 🔐 **SECURITY**
-- **Authentication**: Dual API key system (admin + vendor-specific)
-- **Encryption**: AES-256-GCM, PBKDF2-SHA256, HMAC-SHA256
+- **Authentication**: Dual API key system (admin + vendor-specific) - IMPLEMENTED
+- **Encryption**: Only crypto.randomBytes for API key generation - NO ENCRYPTION IMPLEMENTED
 - **Authorization**: GSTIN-based resource isolation
-- **Protection**: Rate limiting, DDoS protection, input validation
+- **Protection**: Basic input validation, CORS enabled
 
 ### 📊 **LOGS**
-- **Request Logs**: HTTP method, URL, response time, status codes
-- **Error Logs**: Stack traces, DB errors, validation failures
-- **Business Logs**: GST filing, tax calculations, email notifications
-- **Security Logs**: Auth attempts, API key usage, suspicious activities
+- **Request Logs**: HTTP method, URL, timestamp (IST timezone)
+- **Error Logs**: console.error with stack traces
+- **Business Logs**: Basic console.log for operations
+- **No Advanced Logging**: No log rotation, aggregation, or management
 
 ### 💾 **STORAGE**
-- **Primary**: PostgreSQL with ACID compliance, connection pooling
+- **Primary**: PostgreSQL with basic pg.Pool connection
 - **Schema**: 9 tables (vendors, filings, invoices, products, ledger, etc.)
-- **Backup**: Automated daily backups, point-in-time recovery
-- **Replication**: Master-slave setup with read replicas
+- **No Backup**: No automated backup or recovery implemented
+- **No Replication**: Single database instance
 
 ### ⚡ **BUFFER**
-- **Request Buffer**: JSON parsing, size limits, timeout handling
-- **Response Buffer**: JSON stringify, compression, chunked transfer
-- **Stream Buffer**: File uploads, large data processing
-- **Memory Buffer**: Object pooling, GC optimization
+- **Request Buffer**: Basic express.json() parsing
+- **Response Buffer**: Standard HTTP response with JSON stringify
+- **No Advanced Buffering**: No streaming, compression, or optimization
 
 ### 🚀 **CACHE**
-- **Memory Cache**: Node.js heap with LRU algorithm
-- **Redis Cache**: Distributed key-value store with pub/sub
-- **Query Cache**: SQL results, prepared statements, connection pooling
-- **Session Cache**: User sessions, API keys, rate limits
+- **No Caching Implemented**: All requests go directly to database
+- **No Redis**: No distributed caching
+- **No Memory Cache**: No in-memory optimization
 
 ### 🔒 **ENCRYPTION ALGORITHMS**
-- **AES-256-GCM**: Data encryption with authentication tags
-- **PBKDF2-SHA256**: Key derivation with salt-based security
-- **HMAC-SHA256**: Message authentication and integrity
-- **Crypto.random**: Secure random generation for IVs and keys
+- **Only crypto.randomBytes**: For 64-character API key generation
+- **No Data Encryption**: No AES, PBKDF2, or HMAC implemented
+- **No Message Authentication**: No integrity checking
 
 ### 🌐 **PROTOCOLS**
-- **HTTPS/TLS 1.3**: Secure communication with SSL certificates
-- **HTTP/2**: Multiplexing and server push capabilities
-- **WebSockets**: Real-time notifications and live updates
-- **SMTP**: Email service for reminders and alerts
+- **HTTP**: Basic Express.js server on port 3000
+- **SMTP**: External email service via Axios HTTP calls
+- **No HTTPS**: No SSL/TLS implemented
+- **No WebSockets**: No real-time features
 
 ### 📥📤 **INPUT/OUTPUT**
-- **Input**: JSON/HTTP requests from web clients, mobile apps, third-party integrations
-- **Output**: JSON/HTTP responses with encrypted payloads and proper status codes
-- **Formats**: RESTful API with standardized request/response structures
-- **Validation**: Input sanitization, type checking, business rule validation
+- **Input**: JSON/HTTP requests via cURL, Postman, third-party integrations
+- **Output**: JSON/HTTP responses with standard status codes
+- **Formats**: RESTful API with JSON payloads
+- **Basic Validation**: Field presence and type checking
 
-This architecture provides a comprehensive, secure, and scalable foundation for the GST service with proper separation of concerns and enterprise-grade security measures.
+This architecture represents the ACTUAL implementation - a basic but functional GST service with essential features implemented and room for enhancement in caching, encryption, logging, and monitoring.
