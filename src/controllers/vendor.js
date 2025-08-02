@@ -1,10 +1,24 @@
 const { getAllVendors, addVendor, updateVendor, dropVendor, findVendorByGstin } = require('../db/queries');
 const { checkifmailexists } = require('../utils/mailservice-checker')
+const cache = require('../cache/cache'); // adjust path
 const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
+
 async function getVendors(req, res) {
     try {
+        const cacheKey = 'vendors_cache';
+        const cachedVendors = cache.get(cacheKey);
+
+        if (cachedVendors) {
+            return res.status(200).json({
+                success: true,
+                cached: true,
+                vendors_count: cachedVendors.length,
+                data: cachedVendors,
+            });
+        }
         const vendors = await getAllVendors();
-        res.status(200).json({ success: true, vendors_count: vendors.length, data: vendors });
+        cache.set(cacheKey, vendors, 900);
+        res.status(200).json({ success: true, cached: false, vendors_count: vendors.length, data: vendors });
     } catch (error) {
         console.error('Error fetching vendors:', error);
         res.status(500).json({ success: false, error: 'Internal Server Error' });
@@ -53,6 +67,7 @@ async function createVendor(req, res) {
         }
 
         const newVendor = await addVendor(req.body);
+        cache.del('vendors_cache');
         return res.status(201).json({
             success: true,
             message: 'Vendor created successfully',
