@@ -81,14 +81,14 @@ async function updateLastInvoiceId(gstin, lastId) {
     );
 }
 
-async function getAllFilings() {
-    const result = await db.query(
-        `SELECT gstin, timeframe, filing_start_date, 
-        filing_end_date, total_amount,total_tax, invoice_count, 
-        filed_at, status, input_tax_credit, tax_payable, penalty, 
-        total_payable_amount, due_date, is_late FROM gst_filings ORDER BY filed_at DESC`);
-    return result.rows;
-}
+// async function getAllFilings() {
+//     const result = await db.query(
+//         `SELECT gstin, timeframe, filing_start_date, 
+//         filing_end_date, total_amount,total_tax, invoice_count, 
+//         filed_at, status, input_tax_credit, tax_payable, penalty, 
+//         total_payable_amount, due_date, is_late FROM gst_filings ORDER BY filed_at DESC`);
+//     return result.rows;
+// }
 
 async function getFilingsByGstin(gstin) {
     const result = await db.query(
@@ -772,7 +772,7 @@ module.exports = {
     getLastInvoiceId,
     updateLastInvoiceId,
     addGstFiling,
-    getAllFilings,
+    // getAllFilings,
     getFilingsByGstin,
     addInvoices,
     getAllFilingsWithInvoices,
