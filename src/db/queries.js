@@ -29,12 +29,13 @@ function generateRandomKey(length = 64) {
 async function addVendor(vendor) {
     const { gstin, name, state, turnover, merchant_type, is_itc_optedin, email } = vendor;
     const api_key = generateRandomKey(64);
+    const secret_key = generateRandomKey(64);
 
     const result = await db.query(`
-        INSERT INTO vendors (gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        RETURNING *;
-    `, [gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key]);
+        INSERT INTO vendors (gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key,secret_key)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8,$9)
+        RETURNING api_key, secret_key;
+    `, [gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key, secret_key]);
 
     return result.rows[0];
 }
@@ -80,14 +81,14 @@ async function updateLastInvoiceId(gstin, lastId) {
     );
 }
 
-async function getAllFilings() {
-    const result = await db.query(
-        `SELECT gstin, timeframe, filing_start_date, 
-        filing_end_date, total_amount,total_tax, invoice_count, 
-        filed_at, status, input_tax_credit, tax_payable, penalty, 
-        total_payable_amount, due_date, is_late FROM gst_filings ORDER BY filed_at DESC`);
-    return result.rows;
-}
+// async function getAllFilings() {
+//     const result = await db.query(
+//         `SELECT gstin, timeframe, filing_start_date, 
+//         filing_end_date, total_amount,total_tax, invoice_count, 
+//         filed_at, status, input_tax_credit, tax_payable, penalty, 
+//         total_payable_amount, due_date, is_late FROM gst_filings ORDER BY filed_at DESC`);
+//     return result.rows;
+// }
 
 async function getFilingsByGstin(gstin) {
     const result = await db.query(
@@ -771,7 +772,7 @@ module.exports = {
     getLastInvoiceId,
     updateLastInvoiceId,
     addGstFiling,
-    getAllFilings,
+    // getAllFilings,
     getFilingsByGstin,
     addInvoices,
     getAllFilingsWithInvoices,
