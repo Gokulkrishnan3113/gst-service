@@ -29,6 +29,8 @@ async function sendReminderEmail(email, gstin, invoices) {
         body,
         attachment: null
     };
+    //console.log(payload);
+
     const encryptedData = mailencrypt(payload, sender_secret);
 
     const headers = {
@@ -37,15 +39,22 @@ async function sendReminderEmail(email, gstin, invoices) {
         [process.env.EMAIL_X_CLIENT_SECRET_FIELD]: process.env.EMAIL_X_CLIENT_SECRET_VALUE
     };
 
+    //console.log(headers);
+
     const url = `${process.env.EMAIL_SERVICE_HOST_URL}/service/send_email`;
 
-    // console.log(payload);
-    // console.log(`${process.env.EMAIL_SERVICE_HOST_URL}/send`);
-    // console.log(headers);
+    //console.log(url);
 
+    //console.log(encryptedData);
+
+    const encryptedPayload = {
+        encrypted_data: encryptedData,
+        user_email: 'gstservice@gmail.com'
+    };
     try {
-        const response = await axios.post(url, { encrypted_data: encryptedData }, { headers });
-        const decryptedData = maildecrypt(response.data.encrypted_response, sender_secret);
+        const response = await axios.post(url, encryptedPayload, { headers });
+        // console.log(response.data);
+        // const decryptedData = maildecrypt(response.data.decrypted_response, sender_secret);
         console.log(`✅ Email sent to ${email}`);
         return true;
     } catch (err) {
