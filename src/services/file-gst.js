@@ -4,7 +4,7 @@ const cache = require('../cache/cache');
 const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
 // const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
 // const invoice = require('../data/invoice.json');
-const invoice = require('../data/invoicewithproduct3.json');
+// const invoice = require('../data/invoicewithproduct3.json');
 const { filterInvoices } = require('../utils/invoice-filter');
 const { calculateGSTSummary } = require('../utils/gstcal-helper');
 const { detectFilingConflicts } = require('../utils/conflict-helper');
@@ -19,7 +19,14 @@ function formatDate(d) {
 }
 
 async function fileGstService(payload) {
-    const { gstin, timeframe } = payload;
+    const { gstin, timeframe, invoices } = payload;
+
+    if (!gstin || !timeframe || !Array.isArray(invoices)) {
+        return {
+            status: 400,
+            error: 'Missing or invalid fields: gstin, timeframe, and invoices are required.'
+        };
+    }
 
     let vendor = await findVendorByGstin(gstin);
     if (!vendor) {
@@ -64,7 +71,7 @@ async function fileGstService(payload) {
         };
     }
 
-    let filteredData = filterInvoices(invoice, startDate, endDate, gstin);
+    let filteredData = filterInvoices(invoices, startDate, endDate, gstin);
     if (filteredData.length === 0) {
         return {
             status: 404,
