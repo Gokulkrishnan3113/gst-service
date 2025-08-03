@@ -10,6 +10,7 @@ async function fileGstHandler(req, res) {
             // return res.status(result.status || 400).json({ error: result.error });
             return {
                 status: result.status || 400,
+                message: result.message || 'Validation failed',
                 error: result.error
             };
         }
@@ -21,7 +22,13 @@ async function fileGstHandler(req, res) {
         };
     } catch (error) {
         console.error('Error filing GST:', error);
-        // res.status(500).json({ error: 'Internal Server Error' });
+        if (error.validationErrors) {
+            return {
+                status: 400,
+                message: error.message,
+                validationErrors: error.validationErrors
+            };
+        }
         return {
             status: 500,
             error: 'Internal Server Error'

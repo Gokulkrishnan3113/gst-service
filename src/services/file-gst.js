@@ -12,6 +12,8 @@ const { formatFilingDates } = require('../utils/timeformat-helper');
 const { checkMissingInvoices } = require('../utils/missinginvoice-helper');
 const { addinvoicestobefiledagain } = require('../utils/refilinginvoice-helper.js');
 const { applyITCOffsets } = require('../utils/itc-balance-helper.js');
+const { gstfilepayloadchecker } = require('../utils/payload-checker');
+
 function formatDate(d) {
     const date = new Date(d);
     date.setDate(date.getDate());
@@ -41,6 +43,17 @@ async function fileGstService(payload) {
             error: `Invalid timeframe. Must be one of: ${VALID_TIMEFRAMES.join(', ')}`,
         };
     }
+
+    const validationResult = await gstfilepayloadchecker(invoices, vendor, gstin);
+
+    if (validationResult.length > 0) {
+        return {
+            status: 400,
+            message: "Validation failed for some invoices",
+            error: validationResult
+        };
+    }
+
     const { merchant_type, state, is_itc_optedin, turnover } = vendor;
     const { startDate, endDate, dueDate, isLate } = getTimeframeRange(timeframe, state);
     console.log({ startDate, endDate, dueDate, isLate });
