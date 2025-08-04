@@ -7,6 +7,7 @@ const { encryptResponse } = require('../middleware/encrypt-response')
 
 
 router.post('/', decryptRequestBody, verifyGstinWithApiKey, encryptResponse(fileGstHandler));
+// router.post('/', verifyGstinWithApiKey, encryptResponse(fileGstHandler));
 // router.get('/filings', getAllFilingsHandler);
 // router.get('/filings/:gstin', getFilingsByIdHandler);
 router.get('/filings-with-invoices', verifyDefaultApiKey, getAllFilingsWithInvoicesHandler);

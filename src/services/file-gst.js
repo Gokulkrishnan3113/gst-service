@@ -47,6 +47,7 @@ async function fileGstService(payload) {
     const validationResult = await gstfilepayloadchecker(invoices, vendor, gstin);
 
     if (validationResult.length > 0) {
+        console.log(JSON.stringify(validationResult));
         return {
             status: 400,
             message: "Validation failed for some invoices",
@@ -58,7 +59,7 @@ async function fileGstService(payload) {
     const { startDate, endDate, dueDate, isLate } = getTimeframeRange(timeframe, state);
     console.log({ startDate, endDate, dueDate, isLate });
     const resultfromdb = await getFilingsByGstin(gstin);
-    console.log(`Existing filings for ${gstin}:`, resultfromdb);
+    // console.log(`Existing filings for ${gstin}:`, resultfromdb);
     const existingFiling = resultfromdb.find(filing =>
         formatDate(filing.filing_start_date) === startDate &&
         formatDate(filing.filing_end_date) === endDate
