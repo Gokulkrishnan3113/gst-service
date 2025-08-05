@@ -96,6 +96,7 @@ async function createVendor(req, res) {
 async function appendMacToVendor(req, res) {
     try {
         const { gstin, mac_address } = req.body;
+        console.log(req.vendor);
 
         if (!gstin || !Array.isArray(mac_address)) {
             return res.status(400).json({
@@ -108,6 +109,22 @@ async function appendMacToVendor(req, res) {
             return res.status(400).json({
                 success: false,
                 message: 'Invalid MAC address format. Must be valid strings like AA:BB:CC:DD:EE:FF',
+            });
+        }
+        const currentMacs = req.vendor.mac_list || [];
+        const remainingSlots = 5 - currentMacs.length;
+
+        if (remainingSlots <= 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'Maximum of 5 MAC addresses allowed per vendor',
+            });
+        }
+
+        if (mac_address.length > remainingSlots) {
+            return res.status(400).json({
+                success: false,
+                message: `Only ${remainingSlots} MAC address${remainingSlots === 1 ? '' : 'es'} can be added. Reduce the list and try again.`,
             });
         }
 
