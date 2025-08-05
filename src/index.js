@@ -5,11 +5,14 @@ const vendorRouter = require('./routes/vendor'); // Importing vendor routes
 const fileGstRoutes = require('./routes/file-gst'); // Importing file GST routes
 const invoiceRouter = require('./routes/invoice'); // Importing invoice routes
 const ledgerRouter = require('./routes/ledger'); // Importing ledger routes
+const rateLimiter = require('./middleware/ratelimiter');
 
 dotenv.config({ override: true });
 
 const app = express();
 app.use(cors());
+app.use(rateLimiter);
+
 app.use((req, res, next) => {
     const now = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     console.log(`[${now}] ${req.method} ${req.originalUrl}`);
