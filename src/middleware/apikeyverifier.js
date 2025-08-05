@@ -14,7 +14,7 @@ async function verifyDefaultApiKey(req, res, next) {
     next();
 }
 
-async function verifyGstinWithApiKey(req, res, next) {
+async function verifyAuth(req, res, next) {
     try {
         const apiKey = req.headers['authorization'];
         const gstin = req.params.gstin || req.body.gstin;
@@ -47,7 +47,7 @@ async function verifyGstinWithApiKey(req, res, next) {
 
         next();
     } catch (err) {
-        console.error('🔒 Error in verifyGstinWithApiKey:', err);
+        console.error('Error in verifyAuth:', err);
         return res.status(500).json({
             success: false,
             message: 'Internal server error during GSTIN/API key check'
@@ -58,6 +58,6 @@ async function verifyGstinWithApiKey(req, res, next) {
 
 module.exports = {
     verifyDefaultApiKey,
-    verifyGstinWithApiKey
+    verifyAuth
 
 };

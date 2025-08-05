@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { getLedgerLogsHandler, getBalanceHandler, getCreditNotesHandler } = require('../controllers/ledger');
-const { verifyGstinWithApiKey } = require('../middleware/apikeyverifier');
+const { verifyAuth } = require('../middleware/apikeyverifier');
 
-router.get('/:gstin', verifyGstinWithApiKey, getLedgerLogsHandler);
-router.get('/balance/:gstin', verifyGstinWithApiKey, getBalanceHandler);
-router.get('/credit-notes/:gstin', verifyGstinWithApiKey, getCreditNotesHandler);
+router.get('/:gstin', verifyAuth, getLedgerLogsHandler);
+router.get('/balance/:gstin', verifyAuth, getBalanceHandler);
+router.get('/credit-notes/:gstin', verifyAuth, getCreditNotesHandler);
 
 
 module.exports = router;
