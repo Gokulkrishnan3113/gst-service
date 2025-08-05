@@ -18,11 +18,12 @@ async function verifyGstinWithApiKey(req, res, next) {
     try {
         const apiKey = req.headers['authorization'];
         const gstin = req.params.gstin || req.body.gstin;
+        const mac_address = req.headers['mac-address'];
 
-        if (!apiKey || !gstin) {
+        if (!apiKey || !gstin || !mac_address) {
             return res.status(400).json({
                 success: false,
-                message: 'Missing API key or GSTIN'
+                message: 'Missing API key or GSTIN or MAC address',
             });
         }
 
@@ -34,6 +35,14 @@ async function verifyGstinWithApiKey(req, res, next) {
                 message: 'API key does not match the GSTIN'
             });
         }
+
+        if (!result.mac_list.includes(mac_address)) {
+            return res.status(403).json({
+                success: false,
+                message: 'MAC address not authorized for this GSTIN/API key'
+            });
+        }
+
         req.vendor = result;
 
         next();

@@ -27,17 +27,38 @@ function generateRandomKey(length = 64) {
 }
     
 async function addVendor(vendor) {
-    const { gstin, name, state, turnover, merchant_type, is_itc_optedin, email } = vendor;
+    const { gstin, name, state, turnover, merchant_type, is_itc_optedin, email, mac_address } = vendor;
     const api_key = generateRandomKey(64);
     const secret_key = generateRandomKey(64);
 
     const result = await db.query(`
-        INSERT INTO vendors (gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key,secret_key)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8,$9)
+        INSERT INTO vendors (gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key, secret_key, mac_list)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
         RETURNING api_key, secret_key;
-    `, [gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key, secret_key]);
+    `, [gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key, secret_key, mac_address]);
 
     return result.rows[0];
+}
+
+async function addMacsToVendor(gstin, macs) {
+    const result = await db.query(`
+        UPDATE vendors
+        SET mac_list = (
+            SELECT ARRAY(
+                SELECT DISTINCT unnest(
+                    COALESCE(mac_list, '{}'::text[]) || $1::text[]
+                )
+            )
+        )
+        WHERE gstin = $2
+        RETURNING mac_list;
+    `, [macs, gstin]);
+
+    if (result.rowCount === 0) {
+        throw new Error(`No vendor found with GSTIN: ${gstin}`);
+    }
+
+    return result.rows[0].mac_list;
 }
 
 
@@ -789,5 +810,6 @@ module.exports = {
     upsertBalance,
     getClaimableBalance,
     getCreditNoteByGstin,
-    findVendorByApiKeyAndGstin
+    findVendorByApiKeyAndGstin,
+    addMacsToVendor
 };
