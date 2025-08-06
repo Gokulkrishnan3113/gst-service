@@ -2,9 +2,16 @@ const db = require('./index');
 const { formatDate } = require('../utils/timeframe-helper');
 const crypto = require('crypto');
 
-async function getAllVendors() {
-    const result = await db.query('SELECT * FROM vendors ORDER BY created_at DESC');
-    return result.rows;
+async function getAllVendors(limit, offset) {
+    const result = await db.query(`SELECT * FROM vendors 
+        ORDER BY created_at DESC
+        LIMIT $1 OFFSET $2`, [limit, offset]);
+
+    const totalCount = await db.query(`SELECT COUNT(*) FROM vendors`);
+    return {
+        vendors: result.rows,
+        total: parseInt(totalCount.rows[0].count, 10),
+    };
 }
 
 async function findVendorByGstin(gstin) {
@@ -475,7 +482,28 @@ async function addProductsForInvoice(invoiceId, products) {
 
 // src/db/queries.js
 
-async function getAllFilingsWithInvoices() {
+async function getAllFilingsWithInvoices(limit, offset) {
+    const countResult = await db.query(`
+        SELECT COUNT(DISTINCT f.id) as total_count
+        FROM gst_filings f
+        LEFT JOIN invoices i ON f.id = i.gst_filing_id
+        WHERE i.is_filed = true
+    `);
+    const totalCount = parseInt(countResult.rows[0].total_count);
+
+
+    const filingIdsResult = await db.query(`
+        SELECT DISTINCT f.id, f.filed_at
+        FROM gst_filings f
+        LEFT JOIN invoices i ON f.id = i.gst_filing_id
+        WHERE i.is_filed = true
+        ORDER BY f.filed_at DESC
+        LIMIT $1 OFFSET $2
+    `, [limit, offset]);
+
+    const filingIds = filingIdsResult.rows.map(row => row.id);
+
+
     const result = await db.query(`
         SELECT 
             f.*, 
@@ -509,8 +537,9 @@ async function getAllFilingsWithInvoices() {
         LEFT JOIN vendors v ON f.gstin = v.gstin
         LEFT JOIN products p ON i.id = p.invoice_id
         WHERE i.is_filed = true
+        AND f.id = ANY($1)
         ORDER BY f.filed_at DESC, i.date
-        `);
+    `, [filingIds]);
 
     const filingsMap = new Map();
 
@@ -589,12 +618,36 @@ async function getAllFilingsWithInvoices() {
             invoice.products.sort((a, b) => a.sku.localeCompare(b.sku));
         }
     }
-
-    return Array.from(filingsMap.values());
+    const orderedFilings = filingIds.map(id => filingsMap.get(id)).filter(Boolean);
+    return {
+        filings: orderedFilings,
+        total: totalCount
+    };
 }
 
 
-async function getAllFilingsWithInvoicesByGstin(gstin) {
+async function getAllFilingsWithInvoicesByGstin(gstin, limit, offset) {
+    const countResult = await db.query(`
+        SELECT COUNT(DISTINCT f.id) as total_count
+        FROM gst_filings f
+        LEFT JOIN invoices i ON f.id = i.gst_filing_id
+        WHERE f.gstin = $1 AND i.is_filed = true
+    `, [gstin]);
+
+    const totalCount = parseInt(countResult.rows[0].total_count);
+
+    const filingIdsResult = await db.query(`
+        SELECT DISTINCT f.id, f.filed_at
+        FROM gst_filings f
+        LEFT JOIN invoices i ON f.id = i.gst_filing_id
+        WHERE f.gstin = $1 AND i.is_filed = true
+        ORDER BY f.filed_at DESC
+        LIMIT $2 OFFSET $3
+    `, [gstin, limit, offset]);
+
+    const filingIds = filingIdsResult.rows.map(row => row.id);
+
+
     const result = await db.query(`
         SELECT 
             f.*, 
@@ -627,10 +680,10 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
         LEFT JOIN vendors v ON f.gstin = v.gstin
         LEFT JOIN invoices i ON f.id = i.gst_filing_id
         LEFT JOIN products p ON i.id = p.invoice_id
-        WHERE f.gstin = $1 and
+        WHERE f.id = ANY($1) and 
         i.is_filed = true
         ORDER BY f.filed_at DESC, i.date
-    `, [gstin]);
+    `, [filingIds]);
 
     const filingsMap = new Map();
 
@@ -708,7 +761,12 @@ async function getAllFilingsWithInvoicesByGstin(gstin) {
         }
     }
 
-    return Array.from(filingsMap.values());
+    const orderedFilings = filingIds.map(id => filingsMap.get(id)).filter(Boolean);
+
+    return {
+        filings: orderedFilings,
+        total: totalCount
+    };
 }
 
 async function getLedgerLogs(gstin) {

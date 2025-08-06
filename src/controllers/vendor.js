@@ -1,25 +1,29 @@
 const { getAllVendors, addVendor, updateVendor, dropVendor, findVendorByGstin, addMacsToVendor } = require('../db/queries');
 const { checkifmailexists } = require('../utils/mailservice-checker')
-const cache = require('../cache/cache'); // adjust path
+const { cache, clearCacheByPrefix } = require('../cache/cache');
 const { normalizeMacInput, isValidMacArray } = require('../validators/macvalidator');
 const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
 
 async function getVendors(req, res) {
     try {
-        const cacheKey = 'vendors_cache';
+        const page = parseInt(req.query.page) || '1';
+        const limit = 10; // fixed value
+        const offset = (page - 1) * limit;
+        const cacheKey = `vendors_cache_page_${page}`;
         const cachedVendors = cache.get(cacheKey);
 
         if (cachedVendors) {
             return res.status(200).json({
                 success: true,
                 cached: true,
-                vendors_count: cachedVendors.length,
-                data: cachedVendors,
+                vendors_count: cachedVendors.vendors.length,
+                total_count: cachedVendors.total,
+                data: cachedVendors.vendors,
             });
         }
-        const vendors = await getAllVendors();
-        cache.set(cacheKey, vendors, 900);
-        res.status(200).json({ success: true, cached: false, vendors_count: vendors.length, data: vendors });
+        const { vendors, total } = await getAllVendors(limit, offset);
+        cache.set(cacheKey, { vendors, total }, 900);
+        res.status(200).json({ success: true, cached: false, vendors_count: vendors.length, total_count: total, data: vendors });
     } catch (error) {
         console.error('Error fetching vendors:', error);
         res.status(500).json({ success: false, error: 'Internal Server Error' });
@@ -58,14 +62,14 @@ async function createVendor(req, res) {
                 error: `Invalid merchant type. Must be one of : ${VALID_MERCHANT_TYPES.join(', ')}`,
             });
         }
-        const mailcheck = await checkifmailexists(email);
+        // const mailcheck = await checkifmailexists(email);
 
-        if (!mailcheck) {
-            return res.status(400).json({
-                status: 400,
-                error: `Invalid Email, ${email} not subscribed to email service`
-            });
-        }
+        // if (!mailcheck) {
+        //     return res.status(400).json({
+        //         status: 400,
+        //         error: `Invalid Email, ${email} not subscribed to email service`
+        //     });
+        // }
 
         const macs = normalizeMacInput(mac_address);
         if (!isValidMacArray(macs)) {
@@ -76,7 +80,7 @@ async function createVendor(req, res) {
         }
 
         const newVendor = await addVendor({ ...req.body, mac_address: macs });
-        cache.del('vendors_cache');
+        await clearCacheByPrefix('vendors_cache_page_');
         return res.status(201).json({
             success: true,
             message: 'Vendor created successfully',
