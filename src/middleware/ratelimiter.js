@@ -25,6 +25,7 @@ const whitelist = [
     { method: 'POST', path: '/vendors' },
     { method: 'GET', path: '/gst/filings-with-invoices' },
     { method: 'GET', path: '/gst/filings-with-invoices/:gstin' },
+    { method: 'GET', path: '/health' },
 
 ];
 
