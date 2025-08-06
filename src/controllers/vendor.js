@@ -147,19 +147,20 @@ async function appendMacToVendor(req, res) {
 }
 
 
-async function modifyVendor(req, res) {
-    const { gstin } = req.params;
-    try {
-        const updated = await updateVendor(gstin, req.body);
-        if (!updated) {
-            return res.status(404).json({ success: false, error: 'Vendor not found' });
-        }
-        res.status(200).json({ success: true, data: updated });
-    } catch (err) {
-        console.error('Error updating vendor:', err);
-        res.status(400).json({ success: false, error: 'Update failed' });
-    }
-}
+// async function modifyVendor(req, res) {
+//     const { gstin } = req.params;
+//     try {
+//         const updated = await updateVendor(gstin, req.body);
+//         if (!updated) {
+//             return res.status(404).json({ success: false, error: 'Vendor not found' });
+//         }
+//         res.status(200).json({ success: true, data: updated });
+//     } catch (err) {
+//         console.error('Error updating vendor:', err);
+//         res.status(400).json({ success: false, error: 'Update failed' });
+//     }
+// }
+
 async function deleteVendor(req, res) {
     const { gstin } = req.params;
     try {
@@ -177,7 +178,7 @@ async function deleteVendor(req, res) {
 module.exports = {
     getVendors,
     createVendor,
-    modifyVendor,
+    // modifyVendor,
     deleteVendor,
     appendMacToVendor
 };

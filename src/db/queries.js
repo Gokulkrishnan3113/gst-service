@@ -62,19 +62,19 @@ async function addMacsToVendor(gstin, macs) {
 }
 
 
-async function updateVendor(gstin, fields) {
-    const keys = Object.keys(fields);
-    const values = Object.values(fields);
+// async function updateVendor(gstin, fields) {
+//     const keys = Object.keys(fields);
+//     const values = Object.values(fields);
 
-    // Build dynamic SET clause
-    const setClause = keys.map((key, idx) => `${key} = $${idx + 2}`).join(', ');
+//     // Build dynamic SET clause
+//     const setClause = keys.map((key, idx) => `${key} = $${idx + 2}`).join(', ');
 
-    const result = await db.query(
-        `UPDATE vendors SET ${setClause} WHERE gstin = $1 RETURNING *`,
-        [gstin, ...values]
-    );
-    return result.rows[0];
-}
+//     const result = await db.query(
+//         `UPDATE vendors SET ${setClause} WHERE gstin = $1 RETURNING *`,
+//         [gstin, ...values]
+//     );
+//     return result.rows[0];
+// }
 
 async function dropVendor(gstin) {
     const result = await db.query(
@@ -84,23 +84,23 @@ async function dropVendor(gstin) {
     return result.rows[0];
 }
 
-async function getLastInvoiceId(gstin) {
-    const result = await db.query(
-        `SELECT last_invoice_id FROM invoice_tracker WHERE gstin = $1`,
-        [gstin]
-    );
-    return result.rows[0]?.last_invoice_id || null;
-}
+// async function getLastInvoiceId(gstin) {
+//     const result = await db.query(
+//         `SELECT last_invoice_id FROM invoice_tracker WHERE gstin = $1`,
+//         [gstin]
+//     );
+//     return result.rows[0]?.last_invoice_id || null;
+// }
 
-async function updateLastInvoiceId(gstin, lastId) {
-    await db.query(
-        `INSERT INTO invoice_tracker (gstin, last_invoice_id)
-        VALUES ($1, $2)
-        ON CONFLICT (gstin)
-        DO UPDATE SET last_invoice_id = EXCLUDED.last_invoice_id, updated_at = NOW()`,
-        [gstin, lastId]
-    );
-}
+// async function updateLastInvoiceId(gstin, lastId) {
+//     await db.query(
+//         `INSERT INTO invoice_tracker (gstin, last_invoice_id)
+//         VALUES ($1, $2)
+//         ON CONFLICT (gstin)
+//         DO UPDATE SET last_invoice_id = EXCLUDED.last_invoice_id, updated_at = NOW()`,
+//         [gstin, lastId]
+//     );
+// }
 
 // async function getAllFilings() {
 //     const result = await db.query(
@@ -786,12 +786,12 @@ async function upsertBalance(gstin, igst = 0, cgst = 0, sgst = 0) {
 module.exports = {
     getAllVendors,
     addVendor,
-    updateVendor,
+    // updateVendor,
     dropVendor,
     findVendorByGstin,
     findVendorByApiKey,
-    getLastInvoiceId,
-    updateLastInvoiceId,
+    // getLastInvoiceId,
+    // updateLastInvoiceId,
     addGstFiling,
     // getAllFilings,
     getFilingsByGstin,
