@@ -1,6 +1,6 @@
 const { findVendorByGstin, addVendor, addGstFiling, getFilingsByGstin, addInvoices, getInvoicesToBeFiledAgain, upsertBalance, insertLedgerTransaction } = require('../db/queries');
 const { getTimeframeRange } = require('../utils/timeframe-helper')
-const cache = require('../cache/cache');
+const { cache, clearCacheByPrefix } = require('../cache/cache');
 const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
 // const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
 // const invoice = require('../data/invoice.json');
@@ -138,8 +138,8 @@ async function fileGstService(payload) {
 
     await addInvoices(gstFiling.id, filteredData);
 
-    cache.del('filings_with_invoices_all');
-    cache.del(`filings_with_invoices_${gstin}`);
+    clearCacheByPrefix(`filings_with_invoices_${gstin}`);
+    clearCacheByPrefix(`filings_with_invoices_page_`);
 
     return {
         status: 200,
