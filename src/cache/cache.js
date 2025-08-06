@@ -1,11 +1,26 @@
-const NodeCache = require('node-cache');
-const cache = new NodeCache({ stdTTL: 600 }); // cache for 10 minutes (600 seconds)
+const LRUCache = require('lru-cache');
 
-async function clearCacheByPrefix(prefix) {
-    const allKeys = cache.keys();
-    const matchingKeys = allKeys.filter(key => key.startsWith(prefix));
-    matchingKeys.forEach(key => cache.del(key));
+const cache = new LRUCache({
+    maxSize: 50 * 1024 * 1024,
+    max: 5000,
+    sizeCalculation: (value, key) => {
+        return Buffer.byteLength(JSON.stringify(value)) + Buffer.byteLength(key);
+    },
+    maxAge: 1000 * 60 * 10, // 10 minutes
+    dispose: (value, key, reason) => {
+        console.log(`Evicted key: ${value}`);
+    },
+});
+
+function clearCacheByPrefix(prefix) {
+    for (const key of cache.keys()) {
+        if (key.startsWith(prefix)) {
+            cache.del(key);
+        }
+    }
 }
 
-
-module.exports = { cache, clearCacheByPrefix };
+module.exports = {
+    cache,
+    clearCacheByPrefix
+};

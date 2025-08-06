@@ -22,7 +22,7 @@ async function getVendors(req, res) {
             });
         }
         const { vendors, total } = await getAllVendors(limit, offset);
-        cache.set(cacheKey, { vendors, total }, 900);
+        cache.set(cacheKey, { vendors, total }, 1000 * 60 * 15);
         res.status(200).json({ success: true, cached: false, vendors_count: vendors.length, total_count: total, data: vendors });
     } catch (error) {
         console.error('Error fetching vendors:', error);
@@ -62,14 +62,14 @@ async function createVendor(req, res) {
                 error: `Invalid merchant type. Must be one of : ${VALID_MERCHANT_TYPES.join(', ')}`,
             });
         }
-        // const mailcheck = await checkifmailexists(email);
+        const mailcheck = await checkifmailexists(email);
 
-        // if (!mailcheck) {
-        //     return res.status(400).json({
-        //         status: 400,
-        //         error: `Invalid Email, ${email} not subscribed to email service`
-        //     });
-        // }
+        if (!mailcheck) {
+            return res.status(400).json({
+                status: 400,
+                error: `Invalid Email, ${email} not subscribed to email service`
+            });
+        }
 
         const macs = normalizeMacInput(mac_address);
         if (!isValidMacArray(macs)) {
