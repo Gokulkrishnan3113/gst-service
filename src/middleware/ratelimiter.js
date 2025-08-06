@@ -1,3 +1,5 @@
+const { match } = require('path-to-regexp');
+
 const buckets = new Map();
 
 const config = {
@@ -14,18 +16,25 @@ const config = {
     routeOverrides: {
         // '/gst/filings': { limit: 2, refillRate: 0.1, window: 60 }
     },
-    whitelistedRoutes: [
-        { method: 'GET', path: '/vendors' },
-        { method: 'POST', path: '/vendors' }
-
-    ],
     developerBypass: false // Can be toggled if needed
 };
 
-function isWhitelisted(req) {
-    return config.whitelistedRoutes.some(route =>
-        route.method === req.method && route.path === req.path
-    );
+
+const whitelist = [
+    { method: 'GET', path: '/vendors' },
+    { method: 'POST', path: '/vendors' },
+    { method: 'GET', path: '/gst/filings-with-invoices' },
+    { method: 'GET', path: '/gst/filings-with-invoices/:gstin' },
+
+];
+
+function isWhitelisted(method, path) {
+    return whitelist.some(route => {
+        if (route.method !== method) return false;
+
+        const matcher = match(route.path, { decode: decodeURIComponent });
+        return matcher(path) !== false;
+    });
 }
 
 function allowRequest(bucketKey, limit, refillRate, windowSeconds) {
@@ -54,13 +63,18 @@ function allowRequest(bucketKey, limit, refillRate, windowSeconds) {
 }
 
 function rateLimiter(req, res, next) {
-    if (config.developerBypass || isWhitelisted(req)) {
+    if (config.developerBypass) {
         return next(); // Skip rate limiting
     }
 
     const apiKey = req.headers['authorization'];
     const mac = req.headers['mac-address'];
     const path = req.path;
+    const method = req.method;
+
+    if (isWhitelisted(method, path)) {
+        return next();
+    }
 
     if (!apiKey || !mac) {
         return res.status(400).json({ error: 'Missing API key or MAC address' });
