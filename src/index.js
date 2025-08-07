@@ -5,11 +5,18 @@ const vendorRouter = require('./routes/vendor'); // Importing vendor routes
 const fileGstRoutes = require('./routes/file-gst'); // Importing file GST routes
 const invoiceRouter = require('./routes/invoice'); // Importing invoice routes
 const ledgerRouter = require('./routes/ledger'); // Importing ledger routes
+const rateLimiter = require('./middleware/ratelimiter');
 
 dotenv.config({ override: true });
 
+function formatBytes(bytes) {
+    return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+}
+
 const app = express();
 app.use(cors());
+app.use(rateLimiter);
+
 app.use((req, res, next) => {
     const now = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     console.log(`[${now}] ${req.method} ${req.originalUrl}`);
@@ -25,8 +32,19 @@ app.use('/gst', fileGstRoutes);
 app.use('/invoice', invoiceRouter);
 app.use('/ledger', ledgerRouter);
 
-app.get('/', (req, res) => {
-    res.send('GST Filing Service is up and running 🚀');
+app.get('/health', (req, res) => {
+    const mem = process.memoryUsage();
+
+    res.json({
+        status: 'GST Filing Service is up and running 🚀',
+        memory: {
+            rss: formatBytes(mem.rss),
+            heapTotal: formatBytes(mem.heapTotal),
+            heapUsed: formatBytes(mem.heapUsed),
+            external: formatBytes(mem.external),
+            arrayBuffers: formatBytes(mem.arrayBuffers)
+        }
+    });
 });
 
 app.listen(PORT, () => {

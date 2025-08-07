@@ -1,10 +1,10 @@
 const { findVendorByGstin, addVendor, addGstFiling, getFilingsByGstin, addInvoices, getInvoicesToBeFiledAgain, upsertBalance, insertLedgerTransaction } = require('../db/queries');
 const { getTimeframeRange } = require('../utils/timeframe-helper')
-const cache = require('../cache/cache');
+const { cache, clearCacheByPrefix } = require('../cache/cache');
 const VALID_TIMEFRAMES = ['monthly', 'quarterly', 'annual'];
 // const VALID_MERCHANT_TYPES = ['manufacturers', 'retailers', 'wholesellers'];
 // const invoice = require('../data/invoice.json');
-const invoice = require('../data/invoicewithproduct3.json');
+// const invoice = require('../data/invoicewithproduct3.json');
 const { filterInvoices } = require('../utils/invoice-filter');
 const { calculateGSTSummary } = require('../utils/gstcal-helper');
 const { detectFilingConflicts } = require('../utils/conflict-helper');
@@ -12,6 +12,8 @@ const { formatFilingDates } = require('../utils/timeformat-helper');
 const { checkMissingInvoices } = require('../utils/missinginvoice-helper');
 const { addinvoicestobefiledagain } = require('../utils/refilinginvoice-helper.js');
 const { applyITCOffsets } = require('../utils/itc-balance-helper.js');
+const { gstfilepayloadchecker } = require('../utils/payload-checker');
+
 function formatDate(d) {
     const date = new Date(d);
     date.setDate(date.getDate());
@@ -19,7 +21,14 @@ function formatDate(d) {
 }
 
 async function fileGstService(payload) {
-    const { gstin, timeframe } = payload;
+    const { gstin, timeframe, invoices } = payload;
+
+    if (!gstin || !timeframe || !Array.isArray(invoices)) {
+        return {
+            status: 400,
+            error: 'Missing or invalid fields: gstin, timeframe, and invoices are required.'
+        };
+    }
 
     let vendor = await findVendorByGstin(gstin);
     if (!vendor) {
@@ -34,11 +43,23 @@ async function fileGstService(payload) {
             error: `Invalid timeframe. Must be one of: ${VALID_TIMEFRAMES.join(', ')}`,
         };
     }
+
+    const validationResult = await gstfilepayloadchecker(invoices, vendor, gstin);
+
+    if (validationResult.length > 0) {
+        console.log(JSON.stringify(validationResult));
+        return {
+            status: 400,
+            message: "Validation failed for some invoices",
+            error: validationResult
+        };
+    }
+
     const { merchant_type, state, is_itc_optedin, turnover } = vendor;
     const { startDate, endDate, dueDate, isLate } = getTimeframeRange(timeframe, state);
     console.log({ startDate, endDate, dueDate, isLate });
     const resultfromdb = await getFilingsByGstin(gstin);
-    console.log(`Existing filings for ${gstin}:`, resultfromdb);
+    // console.log(`Existing filings for ${gstin}:`, resultfromdb);
     const existingFiling = resultfromdb.find(filing =>
         formatDate(filing.filing_start_date) === startDate &&
         formatDate(filing.filing_end_date) === endDate
@@ -64,7 +85,7 @@ async function fileGstService(payload) {
         };
     }
 
-    let filteredData = filterInvoices(invoice, startDate, endDate, gstin);
+    let filteredData = filterInvoices(invoices, startDate, endDate, gstin);
     if (filteredData.length === 0) {
         return {
             status: 404,
@@ -117,8 +138,8 @@ async function fileGstService(payload) {
 
     await addInvoices(gstFiling.id, filteredData);
 
-    cache.del('filings_with_invoices_all');
-    cache.del(`filings_with_invoices_${gstin}`);
+    clearCacheByPrefix(`filings_with_invoices_${gstin}`);
+    clearCacheByPrefix(`filings_with_invoices_page_`);
 
     return {
         status: 200,
