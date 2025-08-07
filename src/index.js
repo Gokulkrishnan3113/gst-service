@@ -53,3 +53,4 @@ app.listen(PORT, () => {
 });
 
 require('./services/pending-invoice-cron');
+require('./services/health-cron');
