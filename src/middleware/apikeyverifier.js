@@ -1,17 +1,20 @@
 const { findVendorByApiKey, findVendorByApiKeyAndGstin } = require('../db/queries');
 
-async function verifyDefaultApiKey(req, res, next) {
-    const apiKey = req.headers['authorization'];
-    // console.log(req.headers);
-
-    if (!apiKey || apiKey !== process.env.DEFAULT_API_KEY) {
-        return res.status(401).json({
-            success: false,
-            message: 'Unauthorized: Invalid vendor API key',
-        });
-    }
+function verifyDefaultApiKey(useVendorKey) {
+    return async function (req, res, next) {
+        const apiKey = req.headers['authorization'];
+        const expectedKey = useVendorKey
+            ? process.env.VENDOR_REG_KEY
+            : process.env.DEFAULT_API_KEY;
+        if (!apiKey || apiKey !== expectedKey) {
+            return res.status(401).json({
+                success: false,
+                message: 'Unauthorized: Invalid vendor API key',
+            });
+        }
 
     next();
+    };
 }
 
 async function verifyAuth(req, res, next) {

@@ -10,7 +10,7 @@ router.post('/', decryptRequestBody, verifyAuth, encryptResponse(fileGstHandler)
 // router.post('/', verifyAuth, encryptResponse(fileGstHandler));
 // router.get('/filings', getAllFilingsHandler);
 // router.get('/filings/:gstin', getFilingsByIdHandler);
-router.get('/filings-with-invoices', verifyDefaultApiKey, getAllFilingsWithInvoicesHandler);
-router.get('/filings-with-invoices/:gstin', verifyDefaultApiKey, getFilingsWithInvoicesByIdHandler);
+router.get('/filings-with-invoices', verifyDefaultApiKey(false), getAllFilingsWithInvoicesHandler);
+router.get('/filings-with-invoices/:gstin', verifyDefaultApiKey(false), getFilingsWithInvoicesByIdHandler);
 
 module.exports = router;
