@@ -5,7 +5,7 @@ const vendorRouter = require('./routes/vendor'); // Importing vendor routes
 const fileGstRoutes = require('./routes/file-gst'); // Importing file GST routes
 const invoiceRouter = require('./routes/invoice'); // Importing invoice routes
 const ledgerRouter = require('./routes/ledger'); // Importing ledger routes
-const rateLimiter = require('./middleware/ratelimiter');
+const { rateLimiter, getRateLimiterMetrics } = require('./middleware/ratelimiter');
 
 dotenv.config({ override: true });
 
@@ -43,7 +43,9 @@ app.get('/health', (req, res) => {
             heapUsed: formatBytes(mem.heapUsed),
             external: formatBytes(mem.external),
             arrayBuffers: formatBytes(mem.arrayBuffers)
-        }
+        },
+        rateLimiter: getRateLimiterMetrics()
+
     });
 });
 

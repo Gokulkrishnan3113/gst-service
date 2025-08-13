@@ -1,6 +1,17 @@
 const { match } = require('path-to-regexp');
 
 const buckets = new Map();
+const metrics = {};
+
+setInterval(() => {
+    for (let key in metrics) {
+        delete metrics[key];
+    }
+    const now = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    console.log(`[${now}] Rate limiter metrics reset`);
+}, 60 * 60 * 1000);
+// }, 60 * 1000);
+
 
 const config = {
     global: {
@@ -97,8 +108,37 @@ function rateLimiter(req, res, next) {
 
     const allowed = allowRequest(bucketKey, matchedLimit.limit, matchedLimit.refillRate, matchedLimit.window);
 
+    updateMetrics(
+        identity,
+        `${method} ${path}`,
+        !allowed
+    );
+
     if (allowed) return next();
     return res.status(429).json({ error: 'Rate limit exceeded. Try again later.' });
 }
 
-module.exports = rateLimiter;
+
+function updateMetrics(apiKey, routeKey, wasBlocked) {
+    if (!metrics[apiKey]) {
+        metrics[apiKey] = { totalBlocked: 0, routes: {} };
+    }
+    if (!metrics[apiKey].routes[routeKey]) {
+        metrics[apiKey].routes[routeKey] = { blocked: 0 };
+    }
+    if (wasBlocked) {
+        metrics[apiKey].totalBlocked++;
+        metrics[apiKey].routes[routeKey].blocked++;
+    }
+}
+
+function getRateLimiterMetrics() {
+    return metrics; // already structured by API key and route
+}
+
+
+module.exports = {
+    rateLimiter,
+    // getBlockedCount: () => blockedCount,
+    getRateLimiterMetrics
+};
