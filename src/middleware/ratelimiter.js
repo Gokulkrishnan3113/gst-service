@@ -121,16 +121,19 @@ function rateLimiter(req, res, next) {
 
 function updateMetrics(apiKey, routeKey, wasBlocked) {
     if (!metrics[apiKey]) {
-        metrics[apiKey] = { totalBlocked: 0, routes: {} };
+        metrics[apiKey] = { totalBlocked: 0, totalHits: 0, routes: {} };
     }
+    metrics[apiKey].totalHits++;
     if (!metrics[apiKey].routes[routeKey]) {
-        metrics[apiKey].routes[routeKey] = { blocked: 0 };
+        metrics[apiKey].routes[routeKey] = { blocked: 0, hits: 0 };
     }
+    metrics[apiKey].routes[routeKey].hits++;
     if (wasBlocked) {
         metrics[apiKey].totalBlocked++;
         metrics[apiKey].routes[routeKey].blocked++;
     }
 }
+
 
 function getRateLimiterMetrics() {
     return metrics; // already structured by API key and route
