@@ -16,7 +16,7 @@ const { gstfilepayloadchecker } = require('../utils/payload-checker');
 
 function formatDate(d) {
     const date = new Date(d);
-    date.setDate(date.getDate());
+    date.setDate(date.getDate() + 1);
     return date.toISOString().split('T')[0];
 }
 
