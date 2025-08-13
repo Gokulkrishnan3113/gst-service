@@ -14,6 +14,12 @@ async function getAllVendors(limit, offset) {
     };
 }
 
+
+async function getAllVendorsforCRON() {
+    const result = await db.query(`SELECT * FROM vendors ORDER BY created_at DESC`);
+    return result.rows;
+}
+
 async function findVendorByGstin(gstin) {
     const result = await db.query('SELECT * FROM vendors WHERE gstin = $1', [gstin]);
     return result.rows[0];
@@ -843,6 +849,7 @@ async function upsertBalance(gstin, igst = 0, cgst = 0, sgst = 0) {
 
 module.exports = {
     getAllVendors,
+    getAllVendorsforCRON,
     addVendor,
     // updateVendor,
     dropVendor,

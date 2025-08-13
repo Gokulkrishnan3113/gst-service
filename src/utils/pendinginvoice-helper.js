@@ -1,8 +1,8 @@
-const { getPendingInvoicesByGstin, getAllVendors } = require('../db/queries');
+const { getPendingInvoicesByGstin, getAllVendorsforCRON } = require('../db/queries');
 const { sendReminderEmail } = require('./mailsender-helper');
 
 async function runPendingInvoiceReminderLogic() {
-    const vendors = await getAllVendors();
+    const vendors = await getAllVendorsforCRON();
     const allReminders = [];
 
     for (const vendor of vendors) {
