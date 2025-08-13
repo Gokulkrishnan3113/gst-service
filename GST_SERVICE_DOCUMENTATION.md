@@ -70,6 +70,75 @@ The system manages the complete GST filing workflow from vendor registration to 
 - **Node-cron**: Scheduled task execution
 - **Joi Validator**: Request payload validation
 
+**Detailed External Services:**
+
+1. **PostgreSQL Database System**
+   - **Version**: Compatible with pg@^8.16.0
+   - **Connection**: Pool-based connection management with connection string
+   - **Usage**: Primary data persistence for all business entities
+   - **Tables**: 9 tables including vendors, gst_filings, invoices, products, credit_ledger, credit_balances, credit_notes, invoice_tracker, invoice_to_be_filed_again
+   - **Features**: ACID transactions, foreign key constraints, JSON data types
+   - **Connection Pool**: Automatic connection pooling for performance optimization
+
+2. **External Email Service API**
+   - **Protocol**: HTTPS REST API calls via Axios
+   - **Authentication**: Custom header-based authentication with API keys
+   - **Encryption**: AES-256-GCM with PBKDF2 key derivation for payload encryption
+   - **Endpoint**: `/service/send_email` for email dispatch
+   - **User Verification**: `/service/user_exists` endpoint for email validation
+   - **Features**: Attachment support, HTML/text content, sender verification
+
+3. **Node.js Core Modules**
+   - **crypto**: Cryptographic operations, random key generation, AES encryption
+   - **path**: File path utilities and route matching
+   - **process**: Environment variable access and memory monitoring
+   - **Buffer**: Binary data handling for encryption operations
+
+**Internal Service Dependencies:**
+
+1. **LRU Cache (lru-cache@^6.0.0)**
+   - **Configuration**: 50MB max size, 5000 max items, 10-minute TTL
+   - **Usage**: Caching vendor data, filing records, and API responses
+   - **Features**: Size-based eviction, automatic cleanup, memory monitoring
+   - **Cache Keys**: Prefixed by operation type (vendors_cache_page_, filings_with_invoices_)
+
+2. **Express.js Middleware Stack**
+   - **CORS**: Cross-origin resource sharing with cors@^2.8.5
+   - **Body Parser**: JSON payload parsing with size limits
+   - **Rate Limiter**: Custom token bucket implementation
+   - **Authentication**: Multi-tier API key verification system
+   - **Logging**: Request/response logging with IST timezone
+
+3. **Validation Framework (Joi@^17.13.3)**
+   - **Schema Validation**: Complex invoice and product validation
+   - **Custom Validators**: GSTIN matching, status combinations, MAC address format
+   - **Context-aware Validation**: Root GSTIN validation across nested objects
+   - **Error Handling**: Detailed validation error reporting
+
+4. **Scheduled Task Management (node-cron@^4.2.1)**
+   - **Pending Invoice Reminders**: Monthly execution on 1st at 9 AM
+   - **Health Checks**: Every 5 minutes for system monitoring
+   - **Cron Expressions**: Standard cron syntax with timezone support
+   - **Error Handling**: Comprehensive error logging and recovery
+
+5. **HTTP Client (Axios@^1.10.0)**
+   - **External API Calls**: Email service integration
+   - **Request/Response Interceptors**: Automatic error handling
+   - **Timeout Configuration**: Configurable request timeouts
+   - **Header Management**: Custom authentication headers
+
+6. **Path Matching (path-to-regexp@^8.2.0)**
+   - **Route Matching**: Dynamic route parameter extraction
+   - **Whitelist Validation**: Rate limiter bypass for specific routes
+   - **Pattern Matching**: Express-style route patterns
+
+**Environment Configuration:**
+- **dotenv@^16.5.0**: Environment variable management with override support
+- **Database Connection**: PostgreSQL connection string from environment
+- **API Keys**: Multiple environment-based API key configurations
+- **Email Service**: External service URLs and authentication tokens
+- **Port Configuration**: Configurable server port (default: 3000)
+
 ### Architecture
 
 The service implements a **5-Layer Architecture**:
@@ -107,6 +176,28 @@ The service implements a **5-Layer Architecture**:
 - **Middleware Pipeline**: Request processing chain
 - **Caching Layer**: LRU cache for performance
 - **Rate Limiting**: Token bucket algorithm implementation
+     - External email service integration with encryption
+     - Template-based email generation for reminders
+     - Vendor email verification before registration
+     - Encrypted payload transmission to email service
+   
+   - **Automated Reminders:**
+     - Monthly cron job execution (1st day at 9 AM)
+     - Pending invoice identification and aggregation
+     - Personalized email content with invoice details
+     - Failure handling and retry mechanisms
+   
+   - **Cron Job Management:**
+     - Health check monitoring (every 5 minutes)
+     - System status reporting with memory usage
+     - Rate limiter metrics collection and reset
+     - Error logging with IST timezone formatting
+   
+   - **Email Content:**
+     - Invoice details (ID, date, amounts, days overdue)
+     - Professional formatting with vendor-specific information
+     - Clear call-to-action for payment processing
+     - Service branding and contact information
 
 ### Encryption Algorithm
 
@@ -142,6 +233,120 @@ The service implements **AES-256-GCM** encryption for secure data transmission:
 - **Key Derivation**: PBKDF2 with 100,000 iterations and SHA-256
 - **Salt**: 16-byte random salt per encryption
 - **Base64 Encoding**: For safe transmission
+
+**Detailed Encryption Implementation:**
+
+**1. Primary Encryption System (AES-256-GCM)**
+   ```javascript
+   // Implementation in src/middleware/encryption-helper.js
+   const ALGORITHM = 'aes-256-gcm';
+   const IV_LENGTH = 12; // 96-bit nonce (GCM standard)
+   ```
+   
+   **Encryption Process:**
+   - **Step 1**: Generate 12-byte random IV using `crypto.randomBytes(IV_LENGTH)`
+   - **Step 2**: Create cipher with `crypto.createCipheriv(ALGORITHM, key, iv)`
+   - **Step 3**: Encrypt JSON stringified data in UTF-8 encoding
+   - **Step 4**: Extract authentication tag using `cipher.getAuthTag()`
+   - **Step 5**: Return hex-encoded IV, encrypted data, and auth tag
+   
+   **Decryption Process:**
+   - **Step 1**: Parse hex-encoded IV, encrypted data, and auth tag
+   - **Step 2**: Create decipher with `crypto.createDecipheriv(ALGORITHM, key, iv)`
+   - **Step 3**: Set authentication tag using `decipher.setAuthTag(authTag)`
+   - **Step 4**: Decrypt data and verify integrity
+   - **Step 5**: Parse JSON and return original data
+
+**2. Key Management System**
+   ```javascript
+   // 64-character hex key generation
+   function generateRandomKey(length = 64) {
+       return crypto.randomBytes(length).toString('hex').slice(0, length);
+   }
+   ```
+   
+   **Key Characteristics:**
+   - **API Key**: 64-character hex string for authentication
+   - **Secret Key**: 64-character hex string for encryption (256-bit when converted)
+   - **Generation**: Cryptographically secure random bytes
+   - **Storage**: Database storage with vendor association
+   - **Usage**: Vendor-specific isolation for security
+
+**3. Request/Response Encryption Flow**
+   
+   **Request Encryption (Client → Server):**
+   ```javascript
+   // Middleware: src/middleware/decrypt-body.js
+   const decrypted = decrypt(req.body, vendor.secret_key);
+   req.body = decrypted; // Replace encrypted payload with decrypted data
+   ```
+   
+   **Response Encryption (Server → Client):**
+   ```javascript
+   // Middleware: src/middleware/encrypt-response.js
+   const encrypted = encrypt(result, secretKey);
+   return res.status(200).json(encrypted);
+   ```
+   
+   **Security Measures:**
+   - Vendor authentication before decryption
+   - Automatic error handling for invalid payloads
+   - Secret key validation and existence checks
+   - Proper error responses for encryption failures
+
+**4. Email Service Encryption (Advanced)**
+   ```javascript
+   // Implementation in src/utils/mailservice-encryption-helper.js
+   const ALGORITHM = 'aes-256-gcm';
+   const ITERATIONS = 100000; // PBKDF2 iterations
+   const KEY_LENGTH = 32; // 256-bit key
+   const SALT_LENGTH = 16; // 128-bit salt
+   ```
+   
+   **Enhanced Security Features:**
+   - **PBKDF2 Key Derivation**: Password-based key derivation with 100,000 iterations
+   - **Random Salt**: 16-byte salt per encryption operation
+   - **SHA-256 Digest**: Secure hash function for key derivation
+   - **Base64 Encoding**: Safe transmission format for binary data
+   
+   **Email Encryption Process:**
+   - **Step 1**: Generate random salt and IV
+   - **Step 2**: Derive encryption key using PBKDF2
+   - **Step 3**: Encrypt email payload with AES-256-GCM
+   - **Step 4**: Package with metadata (algorithm, iterations, salt)
+   - **Step 5**: Base64 encode entire payload for transmission
+
+**5. Security Considerations**
+   
+   **Cryptographic Strengths:**
+   - **AES-256**: Industry-standard symmetric encryption
+   - **GCM Mode**: Authenticated encryption with built-in integrity
+   - **Random IV**: Unique initialization vector per operation
+   - **Secure Random**: Cryptographically secure random number generation
+   
+   **Implementation Security:**
+   - **Key Isolation**: Vendor-specific encryption keys
+   - **Error Handling**: Secure error messages without key exposure
+   - **Memory Management**: Proper buffer handling for sensitive data
+   - **Timing Attack Prevention**: Consistent processing times
+   
+   **Compliance Features:**
+   - **Data Integrity**: Authentication tags prevent tampering
+   - **Confidentiality**: Strong encryption protects data in transit
+   - **Non-repudiation**: Vendor-specific keys ensure accountability
+   - **Forward Secrecy**: Unique IVs prevent pattern analysis
+
+**Detailed Encryption Implementation:**
+
+1. **Primary Encryption System (AES-256-GCM)**
+   ```javascript
+   // Implementation in src/middleware/encryption-helper.js
+   const ALGORITHM = 'aes-256-gcm';
+   const IV_LENGTH = 12; // 96-bit nonce (GCM standard)
+   ```
+   
+   **Encryption Process:**
+   - **Step 1**: Generate 12-byte random IV using crypto.randomBytes()
 
 ## Conclusion
 
