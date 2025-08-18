@@ -46,7 +46,7 @@ const invoiceSchema = Joi.object({
                 igst: Joi.number().required()
             }).required(),
 
-            supplier_payment_status: Joi.string().valid("PAID", "NOTPAID", "PARTIALLY_PAID").required(),
+            supplier_payment_status: Joi.string().valid("PAID", "NOTPAID", "UNPAID", "PARTIALLY_PAID").required(),
 
             remaining_supplier_amount: Joi.number().allow(null).when('supplier_payment_status', {
                 is: "PAID",

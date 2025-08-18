@@ -459,6 +459,9 @@ async function getCreditNoteByGstin(gstin) {
 
 async function addProductsForInvoice(invoiceId, products) {
     for (const product of products) {
+        if (product.supplier_payment_status === 'UNPAID') {
+            product.supplier_payment_status = 'NOTPAID';
+        }
         await db.query(
             `INSERT INTO products(
                 invoice_id, sku, product_name, category,
