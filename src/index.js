@@ -41,8 +41,6 @@ app.get('/health', (req, res) => {
             rss: formatBytes(mem.rss),
             heapTotal: formatBytes(mem.heapTotal),
             heapUsed: formatBytes(mem.heapUsed),
-            external: formatBytes(mem.external),
-            arrayBuffers: formatBytes(mem.arrayBuffers)
         },
         rateLimiter: getRateLimiterMetrics()
 
