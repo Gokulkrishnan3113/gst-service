@@ -20,17 +20,18 @@ http://localhost:3000
 All endpoints require API key authentication via the `Authorization` header:
 - **Default API Key**: For admin operations (vendors, filings overview)
 - **Vendor-specific API Key**: For vendor-specific operations (generated during vendor creation)
+- **MAC Address**: Required in `mac-address` header for vendor-specific operations
 
 ---
 
 ## Health Check
 
-### GET /
-**Description:** Check if the GST Filing Service is running.
+### GET /health
+**Description:** Check if the GST Filing Service is running with system metrics.
 
 **cURL:**
 ```bash
-curl -X GET http://localhost:3000/
+curl -X GET http://localhost:3000/health
 ```
 
 **Parameters:** None
@@ -38,7 +39,24 @@ curl -X GET http://localhost:3000/
 **Response:**
 ```json
 {
-  "status": "GST Filing Service is up and running 🚀"
+  "status": "GST Filing Service is up and running 🚀",
+  "memory": {
+    "rss": "45.23 MB",
+    "heapTotal": "28.45 MB",
+    "heapUsed": "22.18 MB"
+  },
+  "rateLimiter": {
+    "api-key-1": {
+      "totalBlocked": 5,
+      "totalHits": 150,
+      "routes": {
+        "POST /gst": {
+          "blocked": 2,
+          "hits": 25
+        }
+      }
+    }
+  }
 }
 ```
 
@@ -47,21 +65,24 @@ curl -X GET http://localhost:3000/
 ## Vendor Management
 
 ### GET /vendors
-**Description:** Retrieve all vendors in the system.
+**Description:** Retrieve all vendors in the system with pagination.
 
 **cURL:**
 ```bash
-curl -X GET http://localhost:3000/vendors \
+curl -X GET "http://localhost:3000/vendors?page=1" \
   -H "Authorization: your-default-api-key"
 ```
 
-**Parameters:** None
+**Parameters:**
+- `page` (query, optional): Page number for pagination (default: 1)
 
 **Response:**
 ```json
 {
   "success": true,
-  "vendors_count": 3,
+  "cached": false,
+  "vendors_count": 10,
+  "total_count": 25,
   "data": [
     {
       "gstin": "29ABCDE1234F2Z5",
@@ -72,6 +93,8 @@ curl -X GET http://localhost:3000/vendors \
       "is_itc_optedin": true,
       "email": "vendor@example.com",
       "api_key": "vendor-specific-api-key-64-chars",
+      "secret_key": "vendor-specific-secret-key-64-chars",
+      "mac_list": ["AA:BB:CC:DD:EE:FF", "11:22:33:44:55:66"],
       "created_at": "2024-01-15T10:30:00.000Z"
     }
   ]
@@ -85,7 +108,7 @@ curl -X GET http://localhost:3000/vendors \
 ```bash
 curl -X POST http://localhost:3000/vendors \
   -H "Content-Type: application/json" \
-  -H "Authorization: your-default-api-key" \
+  -H "Authorization: your-vendor-registration-key" \
   -d '{
     "gstin": "29ABCDE1234F2Z5",
     "name": "ABC Electronics",
@@ -93,7 +116,8 @@ curl -X POST http://localhost:3000/vendors \
     "state": "Karnataka",
     "turnover": 50000000,
     "is_itc_optedin": true,
-    "email": "vendor@example.com"
+    "email": "vendor@example.com",
+    "mac_address": ["AA:BB:CC:DD:EE:FF"]
   }'
 ```
 
@@ -106,7 +130,8 @@ curl -X POST http://localhost:3000/vendors \
   "state": "Karnataka",
   "turnover": 50000000,
   "is_itc_optedin": true,
-  "email": "vendor@example.com"
+  "email": "vendor@example.com",
+  "mac_address": ["AA:BB:CC:DD:EE:FF"]
 }
 ```
 
@@ -117,17 +142,73 @@ curl -X POST http://localhost:3000/vendors \
 - `state` (required): State where vendor is registered
 - `turnover` (required): Annual turnover amount (number)
 - `is_itc_optedin` (required): Boolean indicating ITC opt-in status
-- `email` (required): Vendor email for notifications (Should be registered with email service)
+- `email` (required): Vendor email for notifications (Must be registered with email service)
+- `mac_address` (required): Array of MAC addresses (1-5 addresses allowed)
 
-**Success Response (201/200):**
+**Success Response (201):**
 ```json
 {
-    "success": true,
-    "message": "Vendor created successfully",
-    "data": {
-        "api_key": "generated-64-character-api-key",
-        "secret_key": "generated-64-character-secret-key"
-    }
+  "success": true,
+  "message": "Vendor created successfully",
+  "data": {
+    "api_key": "generated-64-character-api-key",
+    "secret_key": "generated-64-character-secret-key"
+  }
+}
+```
+
+**Error Response (409):**
+```json
+{
+  "success": false,
+  "message": "Vendor already exists",
+  "data": {
+    "gstin": "29ABCDE1234F2Z5",
+    "name": "ABC Electronics",
+    "created_at": "2024-01-15T10:30:00.000Z"
+  }
+}
+```
+
+### POST /vendors/add-mac
+**Description:** Add MAC addresses to an existing vendor (encrypted endpoint).
+
+**cURL:**
+```bash
+curl -X POST http://localhost:3000/vendors/add-mac \
+  -H "Content-Type: application/json" \
+  -H "Authorization: vendor-specific-api-key" \
+  -H "mac-address: AA:BB:CC:DD:EE:FF" \
+  -d '{
+    "iv": "hex-string",
+    "encryptedData": "hex-string",
+    "authTag": "hex-string"
+  }'
+```
+
+**Encrypted Payload (before encryption):**
+```json
+{
+  "gstin": "29ABCDE1234F2Z5",
+  "mac_address": ["11:22:33:44:55:66", "77:88:99:AA:BB:CC"]
+}
+```
+
+**Success Response (200):**
+```json
+{
+  "iv": "hex-string",
+  "encryptedData": "hex-string",
+  "authTag": "hex-string"
+}
+```
+
+**Decrypted Response:**
+```json
+{
+  "success": true,
+  "message": "MAC address(es) added to vendor",
+  "data": ["AA:BB:CC:DD:EE:FF", "11:22:33:44:55:66", "77:88:99:AA:BB:CC"]
 }
 ```
 
@@ -136,32 +217,82 @@ curl -X POST http://localhost:3000/vendors \
 ## GST Filing
 
 ### POST /gst
-**Description:** File GST return for a specific timeframe and vendor.
+**Description:** File GST return for a specific timeframe and vendor (encrypted endpoint).
 
 **cURL:**
 ```bash
 curl -X POST http://localhost:3000/gst \
   -H "Content-Type: application/json" \
   -H "Authorization: vendor-specific-api-key" \
+  -H "mac-address: AA:BB:CC:DD:EE:FF" \
   -d '{
-    "gstin": "29ABCDE1234F2Z5",
-    "timeframe": "monthly"
+    "iv": "hex-string",
+    "encryptedData": "hex-string",
+    "authTag": "hex-string"
   }'
 ```
 
-**Payload:**
+**Encrypted Payload (before encryption):**
 ```json
 {
   "gstin": "29ABCDE1234F2Z5",
   "timeframe": "monthly",
+  "invoices": [
+    {
+      "invoice_id": "INV001",
+      "gstin": "29ABCDE1234F2Z5",
+      "date": "2024-12-15",
+      "amount": 10000,
+      "tax": {
+        "cgst": 900,
+        "sgst": 900,
+        "igst": 0
+      },
+      "state": "Karnataka",
+      "vendor_type": "retailers",
+      "buyer_type": "consumer",
+      "products": [
+        {
+          "sku": "ELEC001",
+          "product_name": "Wireless Mouse",
+          "category": "Electronics",
+          "unit_price": 1000,
+          "quantity": 10,
+          "discount_percent": 0,
+          "price_after_discount": 10000,
+          "tax": {
+            "cgst": 900,
+            "sgst": 900,
+            "igst": 0
+          },
+          "supplier_payment_status": "PAID",
+          "remaining_supplier_amount": 0,
+          "buying_price": 8500
+        }
+      ],
+      "status": "PAID",
+      "payment_status": "COMPLETED",
+      "amount_paid": 11800
+    }
+  ]
 }
 ```
 
 **Payload Field Definitions:**
 - `gstin` (required): 15-character GST identification number
 - `timeframe` (required): One of ["monthly", "quarterly", "annual"]
+- `invoices` (required): Array of invoice objects with complete product details
 
 **Success Response (200):**
+```json
+{
+  "iv": "hex-string",
+  "encryptedData": "hex-string",
+  "authTag": "hex-string"
+}
+```
+
+**Decrypted Success Response:**
 ```json
 {
   "status": 200,
@@ -190,44 +321,56 @@ curl -X POST http://localhost:3000/gst \
 **Conflict Response (409):**
 ```json
 {
-    "status": 409,
-    "message": "Filing already exists for this timeframe.",
-    "data": {
-        "gstin": "33LMNOP9876W4X2",
-        "timeframe": "quarterly",
-        "filing_start_date": "2025-04-01",
-        "filing_end_date": "2025-06-30",
-        "total_amount": "271511",
-        "total_tax": "41416",
-        "invoice_count": 3,
-        "filed_at": "2025-07-17T12:27:19.933Z",
-        "status": "PENDING",
-        "input_tax_credit": "8750.66",
-        "tax_payable": "32665.34",
-        "penalty": "0",
-        "total_payable_amount": "32665.34",
-        "due_date": "2025-07-22",
-        "is_late": false
-    }
+  "iv": "hex-string",
+  "encryptedData": "hex-string",
+  "authTag": "hex-string"
+}
+```
+
+**Decrypted Conflict Response:**
+```json
+{
+  "status": 409,
+  "message": "Filing already exists for this timeframe.",
+  "data": {
+    "gstin": "33LMNOP9876W4X2",
+    "timeframe": "quarterly",
+    "filing_start_date": "2025-04-01",
+    "filing_end_date": "2025-06-30",
+    "total_amount": "271511",
+    "total_tax": "41416",
+    "invoice_count": 3,
+    "filed_at": "2025-07-17T12:27:19.933Z",
+    "status": "PENDING",
+    "input_tax_credit": "8750.66",
+    "tax_payable": "32665.34",
+    "penalty": "0",
+    "total_payable_amount": "32665.34",
+    "due_date": "2025-07-22",
+    "is_late": false
+  }
 }
 ```
 
 ### GET /gst/filings-with-invoices
-**Description:** Get all GST filings with their associated invoices and products.
+**Description:** Get all GST filings with their associated invoices and products (with pagination).
 
 **cURL:**
 ```bash
-curl -X GET http://localhost:3000/gst/filings-with-invoices \
+curl -X GET "http://localhost:3000/gst/filings-with-invoices?page=1" \
   -H "Authorization: your-default-api-key"
 ```
 
-**Parameters:** None
+**Parameters:**
+- `page` (query, optional): Page number for pagination (default: 1)
 
 **Success Response (200):**
 ```json
 {
   "success": true,
-  "filings_count": 2,
+  "cached": false,
+  "filings_count": 10,
+  "total_count": 25,
   "data": [
     {
       "gstin": "29ABCDE1234F2Z5",
@@ -284,16 +427,17 @@ curl -X GET http://localhost:3000/gst/filings-with-invoices \
 ```
 
 ### GET /gst/filings-with-invoices/:gstin
-**Description:** Get GST filings with invoices for a specific GSTIN.
+**Description:** Get GST filings with invoices for a specific GSTIN (with pagination).
 
 **cURL:**
 ```bash
-curl -X GET http://localhost:3000/gst/filings-with-invoices/29ABCDE1234F2Z5 \
+curl -X GET "http://localhost:3000/gst/filings-with-invoices/29ABCDE1234F2Z5?page=1" \
   -H "Authorization: your-default-api-key"
 ```
 
 **Parameters:**
 - `gstin` (path parameter): 15-character GST identification number
+- `page` (query, optional): Page number for pagination (default: 1)
 
 **Response:** Same structure as `/gst/filings-with-invoices` but filtered for the specific GSTIN.
 
@@ -302,18 +446,28 @@ curl -X GET http://localhost:3000/gst/filings-with-invoices/29ABCDE1234F2Z5 \
 ## Invoice Management
 
 ### GET /invoice/:gstin
-**Description:** Get all invoices for a specific GSTIN.
+**Description:** Get all invoices for a specific GSTIN (encrypted endpoint).
 
 **cURL:**
 ```bash
 curl -X GET http://localhost:3000/invoice/29ABCDE1234F2Z5 \
-  -H "Authorization: vendor-specific-api-key"
+  -H "Authorization: vendor-specific-api-key" \
+  -H "mac-address: AA:BB:CC:DD:EE:FF"
 ```
 
 **Parameters:**
 - `gstin` (path parameter): 15-character GST identification number
 
 **Success Response (200):**
+```json
+{
+  "iv": "hex-string",
+  "encryptedData": "hex-string",
+  "authTag": "hex-string"
+}
+```
+
+**Decrypted Response:**
 ```json
 {
   "success": true,
@@ -344,16 +498,18 @@ curl -X GET http://localhost:3000/invoice/29ABCDE1234F2Z5 \
 ```
 
 ### PATCH /invoice/:gstin/:invoice_id
-**Description:** Update invoice status and payment status.
+**Description:** Update invoice status and payment status (encrypted endpoint).
 
 **cURL:**
 ```bash
 curl -X PATCH http://localhost:3000/invoice/29ABCDE1234F2Z5/INV001 \
   -H "Content-Type: application/json" \
   -H "Authorization: vendor-specific-api-key" \
+  -H "mac-address: AA:BB:CC:DD:EE:FF" \
   -d '{
-    "status": "REFUNDED",
-    "payment_status": "REFUNDED"
+    "iv": "hex-string",
+    "encryptedData": "hex-string",
+    "authTag": "hex-string"
   }'
 ```
 
@@ -361,7 +517,7 @@ curl -X PATCH http://localhost:3000/invoice/29ABCDE1234F2Z5/INV001 \
 - `gstin` (path parameter): 15-character GST identification number
 - `invoice_id` (path parameter): Invoice identifier
 
-**Payload:**
+**Encrypted Payload (before encryption):**
 ```json
 {
   "status": "REFUNDED",
@@ -376,6 +532,15 @@ curl -X PATCH http://localhost:3000/invoice/29ABCDE1234F2Z5/INV001 \
 **Success Response (200):**
 ```json
 {
+  "iv": "hex-string",
+  "encryptedData": "hex-string",
+  "authTag": "hex-string"
+}
+```
+
+**Decrypted Success Response:**
+```json
+{
   "success": true,
   "message": "Invoice updated successfully"
 }
@@ -384,24 +549,43 @@ curl -X PATCH http://localhost:3000/invoice/29ABCDE1234F2Z5/INV001 \
 **Error Response (400):**
 ```json
 {
+  "iv": "hex-string",
+  "encryptedData": "hex-string",
+  "authTag": "hex-string"
+}
+```
+
+**Decrypted Error Response:**
+```json
+{
   "success": false,
   "message": "Invalid field(s) in payload: invalid_field. Only 'status' and 'payment_status' are allowed."
 }
 ```
 
 ### GET /invoice/pending/:gstin
-**Description:** Get pending invoices for a specific GSTIN.
+**Description:** Get pending invoices for a specific GSTIN (encrypted endpoint).
 
 **cURL:**
 ```bash
 curl -X GET http://localhost:3000/invoice/pending/29ABCDE1234F2Z5 \
-  -H "Authorization: vendor-specific-api-key"
+  -H "Authorization: vendor-specific-api-key" \
+  -H "mac-address: AA:BB:CC:DD:EE:FF"
 ```
 
 **Parameters:**
 - `gstin` (path parameter): 15-character GST identification number
 
 **Success Response (200):**
+```json
+{
+  "iv": "hex-string",
+  "encryptedData": "hex-string",
+  "authTag": "hex-string"
+}
+```
+
+**Decrypted Response:**
 ```json
 {
   "success": true,
@@ -429,7 +613,8 @@ curl -X GET http://localhost:3000/invoice/pending/29ABCDE1234F2Z5 \
 **cURL:**
 ```bash
 curl -X GET http://localhost:3000/ledger/29ABCDE1234F2Z5 \
-  -H "Authorization: vendor-specific-api-key"
+  -H "Authorization: vendor-specific-api-key" \
+  -H "mac-address: AA:BB:CC:DD:EE:FF"
 ```
 
 **Parameters:**
@@ -480,7 +665,8 @@ curl -X GET http://localhost:3000/ledger/29ABCDE1234F2Z5 \
 **cURL:**
 ```bash
 curl -X GET http://localhost:3000/ledger/balance/29ABCDE1234F2Z5 \
-  -H "Authorization: vendor-specific-api-key"
+  -H "Authorization: vendor-specific-api-key" \
+  -H "mac-address: AA:BB:CC:DD:EE:FF"
 ```
 
 **Parameters:**
@@ -506,7 +692,8 @@ curl -X GET http://localhost:3000/ledger/balance/29ABCDE1234F2Z5 \
 **cURL:**
 ```bash
 curl -X GET http://localhost:3000/ledger/credit-notes/29ABCDE1234F2Z5 \
-  -H "Authorization: vendor-specific-api-key"
+  -H "Authorization: vendor-specific-api-key" \
+  -H "mac-address: AA:BB:CC:DD:EE:FF"
 ```
 
 **Parameters:**
@@ -544,6 +731,65 @@ curl -X GET http://localhost:3000/ledger/credit-notes/29ABCDE1234F2Z5 \
 
 ---
 
+## Rate Limiting
+
+The API implements rate limiting based on API key and MAC address combination:
+
+### Global Limits
+- **Default**: 100 requests per minute with 0.5 refill rate
+
+### Route-Specific Limits
+- **`/gst/*`**: 10 requests per minute with 1 refill rate
+- **`/invoice/*`**: 5 requests per minute with 0.5 refill rate
+- **`/ledger/*`**: 5 requests per minute with 0.5 refill rate
+
+### Whitelisted Routes (No Rate Limiting)
+- `GET /vendors`
+- `POST /vendors`
+- `GET /gst/filings-with-invoices`
+- `GET /gst/filings-with-invoices/:gstin`
+- `GET /health`
+
+### Rate Limit Response (429)
+```json
+{
+  "error": "Rate limit exceeded. Try again later."
+}
+```
+
+---
+
+## Encryption
+
+All vendor-specific endpoints use AES-256-GCM encryption:
+
+### Request Format
+```json
+{
+  "iv": "hex-string-12-bytes",
+  "encryptedData": "hex-string",
+  "authTag": "hex-string-16-bytes"
+}
+```
+
+### Response Format
+```json
+{
+  "iv": "hex-string-12-bytes",
+  "encryptedData": "hex-string",
+  "authTag": "hex-string-16-bytes"
+}
+```
+
+### Encrypted Endpoints
+- `POST /gst`
+- `POST /vendors/add-mac`
+- `PATCH /invoice/:gstin/:invoice_id`
+- `GET /invoice/:gstin`
+- `GET /invoice/pending/:gstin`
+
+---
+
 ## Error Codes
 
 ### Common HTTP Status Codes
@@ -558,6 +804,7 @@ curl -X GET http://localhost:3000/ledger/credit-notes/29ABCDE1234F2Z5 \
 - Invalid input parameters
 - Missing required fields
 - Invalid field values
+- Missing API key or MAC address
 
 **401 - Unauthorized**
 - Invalid or missing API key
@@ -565,6 +812,7 @@ curl -X GET http://localhost:3000/ledger/credit-notes/29ABCDE1234F2Z5 \
 **403 - Forbidden**
 - API key doesn't match GSTIN
 - Vendor not registered for service
+- MAC address not authorized
 
 **404 - Not Found**
 - Resource not found (invoices, filings, etc.)
@@ -572,10 +820,15 @@ curl -X GET http://localhost:3000/ledger/credit-notes/29ABCDE1234F2Z5 \
 **409 - Conflict**
 - Filing already exists for the timeframe
 - Overlapping filing periods
+- Vendor already exists
+
+**429 - Too Many Requests**
+- Rate limit exceeded
 
 **500 - Internal Server Error**
 - Database connection issues
 - Unexpected server errors
+- Encryption/decryption failures
 
 ### Common Error Response Format
 ```json
@@ -621,17 +874,23 @@ Valid combinations of `status` and `payment_status`:
 - **Monthly/Quarterly**: ₹20/day (nil return) or ₹50/day (regular), max ₹5,000
 - **Annual**: ₹200/day, max 0.5% of turnover
 
+### MAC Address Management
+- Each vendor can have 1-5 MAC addresses
+- MAC addresses must be in format: `AA:BB:CC:DD:EE:FF`
+- Required for all vendor-specific operations
+
 ---
 
 ## Automated Processes
 
 ### Cron Jobs
 - **Pending Invoice Reminders**: Runs monthly on 1st at 9 AM
+- **Health Check**: Runs every 5 minutes
 - Sends email notifications for pending invoices to vendors
 
 ### Database Schema
 The service uses PostgreSQL with the following main tables:
-- `vendors`: Vendor information with API keys
+- `vendors`: Vendor information with API keys and MAC addresses
 - `gst_filings`: GST filing records
 - `invoices`: Invoice details
 - `products`: Product line items
@@ -643,6 +902,19 @@ The service uses PostgreSQL with the following main tables:
 
 ### Authentication System
 - **Default API Key**: For admin operations (stored in environment variable)
+- **Vendor Registration Key**: For vendor creation (stored in environment variable)
 - **Vendor-specific API Keys**: Generated during vendor creation (64-character random keys)
+- **Secret Keys**: Generated during vendor creation for encryption (64-character random keys)
+- **MAC Address Validation**: Ensures requests come from authorized devices
 - **GSTIN-based Authorization**: Ensures vendors can only access their own data
 - **Middleware Protection**: All routes protected with appropriate authentication middleware
+
+### Caching System
+- **LRU Cache**: 50MB max size, 5000 items max, 10-minute TTL
+- **Cached Endpoints**: 
+  - `/vendors` (15-minute cache)
+  - `/gst/filings-with-invoices` (10-minute cache)
+  - `/gst/filings-with-invoices/:gstin` (10-minute cache)
+- **Cache Invalidation**: Automatic cache clearing on data modifications
+
+VERY IMPORTANT: NEVER skip authentication, encryption, or rate limiting setup for any endpoint. Security is non-negotiable!
