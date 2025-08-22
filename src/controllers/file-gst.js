@@ -85,9 +85,9 @@ async function getAllFilingsWithInvoicesHandler(req, res) {
         }
         const { filings, total } = await getAllFilingsWithInvoices(limit, offset);
 
-        if (!filings || filings.length === 0) {
-            return res.status(404).json({ success: false, error: 'No filings found' });
-        }
+        // if (!filings || filings.length === 0) {
+        //     return res.status(404).json({ success: false, error: 'No filings found' });
+        // }
         cache.set(cacheKey, { filings, total });
         res.status(200).json({ success: true, cached: false, filings_count: filings.length, total_count: total, data: filings });
     } catch (error) {
