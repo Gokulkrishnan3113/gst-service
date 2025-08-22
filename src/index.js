@@ -23,7 +23,7 @@ app.use((req, res, next) => {
     next();
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 
@@ -47,9 +47,9 @@ app.get('/health', (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     const now = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-    console.log(`[${now}] 🚀 Server running at http://localhost:${PORT}`);
+    console.log(`[${now}] 🚀 Server running at http://0.0.0.0:${PORT}`);
 });
 
 require('./services/pending-invoice-cron');
