@@ -62,15 +62,18 @@ async function createVendor(req, res) {
                 error: `Invalid merchant type. Must be one of : ${VALID_MERCHANT_TYPES.join(', ')}`,
             });
         }
-        const mailcheck = await checkifmailexists(email);
+        console.log(process.env.ENVIRONMENT);
 
-        if (!mailcheck) {
-            return res.status(400).json({
-                status: 400,
-                error: `Invalid Email, ${email} not subscribed to email service`
-            });
+        if (process.env.ENVIRONMENT !== 'development') {
+            const mailcheck = await checkifmailexists(email);
+
+            if (!mailcheck) {
+                return res.status(400).json({
+                    status: 400,
+                    error: `Invalid Email, ${email} not subscribed to email service`
+                });
+            }
         }
-
         const macs = normalizeMacInput(mac_address);
         if (!isValidMacArray(macs)) {
             return res.status(400).json({
