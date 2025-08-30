@@ -168,7 +168,8 @@ curl -X POST http://localhost:3000/vendors \
     "turnover": 50000000,
     "is_itc_optedin": true,
     "email": "vendor@example.com",
-    "mac_address": ["AA:BB:CC:DD:EE:FF"]
+    "mac_address": ["AA:BB:CC:DD:EE:FF"],
+    "password" : "abcd123"
   }'
 ```
 
@@ -182,7 +183,8 @@ curl -X POST http://localhost:3000/vendors \
   "turnover": 50000000,
   "is_itc_optedin": true,
   "email": "vendor@example.com",
-  "mac_address": ["AA:BB:CC:DD:EE:FF"]
+  "mac_address": ["AA:BB:CC:DD:EE:FF"],
+  "password" : "abcd123"
 }
 ```
 
@@ -195,6 +197,7 @@ curl -X POST http://localhost:3000/vendors \
 - `is_itc_optedin` (required): Boolean indicating ITC opt-in status
 - `email` (required): Vendor email for notifications (Must be registered with email service)
 - `mac_address` (required): Array of MAC addresses (1-5 addresses allowed)
+- `password` : Vendor desired Password
 
 **Success Response (201):**
 ```json
