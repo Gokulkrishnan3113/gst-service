@@ -1,4 +1,5 @@
-const { getAllVendors, addVendor, updateVendor, dropVendor, findVendorByGstin, addMacsToVendor } = require('../db/queries');
+const { getAllVendors, addVendor, updateVendor, dropVendor, findVendorByGstin, addMacsToVendor, findVendorByGstinForLogin } = require('../db/queries');
+const bcrypt = require('bcrypt');
 const { checkifmailexists } = require('../utils/mailservice-checker')
 const { cache, clearCacheByPrefix } = require('../cache/cache');
 const { normalizeMacInput, isValidMacArray } = require('../validators/macvalidator');
@@ -30,15 +31,69 @@ async function getVendors(req, res) {
     }
 }
 
+async function loginVendor(req, res) {
+    try {
+        const { gstin, password } = req.body;
+
+        if (!gstin || !password) {
+            return res.status(400).json({
+                success: false,
+                message: 'Missing GSTIN or password',
+            });
+        }
+
+        const vendor = await findVendorByGstinForLogin(gstin);
+        if (!vendor) {
+            return res.status(404).json({
+                success: false,
+                message: 'Vendor not found',
+            });
+        }
+
+        const isMatch = await bcrypt.compare(password, vendor.password);
+        if (!isMatch) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid password',
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: 'Login successful',
+            data: {
+                gstin: vendor.gstin,
+                name: vendor.name,
+                email: vendor.email,
+                merchant_type: vendor.merchant_type,
+                api_key: vendor.api_key,   // optionally return
+                secret_key: vendor.secret_key // or issue a JWT instead
+            }
+        });
+
+    } catch (err) {
+        console.error('Error logging in vendor:', err);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to login vendor',
+            detail: err.message
+        });
+    }
+}
+
+
 async function createVendor(req, res) {
     try {
-        const { gstin, name, state, turnover, merchant_type, email, is_itc_optedin, mac_address } = req.body;
+        const { gstin, name, state, turnover, merchant_type, email, is_itc_optedin, mac_address, password } = req.body;
 
         if (!gstin || !name || !state || !turnover || !merchant_type || !email || !is_itc_optedin || !mac_address) {
             return res.status(400).json({
                 success: false,
                 message: 'Missing data fields. Required : [ gstin, name, state, turnover, merchant_type, email, is_itc_optedin, mac_address ]',
             });
+        }
+        if (!password) {
+            req.body.password = 'abcd12345';
         }
         if (gstin.length != 15) {
             return res.status(400).json({
@@ -187,5 +242,6 @@ module.exports = {
     createVendor,
     // modifyVendor,
     deleteVendor,
-    appendMacToVendor
+    appendMacToVendor,
+    loginVendor
 };
