@@ -64,6 +64,57 @@ curl -X GET http://localhost:3000/health
 
 ## Vendor Management
 
+
+### POST /vendors/login
+**Description:** Authenticate a vendor.
+
+**cURL:**
+```bash
+curl --location 'http://localhost:8080/vendors/login' \
+--header 'Content-Type: application/json' \
+--data '{
+    "gstin":"0000CDE9994F2Z5",
+    "password":"abcd0123"
+}'
+```
+
+**Payload:**
+```json
+{
+    "gstin":"0000CDE9994F2Z5",
+    "password":"abcd0123"
+}
+```
+
+**Field Definitions:**
+- `gstin` (required): 15-character GST identification number
+- `password` (required): Vendor password set upon registering
+
+**Success Response (200):**
+```json
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "gstin": "0000CDE9994F2Z5",
+        "name": "vendor",
+        "email": "mokobara@gmail.com",
+        "merchant_type": "retailers",
+        "api_key": "<api-key>",
+        "secret_key": "<seceret-key>"
+    }
+}
+```
+
+**Error Response (401):**
+```json
+{
+    "success": false,
+    "message": "Invalid password"
+}
+```
+
+
 ### GET /vendors
 **Description:** Retrieve all vendors in the system with pagination.
 
