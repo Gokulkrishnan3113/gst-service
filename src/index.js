@@ -19,7 +19,7 @@ app.use(rateLimiter);
 
 app.use((req, res, next) => {
     const now = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-    console.log(`[${now}] ${req.method} ${req.originalUrl}`);
+    console.log(`[${now}] [${process.env.CONTAINER_NAME}] [${process.env.HOSTNAME}] ${req.method} ${req.originalUrl}`);
     next();
 });
 

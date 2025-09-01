@@ -21,8 +21,10 @@ services:
       - postgres
     env_file:
       - .env
-    ports:
-      - "8080:8080"
+    environment:
+      CONTAINER_NAME: app1
+    # ports:
+    #   - "8080:8080"
 
   app2:
     build: .
@@ -32,8 +34,10 @@ services:
       - postgres
     env_file:
       - .env
-    ports:
-      - "8081:8080"
+    environment:
+      CONTAINER_NAME: app2
+    # ports:
+    #   - "8081:8080"
 
   app3:
     build: .
@@ -43,8 +47,22 @@ services:
       - postgres
     env_file:
       - .env
+    environment:
+      CONTAINER_NAME: app3
+    # ports:
+    #   - "8082:8080"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_lb
+    depends_on:
+      - app1
+      - app2
+      - app3
     ports:
-      - "8082:8080"
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
 
 
   
