@@ -6,8 +6,14 @@ const { decryptRequestBody } = require('../middleware/decrypt-body')
 const { encryptResponse } = require('../middleware/encrypt-response')
 
 
-router.post('/', decryptRequestBody, verifyAuth, encryptResponse(fileGstHandler));
-// router.post('/', verifyAuth, encryptResponse(fileGstHandler));
+if (process.env.ENVIRONMENT === 'development') {
+    router.post('/', verifyAuth, encryptResponse(fileGstHandler));
+}
+
+else if (process.env.ENVIRONMENT === 'production') {
+    router.post('/', decryptRequestBody, verifyAuth, encryptResponse(fileGstHandler));
+}
+
 // router.get('/filings', getAllFilingsHandler);
 // router.get('/filings/:gstin', getFilingsByIdHandler);
 router.get('/filings-with-invoices', verifyDefaultApiKey(false), getAllFilingsWithInvoicesHandler);

@@ -1,6 +1,8 @@
 const db = require('./index');
 const { formatDate } = require('../utils/timeframe-helper');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
+
 
 async function getAllVendors(limit, offset) {
     const result = await db.query(`SELECT * FROM vendors 
@@ -35,20 +37,32 @@ async function findVendorByApiKeyAndGstin(gstin, apiKey) {
     return result.rows[0];
 }
 
+async function findVendorByGstinForLogin(gstin) {
+    const result = await db.query(
+        `SELECT gstin, name, merchant_type, state, turnover, is_itc_optedin, email, api_key, secret_key, password
+         FROM vendors
+         WHERE gstin = $1`,
+        [gstin]
+    );
+    return result.rows[0];
+}
+
 function generateRandomKey(length = 64) {
     return crypto.randomBytes(length).toString('hex').slice(0, length);
 }
     
 async function addVendor(vendor) {
-    const { gstin, name, state, turnover, merchant_type, is_itc_optedin, email, mac_address } = vendor;
+    const { gstin, name, state, turnover, merchant_type, is_itc_optedin, email, mac_address, password } = vendor;
     const api_key = generateRandomKey(64);
     const secret_key = generateRandomKey(64);
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const result = await db.query(`
-        INSERT INTO vendors (gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key, secret_key, mac_list)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+        INSERT INTO vendors (gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key, secret_key, mac_list, password)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
         RETURNING api_key, secret_key;
-    `, [gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key, secret_key, mac_address]);
+    `, [gstin, name, state, turnover, merchant_type, is_itc_optedin, email, api_key, secret_key, mac_address, hashedPassword]);
 
     return result.rows[0];
 }
@@ -858,6 +872,7 @@ module.exports = {
     dropVendor,
     findVendorByGstin,
     findVendorByApiKey,
+    findVendorByGstinForLogin,
     // getLastInvoiceId,
     // updateLastInvoiceId,
     addGstFiling,
